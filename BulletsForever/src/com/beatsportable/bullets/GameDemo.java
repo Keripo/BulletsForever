@@ -234,7 +234,6 @@ class ClearRenderer implements GLSurfaceView.Renderer
 
         mSensorEventListener = new SensorEventListener()
         {	
-			@Override
 			public void onSensorChanged(SensorEvent event)
 			{
 	        	float xAxis = event.values[SensorManager.DATA_X];
@@ -242,7 +241,6 @@ class ClearRenderer implements GLSurfaceView.Renderer
 	        	mWorld.setGrav(-xAxis,-yAxis);
 			}
 			
-			@Override
 			public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 		};
 
