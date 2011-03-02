@@ -9,14 +9,22 @@ import android.graphics.Canvas;
  */
 public class GameObjectBullet extends GameObject {
 
+	public boolean remove;
+	
 	@Override
-	public boolean checkCollision(GameObject o1, GameObject o2) {
+	public void update(int frame) {
 		// TODO Auto-generated method stub
-		return false;
+		
+	}
+	
+	@Override
+	public void draw(Canvas canvas) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	public void draw(Canvas canvas) {
+	public void onCollision(GameObject object) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -16,6 +16,7 @@ public class DrawWorld extends View {
 
 	// DrawWorld variables
 	private DrawRefreshHandler refreshHandler;
+	private int frame;
 	
 	// DrawObjects
 	GameObjectHUD hud;
@@ -30,6 +31,7 @@ public class DrawWorld extends View {
 		
 		// Setup
 		setupDraw();
+		frame = 0;
 		refreshHandler = new DrawRefreshHandler(this, Settings.getInt(R.string.refreshDelay));
 		refreshHandler.start();
 	}
@@ -54,9 +56,51 @@ public class DrawWorld extends View {
 		bullets.add(bullet);
 	}
 	
+	// Called by onDraw
+	private void update(int frame) {
+		
+		// Update bullets
+		for (GameObjectBullet bullet : bullets) {
+			bullet.update(frame);
+		}
+		
+		// Update player
+		player.update(frame);
+		
+		// Update HUD
+		hud.update(frame);
+		
+		// Check for collisions
+		checkCollisions();
+	}
+	
+	// Called by update
+	private void checkCollisions() {
+		
+		// Bullets with players
+		for (GameObjectBullet bullet : bullets) {
+			if (player.hasCollided(bullet)) {
+				player.onCollision(bullet);
+				bullet.onCollision(player);
+				bullets.remove(bullet);
+			}
+		}
+		
+		// Game Over check
+		// TODO - Do something
+		
+		// Player bullets with boss
+		// TODO - Do something
+		
+	}
+	
 	// Called as a result of the refresh handler
 	@Override
 	protected void onDraw(Canvas canvas) {
+		
+		// Update everything
+		frame++;
+		update(frame);
 		
 		// Clear screen by drawing background
 		canvas.drawColor(Color.BLACK);

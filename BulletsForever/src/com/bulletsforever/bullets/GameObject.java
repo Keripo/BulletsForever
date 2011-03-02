@@ -11,7 +11,15 @@ import android.graphics.Canvas;
 public abstract class GameObject {
 
 	public float x, y; // Its faster for direct access than using unnecessary get/set methods
-	public abstract boolean checkCollision(GameObject o1, GameObject o2);
+	public float hitboxHalfWidth, hitboxHalfHeight;
+	public boolean hasCollided(GameObject object) {
+		return (object.x > x - hitboxHalfWidth &&
+				object.x < x + hitboxHalfWidth &&
+				object.y > y - hitboxHalfHeight &&
+				object.y < y + hitboxHalfHeight);
+	}
 	public abstract void draw(Canvas canvas);
+	public abstract void update(int frame);
+	public abstract void onCollision(GameObject object);
 	
 }
