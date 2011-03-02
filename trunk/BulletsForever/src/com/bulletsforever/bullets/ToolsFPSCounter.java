@@ -7,7 +7,7 @@ import android.os.SystemClock;
  * This should be instantiated by GameMain's onCreate()
  * Only a single instance should exist per GameMain instance
  */
-public class GameFPSCounter {
+public class ToolsFPSCounter {
 	
 	// Stuff
 	private boolean fpsTotalStarted = false; // To account for inaccurate measurements during initial few frames
@@ -18,13 +18,17 @@ public class GameFPSCounter {
 	private float fpsCalculated = 0.0f;
 	private float fpsCalculatedTotal = 0.0f;
 	private String fpsDisplayed = "";
-	private String fpsDisplayedTotal = "";
+	private int updateFrequency = 60; // number of frames
+	
+	public ToolsFPSCounter(int updateFrequency) {
+		this.updateFrequency = updateFrequency;
+	}
 	
 	// Call this on every frame
 	public void nextFrame() {
-		// Calculate FPS based on elapsed time every 60 frames
+		// Calculate FPS based on elapsed time every n frames
 		fpsFrameCount++;
-		if (fpsFrameCount > 60) {
+		if (fpsFrameCount >= updateFrequency) {
 			// Recalculate everything
 			long fpsCurrentTime = SystemClock.elapsedRealtime(); 
 			fpsCalculated = ((float)(fpsFrameCount) / ((float)(fpsCurrentTime - fpsStartTime) / 1000f));
@@ -41,14 +45,12 @@ public class GameFPSCounter {
 			fpsStartTime = SystemClock.elapsedRealtime();
 			
 			// Truncate displayed value to 2 decimal places
-			fpsDisplayed = String.format("%.2f", fpsCalculated);
-			fpsDisplayedTotal = String.format("%.2f", fpsCalculatedTotal);
+			fpsDisplayed = String.format("FPS %.2f/%.2f", fpsCalculated, fpsCalculatedTotal);
 		}
 	}
 	
 	// Returns last FPS value
 	public String getDisplayedFPS() { return fpsDisplayed; }
-	public String getDisplayedTotalFPS() { return fpsDisplayedTotal; }
 	public float getFPS() { return fpsCalculated; }
 	public float getTotalFPS() { return fpsCalculatedTotal; }
 }

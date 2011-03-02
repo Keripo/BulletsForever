@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="refreshDelay">refreshDelay</string>
+	<string name="refreshDelayDefault">16</string> <!-- Screen refreshes at 60Hz, 1/60 = 16.66ms-->
+	<string name="fpsUpdateFrequency">fpsUpdateFrequency</string>
+	<string name="fpsUpdateFrequencyDefault">10</string>
+	
+</resources>
