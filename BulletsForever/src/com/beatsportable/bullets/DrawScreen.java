@@ -86,7 +86,6 @@ public class DrawScreen {
 		/*
 		 * Do initial setup stuff here, see javadocs
 		 */
-		@Override
 		public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 			
 			// Some OpenGL setup stuff that I copy-pasted
@@ -113,7 +112,6 @@ public class DrawScreen {
 		/*
 		 * I _think_ this is called when the screen is rotated? See javadocs
 		 */
-		@Override
 		public void onSurfaceChanged(GL10 gl, int w, int h) {
 			gl.glViewport(0, 0, w, h);			
 		}
@@ -130,7 +128,6 @@ public class DrawScreen {
 		/*
 		 * This is the main "update frame" method! See javadocs
 		 */
-		@Override
 		public void onDrawFrame(GL10 gl) {
 			
 			// Clear screen
