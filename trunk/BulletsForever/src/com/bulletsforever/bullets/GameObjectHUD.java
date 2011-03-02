@@ -31,18 +31,22 @@ public class GameObjectHUD extends GameObject {
 	}
 	
 	@Override
-	public void draw(Canvas canvas) {
+	public void update(int frame) {
 		
 		// FPS counter
 		fpsCounter.nextFrame();
+	}
+	
+	@Override
+	public void draw(Canvas canvas) {
+		
+		// FPS counter
 		canvas.drawText(fpsCounter.getDisplayedFPS(), fpsX, fpsY, fpsPaint);
 		
 	}
-
+	
 	@Override
-	public boolean checkCollision(GameObject o1, GameObject o2) {
-		// Do nothing
-		return false;
+	public void onCollision(GameObject object) {
+		// Do nothing		
 	}
-
 }
