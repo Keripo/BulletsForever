@@ -14,19 +14,17 @@ public class GameObjectPlayer extends GameObject {
 	private Paint avatarPaint;
 	
 	public GameObjectPlayer() {
-		hitboxHalfWidth = 25f;
-		hitboxHalfHeight = 25f;
+		this.hitboxHalfWidth = 25f;
+		this.hitboxHalfHeight = 25f;
+		this.x = Settings.screenWidth / 2;
+		this.y = Settings.screenHeight / 2;
 		
 		avatarPaint = new Paint();
 		avatarPaint.setColor(Color.YELLOW);
-		
-		// Force offscreen so the start location is randomized
-		x = Settings.screenWidth / 2;
-		y = Settings.screenHeight / 2;
 	}
 	
 	@Override
-	public void update(int frame) {
+	public void nextFrame() {
 		
 		// Lalalala
 		// This player is hyper and running off coffee, like me! (s/coffee/tea)
@@ -45,7 +43,6 @@ public class GameObjectPlayer extends GameObject {
 	
 	@Override
 	public void draw(Canvas canvas) {
-		
 		canvas.drawRect(
 				x - hitboxHalfWidth, y - hitboxHalfHeight,
 				x + hitboxHalfWidth, y + hitboxHalfHeight,
@@ -55,7 +52,12 @@ public class GameObjectPlayer extends GameObject {
 
 	@Override
 	public void onCollision(GameObject object) {
-		// TODO Auto-generated method stub
+		avatarPaint.setARGB(
+				255,
+				(int)(Math.random() * 255),
+				(int)(Math.random() * 255),
+				(int)(Math.random() * 255)
+				);
 		
 	}
 

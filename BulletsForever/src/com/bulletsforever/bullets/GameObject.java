@@ -19,7 +19,7 @@ public abstract class GameObject {
 				object.y < y + hitboxHalfHeight);
 	}
 	public abstract void draw(Canvas canvas);
-	public abstract void update(int frame);
+	public abstract void nextFrame(); // Synchronous frame by frame - no skipping!
 	public abstract void onCollision(GameObject object);
 	
 }

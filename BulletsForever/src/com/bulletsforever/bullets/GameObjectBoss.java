@@ -10,7 +10,7 @@ import android.graphics.Canvas;
 public class GameObjectBoss extends GameObject {
 
 	@Override
-	public void update(int frame) {
+	public void nextFrame() {
 		// TODO Auto-generated method stub
 		
 	}

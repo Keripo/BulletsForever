@@ -1,5 +1,6 @@
 package com.bulletsforever.bullets;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import android.content.Context;
@@ -41,6 +42,17 @@ public class DrawWorld extends View {
 		hud = new GameObjectHUD();
 		player = new GameObjectPlayer();
 		bullets = new LinkedList<GameObjectBullet>();
+		
+		// TODO - for testing
+		for (int i = 0; i < 50; i++) {
+			GameObjectBullet bullet = new GameObjectBullet(
+					(float)Math.random() * Settings.screenWidth,
+					(float)Math.random() * Settings.screenHeight,
+					(float)(Math.random() - 0.5f) * 10f,
+					(float)(Math.random() - 0.5f) * 10f
+					);
+			bullets.add(bullet);
+		}
 	}
 	
 	// Control
@@ -57,18 +69,33 @@ public class DrawWorld extends View {
 	}
 	
 	// Called by onDraw
-	private void update(int frame) {
+	// Synchronous frame by frame - no skipping!
+	// If we want asynchronous, we will need to keep a timer
+	// and potentially call nextFrame() multiple times per onDraw cycle
+	private void nextFrame() {
+		
+		// TODO - for testing
+		//if (frame % 2 == 0) {
+			GameObjectBullet newBullet = new GameObjectBullet(
+					(float)Math.random() * Settings.screenWidth,
+					(float)Math.random() * Settings.screenHeight,
+					(float)Math.random() * 5f,
+					(float)Math.random() * 5f
+					);
+			bullets.add(newBullet);
+		//}
 		
 		// Update bullets
 		for (GameObjectBullet bullet : bullets) {
-			bullet.update(frame);
+			bullet.nextFrame();
 		}
 		
 		// Update player
-		player.update(frame);
+		player.nextFrame();
 		
 		// Update HUD
-		hud.update(frame);
+		hud.bulletCount = bullets.size();
+		hud.nextFrame();
 		
 		// Check for collisions
 		checkCollisions();
@@ -79,10 +106,20 @@ public class DrawWorld extends View {
 		
 		// Bullets with players
 		for (GameObjectBullet bullet : bullets) {
-			if (player.hasCollided(bullet)) {
+			if (!bullet.remove && player.hasCollided(bullet)) {
 				player.onCollision(bullet);
 				bullet.onCollision(player);
-				bullets.remove(bullet);
+				bullet.remove = true;
+				hud.collisionCount++;
+			}
+		}
+		// Cleanup collided bullets or bullets off-screen
+		// Use an iterator to prevent concurrency issues
+		Iterator<GameObjectBullet> it = bullets.iterator();
+		while (it.hasNext()) {
+			GameObjectBullet bullet = it.next();
+			if (bullet.remove) {
+				it.remove();
 			}
 		}
 		
@@ -100,7 +137,7 @@ public class DrawWorld extends View {
 		
 		// Update everything
 		frame++;
-		update(frame);
+		nextFrame();
 		
 		// Clear screen by drawing background
 		canvas.drawColor(Color.BLACK);
