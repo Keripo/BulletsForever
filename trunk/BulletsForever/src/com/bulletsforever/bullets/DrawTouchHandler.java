@@ -22,13 +22,15 @@ public class DrawTouchHandler implements OnTouchListener {
 	public boolean onTouch(View v, MotionEvent event) {
 		switch(event.getAction()) {
 			case MotionEvent.ACTION_DOWN:
-				DrawObjectBullet bullet = new DrawObjectBullet(
-						event.getX(),
-						event.getY(),
-						(float)(Math.random() * 2f - 1.0f),
-						(float)(Math.random() * 360)
-						);
-				dw.addBullet(bullet);
+				for (int i = 0; i < 360; i++) {
+					DrawObjectBullet bullet = new DrawObjectBullet(
+							event.getX(),
+							event.getY(),
+							(float)(Math.random() * 2f - 1.0f),
+							i
+							);
+					dw.addBullet(bullet);
+				}
 				return true;
 			case MotionEvent.ACTION_UP:
 				return false;

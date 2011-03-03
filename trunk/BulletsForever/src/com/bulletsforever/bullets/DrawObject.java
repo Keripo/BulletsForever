@@ -15,7 +15,9 @@ public abstract class DrawObject {
 	public float v; // absolute velocity per frame, range [0.0f,1.0f)
 	//public float a; // absolute acceleration per frame, range [0.0f,1.0f) - NOT USED AT THE MOMENT!
 	public float angle; // out of 360* for easy understanding
+	public float rad; // angle / 90*
 	public float dx, dy; // change in x and y per frame, calculated vased on velocity and angle
+	private static final float V_MAX = 10f;
 	
 	// Hitbox
 	public float hitboxHalfWidth, hitboxHalfHeight;
@@ -27,8 +29,9 @@ public abstract class DrawObject {
 		) {
 		this.x = x;
 		this.y = y;
-		this.dx = (float)Math.cos(angle / 360f) * v;
-		this.dy = (float)Math.sin(angle / 360f) * v;
+		this.rad = angle / 90f;
+		this.dx = (float)Math.cos(this.rad) * v * V_MAX;
+		this.dy = (float)Math.sin(this.rad) * v * V_MAX;
 		this.hitboxHalfWidth = hitboxHalfWidth;
 		this.hitboxHalfHeight = hitboxHalfHeight;
 	}
