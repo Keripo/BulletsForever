@@ -7,7 +7,7 @@ import android.graphics.Canvas;
  * This should be instantiated by GameMain's setupWorld()
  * Only a single instance should exist per GameMain instance
  */
-public class GameObjectBoss extends GameObject {
+public class DrawObjectBoss extends DrawObject {
 
 	@Override
 	public void nextFrame() {
@@ -22,7 +22,7 @@ public class GameObjectBoss extends GameObject {
 	}
 
 	@Override
-	public void onCollision(GameObject object) {
+	public void onCollision(DrawObject object) {
 		// TODO Auto-generated method stub
 		
 	}

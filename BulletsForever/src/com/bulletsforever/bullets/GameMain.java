@@ -2,6 +2,7 @@ package com.bulletsforever.bullets;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -32,9 +33,22 @@ public class GameMain extends Activity {
 		// Start updating the screen
 		drawWorld.startUpdating();
 	}
-	
-	private void setupWorld() {
-		// TODO
-	}
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (drawWorld.onKeyDown(keyCode, event)) {
+			return true;
+		} else {
+			return super.onKeyDown(keyCode, event);
+		}
+	}
+	
+	@Override
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		if (drawWorld.onKeyUp(keyCode, event)) {
+			return true;
+		} else {
+			return super.onKeyUp(keyCode, event);
+		}
+	}
 }

@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.view.KeyEvent;
 import android.view.View;
 
 /**
@@ -17,12 +18,14 @@ public class DrawWorld extends View {
 
 	// DrawWorld variables
 	private DrawRefreshHandler refreshHandler;
+	private DrawKeyHandler keyHandler;
 	private int frame;
+	protected int randomBulletsPerFrame;
 	
 	// DrawObjects
-	GameObjectHUD hud;
-	GameObjectPlayer player;
-	LinkedList<GameObjectBullet> bullets;
+	DrawObjectHUD hud;
+	DrawObjectPlayer player;
+	LinkedList<DrawObjectBullet> bullets;
 	
 	// Initializer
 	public DrawWorld(Context c) {
@@ -33,25 +36,42 @@ public class DrawWorld extends View {
 		// Setup
 		setupDraw();
 		frame = 0;
+		randomBulletsPerFrame = 1;
+		
+		// Handlers
 		refreshHandler = new DrawRefreshHandler(this, Settings.getInt(R.string.refreshDelay));
+		keyHandler = new DrawKeyHandler(this);
+		setOnTouchListener(new DrawTouchHandler(this));
+		
+		// Start game!
 		refreshHandler.start();
+	}
+	
+	// Add new drawable objects
+	public void addBullet(DrawObjectBullet bullet) {
+		bullets.add(bullet);
+	}
+	
+	// For testing
+	public void addRandomBullet() {
+		DrawObjectBullet bullet = new DrawObjectBullet(
+				(float)Math.random() * Settings.screenWidth,
+				(float)Math.random() * Settings.screenHeight,
+				(float)(Math.random() - 0.5f) * 10f,
+				(float)(Math.random() - 0.5f) * 10f
+				);
+		addBullet(bullet);
 	}
 	
 	// Called by initializer
 	private void setupDraw() {
-		hud = new GameObjectHUD();
-		player = new GameObjectPlayer();
-		bullets = new LinkedList<GameObjectBullet>();
+		hud = new DrawObjectHUD(this);
+		player = new DrawObjectPlayer();
+		bullets = new LinkedList<DrawObjectBullet>();
 		
 		// TODO - for testing
 		for (int i = 0; i < 50; i++) {
-			GameObjectBullet bullet = new GameObjectBullet(
-					(float)Math.random() * Settings.screenWidth,
-					(float)Math.random() * Settings.screenHeight,
-					(float)(Math.random() - 0.5f) * 10f,
-					(float)(Math.random() - 0.5f) * 10f
-					);
-			bullets.add(bullet);
+			addRandomBullet();
 		}
 	}
 	
@@ -63,11 +83,6 @@ public class DrawWorld extends View {
 		refreshHandler.stop();
 	}
 	
-	// Add new drawable objects
-	public void addBullet(GameObjectBullet bullet) {
-		bullets.add(bullet);
-	}
-	
 	// Called by onDraw
 	// Synchronous frame by frame - no skipping!
 	// If we want asynchronous, we will need to keep a timer
@@ -75,18 +90,12 @@ public class DrawWorld extends View {
 	private void nextFrame() {
 		
 		// TODO - for testing
-		//if (frame % 2 == 0) {
-			GameObjectBullet newBullet = new GameObjectBullet(
-					(float)Math.random() * Settings.screenWidth,
-					(float)Math.random() * Settings.screenHeight,
-					(float)Math.random() * 5f,
-					(float)Math.random() * 5f
-					);
-			bullets.add(newBullet);
-		//}
+		for (int i = 0; i < randomBulletsPerFrame; i++) {
+			addRandomBullet();
+		}
 		
 		// Update bullets
-		for (GameObjectBullet bullet : bullets) {
+		for (DrawObjectBullet bullet : bullets) {
 			bullet.nextFrame();
 		}
 		
@@ -105,7 +114,7 @@ public class DrawWorld extends View {
 	private void checkCollisions() {
 		
 		// Bullets with players
-		for (GameObjectBullet bullet : bullets) {
+		for (DrawObjectBullet bullet : bullets) {
 			if (!bullet.remove && player.hasCollided(bullet)) {
 				player.onCollision(bullet);
 				bullet.onCollision(player);
@@ -115,9 +124,9 @@ public class DrawWorld extends View {
 		}
 		// Cleanup collided bullets or bullets off-screen
 		// Use an iterator to prevent concurrency issues
-		Iterator<GameObjectBullet> it = bullets.iterator();
+		Iterator<DrawObjectBullet> it = bullets.iterator();
 		while (it.hasNext()) {
-			GameObjectBullet bullet = it.next();
+			DrawObjectBullet bullet = it.next();
 			if (bullet.remove) {
 				it.remove();
 			}
@@ -143,7 +152,7 @@ public class DrawWorld extends View {
 		canvas.drawColor(Color.BLACK);
 		
 		// Draw bullets
-		for (GameObjectBullet bullet : bullets) {
+		for (DrawObjectBullet bullet : bullets) {
 			bullet.draw(canvas);
 		}
 		
@@ -152,5 +161,15 @@ public class DrawWorld extends View {
 		
 		// Draw HUD last
 		hud.draw(canvas);
+	}
+	
+	// Move this code to DrawKeyHandler for better code organization
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		return keyHandler.onKeyDown(keyCode, event);
+	}
+	@Override
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		return keyHandler.onKeyUp(keyCode, event);
 	}
 }

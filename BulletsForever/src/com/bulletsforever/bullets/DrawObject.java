@@ -8,11 +8,11 @@ import android.graphics.Canvas;
  * Multiple instances should be added and removed from DrawWorld
  * Don't forget to update coords and properties in the draw method!
  */
-public abstract class GameObject {
+public abstract class DrawObject {
 
 	public float x, y; // Its faster for direct access than using unnecessary get/set methods
 	public float hitboxHalfWidth, hitboxHalfHeight;
-	public boolean hasCollided(GameObject object) {
+	public boolean hasCollided(DrawObject object) {
 		return (object.x > x - hitboxHalfWidth &&
 				object.x < x + hitboxHalfWidth &&
 				object.y > y - hitboxHalfHeight &&
@@ -20,6 +20,6 @@ public abstract class GameObject {
 	}
 	public abstract void draw(Canvas canvas);
 	public abstract void nextFrame(); // Synchronous frame by frame - no skipping!
-	public abstract void onCollision(GameObject object);
+	public abstract void onCollision(DrawObject object);
 	
 }
