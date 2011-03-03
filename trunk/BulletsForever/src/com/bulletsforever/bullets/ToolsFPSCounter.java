@@ -10,18 +10,19 @@ import android.os.SystemClock;
 public class ToolsFPSCounter {
 	
 	// Stuff
-	private boolean fpsTotalStarted = false; // To account for inaccurate measurements during initial few frames
-	private long fpsStartTime = 0;
-	private long fpsTotalTime = 0;
-	private int fpsFrameCount = 0;
-	private int fpsFrameCountTotal = 0;
-	private float fpsCalculated = 0.0f;
-	private float fpsCalculatedTotal = 0.0f;
-	private String fpsDisplayed = "";
-	private int updateFrequency = 60; // number of frames
+	private boolean fpsTotalStarted; // To account for inaccurate measurements during initial few frames
+	private long fpsStartTime;
+	private long fpsTotalTime;
+	private int fpsFrameCount;
+	private int fpsFrameCountTotal;
+	private float fpsCalculated;
+	private float fpsCalculatedTotal;
+	private String fpsDisplayed;
+	private int updateFrequency; // number of frames
 	
 	public ToolsFPSCounter(int updateFrequency) {
 		this.updateFrequency = updateFrequency;
+		this.fpsDisplayed = "";
 	}
 	
 	// Call this on every frame

@@ -9,11 +9,11 @@ import android.graphics.Paint;
  * This should be created throughout a GameMain session
  * Multiple instances should be added and removed from DrawWorld
  */
-public class GameObjectPlayer extends GameObject {
+public class DrawObjectPlayer extends DrawObject {
 
 	private Paint avatarPaint;
 	
-	public GameObjectPlayer() {
+	public DrawObjectPlayer() {
 		this.hitboxHalfWidth = 25f;
 		this.hitboxHalfHeight = 25f;
 		this.x = Settings.screenWidth / 2;
@@ -51,7 +51,7 @@ public class GameObjectPlayer extends GameObject {
 	}
 
 	@Override
-	public void onCollision(GameObject object) {
+	public void onCollision(DrawObject object) {
 		avatarPaint.setARGB(
 				255,
 				(int)(Math.random() * 255),

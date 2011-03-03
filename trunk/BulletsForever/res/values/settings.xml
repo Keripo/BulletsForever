@@ -3,6 +3,6 @@
 	<string name="refreshDelay">refreshDelay</string>
 	<string name="refreshDelayDefault">16</string> <!-- Screen refreshes at 60Hz, 1/60 = 16.66ms-->
 	<string name="fpsUpdateFrequency">fpsUpdateFrequency</string>
-	<string name="fpsUpdateFrequencyDefault">10</string>
+	<string name="fpsUpdateFrequencyDefault">20</string> <!-- 20 frames, roughly 1/3 of a second -->
 	
 </resources>

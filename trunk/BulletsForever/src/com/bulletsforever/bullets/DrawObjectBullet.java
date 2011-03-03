@@ -9,13 +9,13 @@ import android.graphics.Paint;
  * This should be instantiated by GameMain's setupWorld()
  * Only a single instance should exist per GameMain instance
  */
-public class GameObjectBullet extends GameObject {
+public class DrawObjectBullet extends DrawObject {
 	
 	public boolean remove;
 	private float dx, dy;
 	private Paint bulletPaint;
 	
-	public GameObjectBullet(float x, float y, float dx, float dy) {
+	public DrawObjectBullet(float x, float y, float dx, float dy) {
 		this.hitboxHalfWidth = 5f;
 		this.hitboxHalfHeight = 5f;
 		this.x = x;
@@ -52,7 +52,7 @@ public class GameObjectBullet extends GameObject {
 	}
 
 	@Override
-	public void onCollision(GameObject object) {
+	public void onCollision(DrawObject object) {
 		// TODO Auto-generated method stub
 		
 	}
