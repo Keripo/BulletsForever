@@ -12,16 +12,10 @@ import android.graphics.Paint;
 public class DrawObjectBullet extends DrawObject {
 	
 	public boolean remove;
-	private float dx, dy;
 	private Paint bulletPaint;
 	
-	public DrawObjectBullet(float x, float y, float dx, float dy) {
-		this.hitboxHalfWidth = 5f;
-		this.hitboxHalfHeight = 5f;
-		this.x = x;
-		this.y = y;
-		this.dx = dx;
-		this.dy = dy;
+	public DrawObjectBullet(float x, float y, float v, float angle) {
+		super(x, y, v, angle, 5f, 5f);
 		this.remove = false;
 		
 		bulletPaint = new Paint();
@@ -30,8 +24,7 @@ public class DrawObjectBullet extends DrawObject {
 	
 	@Override
 	public void nextFrame() {
-		x += dx;
-		y += dy;
+		super.nextFrame();
 		
 		// If off-screen
 		if (x < 0 || y < 0 ||

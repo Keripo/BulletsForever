@@ -60,8 +60,8 @@ public class DrawWorld extends View {
 		DrawObjectBullet bullet = new DrawObjectBullet(
 				(float)Math.random() * Settings.screenWidth,
 				(float)Math.random() * Settings.screenHeight,
-				(float)(Math.random() - 0.5f) * 10f,
-				(float)(Math.random() - 0.5f) * 10f
+				(float)(Math.random() * 2f - 1.0f),
+				(float)(Math.random() * 360)
 				);
 		addBullet(bullet);
 	}

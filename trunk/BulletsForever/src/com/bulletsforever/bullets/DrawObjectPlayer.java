@@ -14,17 +14,22 @@ public class DrawObjectPlayer extends DrawObject {
 	private Paint avatarPaint;
 	
 	public DrawObjectPlayer() {
-		this.hitboxHalfWidth = 25f;
-		this.hitboxHalfHeight = 25f;
-		this.x = Settings.screenWidth / 2;
-		this.y = Settings.screenHeight / 2;
+		// Middle of the screen
+		super(
+			Settings.screenWidth / 2,
+			Settings.screenHeight / 2,
+			0f,
+			0f,
+			25f,
+			25f
+			);
 		
 		avatarPaint = new Paint();
 		avatarPaint.setColor(Color.YELLOW);
 	}
 	
-	@Override
 	public void nextFrame() {
+		//super.nextFrame();
 		
 		// Lalalala
 		// This player is hyper and running off coffee, like me! (s/coffee/tea)
