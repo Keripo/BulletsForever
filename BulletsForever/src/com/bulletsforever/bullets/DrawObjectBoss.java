@@ -8,11 +8,15 @@ import android.graphics.Canvas;
  * Only a single instance should exist per GameMain instance
  */
 public class DrawObjectBoss extends DrawObject {
+	
+	public DrawObjectBoss(float x, float y, float v, float angle) {
+		// TODO Auto-generated constructor stub
+		super(x, y, v, angle, 100f, 100f);
+	}
 
-	@Override
 	public void nextFrame() {
 		// TODO Auto-generated method stub
-		
+		super.nextFrame();
 	}
 	
 	@Override

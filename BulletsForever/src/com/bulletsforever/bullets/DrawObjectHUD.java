@@ -30,6 +30,7 @@ public class DrawObjectHUD extends DrawObject {
 	private Rect boxRect;
 	
 	public DrawObjectHUD(DrawWorld dw) {
+		super(0f, 0f, 0f, 0f, 0f, 0f); // dummy
 		this.dw = dw;
 		
 		// FPS counter

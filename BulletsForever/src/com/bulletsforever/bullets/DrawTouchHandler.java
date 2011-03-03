@@ -25,8 +25,8 @@ public class DrawTouchHandler implements OnTouchListener {
 				DrawObjectBullet bullet = new DrawObjectBullet(
 						event.getX(),
 						event.getY(),
-						(float)(Math.random() - 0.5f) * 10f,
-						(float)(Math.random() - 0.5f) * 10f
+						(float)(Math.random() * 2f - 1.0f),
+						(float)(Math.random() * 360)
 						);
 				dw.addBullet(bullet);
 				return true;
