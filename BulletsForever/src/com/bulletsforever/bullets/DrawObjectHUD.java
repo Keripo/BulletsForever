@@ -24,7 +24,6 @@ public class DrawObjectHUD extends DrawObject {
 	
 	// Info
 	private float infoX, infoY;
-	public int bulletCount, collisionCount;
 	
 	// Box
 	private Paint boxPaint;
@@ -46,8 +45,6 @@ public class DrawObjectHUD extends DrawObject {
 		// Info
 		infoX = 10f;
 		infoY = fpsY + 10f + fpsPaint.getFontSpacing();
-		bulletCount = 0;
-		collisionCount = 0;
 		
 		// Box
 		boxPaint = new Paint();
@@ -74,8 +71,8 @@ public class DrawObjectHUD extends DrawObject {
 		// Info
 		canvas.drawText(
 				String.format(
-						"Bullets: %d, Collisions: %d, Bullets/frame: %d",
-						bulletCount, collisionCount, dw.randomBulletsPerFrame),
+						"Bullets: %d, Collisions: %d",
+						dw.bullets.size(), dw.collisionCount),
 				infoX, infoY, fpsPaint);
 	}
 	

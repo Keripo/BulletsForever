@@ -20,7 +20,8 @@ public class DrawWorld extends View {
 	private DrawRefreshHandler refreshHandler;
 	private DrawKeyHandler keyHandler;
 	private int frame;
-	protected int randomBulletsPerFrame;
+	protected int collisionCount;
+	protected int targetBulletCount;
 	
 	// DrawObjects
 	DrawObjectHUD hud;
@@ -36,7 +37,9 @@ public class DrawWorld extends View {
 		// Setup
 		setupDraw();
 		frame = 0;
-		randomBulletsPerFrame = 1;
+		collisionCount = 0;
+		targetBulletCount = 100;
+		
 		
 		// Handlers
 		refreshHandler = new DrawRefreshHandler(this, Settings.getInt(R.string.refreshDelay));
@@ -68,11 +71,6 @@ public class DrawWorld extends View {
 		hud = new DrawObjectHUD(this);
 		player = new DrawObjectPlayer();
 		bullets = new LinkedList<DrawObjectBullet>();
-		
-		// TODO - for testing
-		for (int i = 0; i < 50; i++) {
-			addRandomBullet();
-		}
 	}
 	
 	// Control
@@ -90,7 +88,8 @@ public class DrawWorld extends View {
 	private void nextFrame() {
 		
 		// TODO - for testing
-		for (int i = 0; i < randomBulletsPerFrame; i++) {
+		int addBulletCount = targetBulletCount - bullets.size();
+		for (int i = 0; i < addBulletCount; i++) { 
 			addRandomBullet();
 		}
 		
@@ -103,7 +102,6 @@ public class DrawWorld extends View {
 		player.nextFrame();
 		
 		// Update HUD
-		hud.bulletCount = bullets.size();
 		hud.nextFrame();
 		
 		// Check for collisions
@@ -119,7 +117,7 @@ public class DrawWorld extends View {
 				player.onCollision(bullet);
 				bullet.onCollision(player);
 				bullet.remove = true;
-				hud.collisionCount++;
+				collisionCount++;
 			}
 		}
 		// Cleanup collided bullets or bullets off-screen
