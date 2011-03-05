@@ -17,9 +17,9 @@ public class DrawObjectHUD extends DrawObject {
 	// Stuff
 	private DrawWorld dw;
 	private ToolsFPSCounter fpsCounter;
+	private Paint textPaint;
 	
 	// FPS
-	private Paint fpsPaint;
 	private float fpsX, fpsY;
 	
 	// Info
@@ -33,25 +33,27 @@ public class DrawObjectHUD extends DrawObject {
 		super(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f); // dummy
 		this.dw = dw;
 		
-		// FPS counter
-		fpsCounter = new ToolsFPSCounter(Settings.getInt(R.string.fpsUpdateFrequency));
-		fpsPaint = new Paint();
-		fpsPaint.setColor(Color.WHITE);
-		fpsPaint.setTextSize(20f);
-		fpsPaint.setTextAlign(Align.LEFT);
-		fpsPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.ITALIC));
-		fpsX = 10f;
-		fpsY = 10f + fpsPaint.getFontSpacing();
+		// Text
+		textPaint = new Paint();
+		textPaint.setColor(Color.WHITE);
+		textPaint.setTextSize(20f);
+		textPaint.setTextAlign(Align.LEFT);
+		textPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.ITALIC));
 		
 		// Info
 		infoX = 10f;
-		infoY = fpsY + 10f + fpsPaint.getFontSpacing();
+		infoY = 10f + textPaint.getFontSpacing();
+		
+		// FPS counter
+		fpsCounter = new ToolsFPSCounter(Settings.getInt(R.string.fpsUpdateFrequency));
+		fpsX = 10f;
+		fpsY = infoY + 10f + textPaint.getFontSpacing();
 		
 		// Box
 		boxPaint = new Paint();
 		boxPaint.setARGB(255/2, 32, 128, 32); // Dark green
 		boxRect = new Rect();
-		boxRect.set(0, 0, Settings.screenWidth, (int)(infoY + fpsPaint.getFontSpacing()));
+		boxRect.set(0, 0, Settings.screenWidth, (int)(fpsY + textPaint.getFontSpacing()));
 		
 	}
 	
@@ -66,15 +68,16 @@ public class DrawObjectHUD extends DrawObject {
 		// Box
 		canvas.drawRect(boxRect, boxPaint);
 		
-		// FPS counter
-		canvas.drawText(fpsCounter.getDisplayedFPS(), fpsX, fpsY, fpsPaint);
-		
 		// Info
 		canvas.drawText(
 				String.format(
-						"Bullets: %d, Collisions: %d",
-						dw.bullets.size(), dw.collisionCount),
-				infoX, infoY, fpsPaint);
+						"%s - Bullets: %d, Collisions: %d",
+						dw.mode.toString(), dw.bullets.size(), dw.collisionCount),
+				infoX, infoY, textPaint);
+		
+		// FPS counter
+		canvas.drawText(fpsCounter.getDisplayedFPS(), fpsX, fpsY, textPaint);
+	
 	}
 	
 	@Override

@@ -20,6 +20,7 @@ public class Settings {
 	private static SharedPreferences prefs;
 	private static HashMap<Integer, String> settings;
 	public static int screenWidth, screenHeight;
+	public static int screenXMin, screenXMax, screenYMin, screenYMax;
 	
 	// Manually keep this updated with settings.xml
 	private static int[][] keys = {
@@ -46,6 +47,11 @@ public class Settings {
 		Display display = a.getWindow().getWindowManager().getDefaultDisplay();
 		screenWidth = display.getWidth();
 		screenHeight = display.getHeight();
+		int margin = (screenWidth < screenHeight) ? (screenWidth / 3) : (screenHeight / 3);
+		screenXMin = -margin;
+		screenXMax = screenWidth + margin;
+		screenYMin = -margin;
+		screenYMax = screenHeight + margin;
 	}
 	
 	// Retrieve settings

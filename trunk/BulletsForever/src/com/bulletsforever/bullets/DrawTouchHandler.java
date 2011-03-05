@@ -22,14 +22,77 @@ public class DrawTouchHandler implements OnTouchListener {
 	public boolean onTouch(View v, MotionEvent event) {
 		switch(event.getAction()) {
 			case MotionEvent.ACTION_DOWN:
-				for (int i = 0; i < 360; i++) {
-					DrawObjectBullet bullet = new DrawObjectBullet(
-							event.getX(), event.getY(),
-							(float)Math.random() * 10f, 10f,
-							0f, 0f,
-							i
-							);
-					dw.addBullet(bullet);
+				if (dw.mode.equals(DrawWorld.DemoMode.RANDOM)) {
+					// Add 100 bullets in random locations at random speeds and angles
+					for (int i = 0; i < 100; i++) { 
+						DrawObjectBullet bullet = new DrawObjectBullet(
+								(float)Math.random() * Settings.screenWidth,
+								(float)Math.random() * Settings.screenHeight,
+								(float)Math.random() * 10f, 0f,
+								0f, 0f,
+								(float)Math.random() * 360f
+								);
+						dw.addBullet(bullet);
+					}
+				} else if (dw.mode.equals(DrawWorld.DemoMode.EXPLOSION)) {
+					// Add 360 bullets fanning out from the point of contact
+					for (int i = 0; i < 360; i++) {
+						DrawObjectBullet bullet = new DrawObjectBullet(
+								event.getX(), event.getY(),
+								(float)Math.random() * 10f, 0f,
+								0f, 0f,
+								i
+								);
+						dw.addBullet(bullet);
+					}
+				} else if (dw.mode.equals(DrawWorld.DemoMode.FIREWORKS)) {
+					// Add 360 bullets fanning out from the point of contact
+					// with downward gravity
+					for (int i = 0; i < 360; i++) {
+						DrawObjectBullet bullet = new DrawObjectBullet(
+								event.getX(), event.getY(),
+								(float)Math.random() * 10f, 0f,
+								0f, 0.5f,
+								i
+								);
+						dw.addBullet(bullet);
+					}
+				} else if (dw.mode.equals(DrawWorld.DemoMode.SPIRALS)) {
+					// Add 180 bullets fanning out from the point of contact
+					// With angular rotation
+					for (int i = 0; i < 360; i += 2) {
+						DrawObjectBullet bullet = new DrawObjectBullet(
+								event.getX(), event.getY(),
+								(float)Math.random() * 10f, 10f,
+								0f, 0f,
+								i
+								);
+						dw.addBullet(bullet);
+					}
+				} else if (dw.mode.equals(DrawWorld.DemoMode.RINGS)) {
+					// Add 36 bullets ringing out from the point of contact
+					// With angular rotation
+					for (int i = 0; i < 360; i += 10) {
+						DrawObjectBullet bullet = new DrawObjectBullet(
+								event.getX(), event.getY(),
+								5f, 10f,
+								0f, 0f,
+								i
+								);
+						dw.addBullet(bullet);
+					}
+				} else if (dw.mode.equals(DrawWorld.DemoMode.ZOOM)) {
+					// Add 36 bullets ringing out from the point of contact
+					// With linear downward acceleration
+					for (int i = 0; i < 360; i += 10) {
+						DrawObjectBullet bullet = new DrawObjectBullet(
+								event.getX(), event.getY(),
+								3f, 0f,
+								0f, 0.5f,
+								i
+								);
+						dw.addBullet(bullet);
+					}
 				}
 				return true;
 			case MotionEvent.ACTION_UP:
