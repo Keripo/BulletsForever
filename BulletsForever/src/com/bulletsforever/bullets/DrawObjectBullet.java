@@ -27,9 +27,10 @@ public class DrawObjectBullet extends DrawObject {
 		super.nextFrame();
 		
 		// If off-screen
-		if (x < 0 || y < 0 ||
-			x > Settings.screenWidth ||
-			y > Settings.screenHeight
+		if (x < Settings.screenXMin ||
+			x > Settings.screenXMax ||
+			y < Settings.screenYMin ||
+			y > Settings.screenYMax
 			) {
 			remove = true;
 		}

@@ -18,7 +18,7 @@ public class DrawKeyHandler {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch(keyCode) {
 			case KeyEvent.KEYCODE_MENU:
-				dw.targetBulletCount += 100;
+				dw.mode = dw.mode.next();
 				return true;
 			case KeyEvent.KEYCODE_SEARCH:
 				dw.removeAllBullets();

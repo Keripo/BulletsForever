@@ -16,12 +16,29 @@ import android.view.View;
  */
 public class DrawWorld extends View {
 
+	// For demostration purposes
+	protected enum DemoMode {
+		RANDOM,
+		EXPLOSION,
+		FIREWORKS,
+		SPIRALS,
+		RINGS,
+		ZOOM;
+		
+		// Next mode
+		protected DemoMode next() {
+			int i = (this.ordinal() + 1) % (DemoMode.values().length);
+			return DemoMode.values()[i];
+		}
+	}
+	
 	// DrawWorld variables
 	private DrawRefreshHandler refreshHandler;
 	private DrawKeyHandler keyHandler;
-	private int frame;
+	
+	protected DemoMode mode;
+	protected int frame;
 	protected int collisionCount;
-	protected int targetBulletCount;
 	
 	// DrawObjects
 	protected DrawObjectHUD hud;
@@ -36,10 +53,9 @@ public class DrawWorld extends View {
 		
 		// Setup
 		setupDraw();
+		mode = DemoMode.RANDOM;
 		frame = 0;
-		collisionCount = 0;
-		targetBulletCount = 0;
-		
+		collisionCount = 0;		
 		
 		// Handlers
 		refreshHandler = new DrawRefreshHandler(this, Settings.getInt(R.string.refreshDelay));
@@ -52,7 +68,6 @@ public class DrawWorld extends View {
 	
 	// Clear all bullets
 	public void removeAllBullets() {
-		targetBulletCount = 0;
 		bullets = new LinkedList<DrawObjectBullet>();
 		System.gc();
 	}
@@ -60,17 +75,6 @@ public class DrawWorld extends View {
 	// Add new drawable objects
 	public void addBullet(DrawObjectBullet bullet) {
 		bullets.add(bullet);
-	}
-	
-	// For testing
-	public void addRandomBullet() {
-		DrawObjectBullet bullet = new DrawObjectBullet(
-				(float)Math.random() * Settings.screenWidth, (float)Math.random() * Settings.screenHeight,
-				(float)Math.random() * 10f, 0f,
-				0f, 0f,
-				(float)Math.random() * 360f
-				);
-		addBullet(bullet);
 	}
 	
 	// Called by initializer
@@ -93,13 +97,7 @@ public class DrawWorld extends View {
 	// If we want asynchronous, we will need to keep a timer
 	// and potentially call nextFrame() multiple times per onDraw cycle
 	private void nextFrame() {
-		
-		// TODO - for testing
-		int addBulletCount = targetBulletCount - bullets.size();
-		for (int i = 0; i < addBulletCount; i++) { 
-			addRandomBullet();
-		}
-		
+
 		// Update bullets
 		for (DrawObjectBullet bullet : bullets) {
 			bullet.nextFrame();
