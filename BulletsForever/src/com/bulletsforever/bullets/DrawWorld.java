@@ -24,9 +24,9 @@ public class DrawWorld extends View {
 	protected int targetBulletCount;
 	
 	// DrawObjects
-	DrawObjectHUD hud;
-	DrawObjectPlayer player;
-	LinkedList<DrawObjectBullet> bullets;
+	protected DrawObjectHUD hud;
+	protected DrawObjectPlayer player;
+	protected LinkedList<DrawObjectBullet> bullets;
 	
 	// Initializer
 	public DrawWorld(Context c) {
@@ -38,7 +38,7 @@ public class DrawWorld extends View {
 		setupDraw();
 		frame = 0;
 		collisionCount = 0;
-		targetBulletCount = 100;
+		targetBulletCount = 0;
 		
 		
 		// Handlers
@@ -50,6 +50,13 @@ public class DrawWorld extends View {
 		refreshHandler.start();
 	}
 	
+	// Clear all bullets
+	public void removeAllBullets() {
+		targetBulletCount = 0;
+		bullets = new LinkedList<DrawObjectBullet>();
+		System.gc();
+	}
+	
 	// Add new drawable objects
 	public void addBullet(DrawObjectBullet bullet) {
 		bullets.add(bullet);
@@ -58,10 +65,10 @@ public class DrawWorld extends View {
 	// For testing
 	public void addRandomBullet() {
 		DrawObjectBullet bullet = new DrawObjectBullet(
-				(float)Math.random() * Settings.screenWidth,
-				(float)Math.random() * Settings.screenHeight,
-				(float)(Math.random() * 2f - 1.0f),
-				(float)(Math.random() * 360)
+				(float)Math.random() * Settings.screenWidth, (float)Math.random() * Settings.screenHeight,
+				(float)Math.random() * 10f, 0f,
+				0f, 0f,
+				(float)Math.random() * 360f
 				);
 		addBullet(bullet);
 	}
