@@ -17,9 +17,7 @@ public class DrawObjectPlayer extends DrawObject {
 		// Middle of the screen
 		super(
 			Settings.screenWidth / 2, Settings.screenHeight / 2,
-			0f,	0f,
-			0f, 0f,
-			0f,
+			0f,	0f, 0f, 0f, 0f, 0f,
 			25f, 25f
 			);
 		

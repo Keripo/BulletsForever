@@ -30,7 +30,7 @@ public class DrawTouchHandler implements OnTouchListener {
 								(float)Math.random() * Settings.screenHeight,
 								(float)Math.random() * 10f, 0f,
 								0f, 0f,
-								(float)Math.random() * 360f
+								(float)Math.random() * 360f, 0f
 								);
 						dw.addBullet(bullet);
 					}
@@ -41,55 +41,51 @@ public class DrawTouchHandler implements OnTouchListener {
 								event.getX(), event.getY(),
 								(float)Math.random() * 10f, 0f,
 								0f, 0f,
-								i
+								i, 0f
 								);
 						dw.addBullet(bullet);
 					}
 				} else if (dw.mode.equals(DrawWorld.DemoMode.FIREWORKS)) {
-					// Add 360 bullets fanning out from the point of contact
-					// with downward gravity
+					// Add 360 bullets spouting out from the point of contact
 					for (int i = 0; i < 360; i++) {
 						DrawObjectBullet bullet = new DrawObjectBullet(
 								event.getX(), event.getY(),
 								(float)Math.random() * 10f, 0f,
 								0f, 0.5f,
-								i
+								i, 0f
 								);
 						dw.addBullet(bullet);
 					}
 				} else if (dw.mode.equals(DrawWorld.DemoMode.SPIRALS)) {
-					// Add 180 bullets fanning out from the point of contact
-					// With angular rotation
+					// Add 180 bullets spiraling out from the point of contact
 					for (int i = 0; i < 360; i += 2) {
 						DrawObjectBullet bullet = new DrawObjectBullet(
 								event.getX(), event.getY(),
-								(float)Math.random() * 10f, 10f,
+								(float)Math.random() * 10f, 0.1f,
 								0f, 0f,
-								i
+								i, 10f
 								);
 						dw.addBullet(bullet);
 					}
 				} else if (dw.mode.equals(DrawWorld.DemoMode.RINGS)) {
 					// Add 36 bullets ringing out from the point of contact
-					// With angular rotation
 					for (int i = 0; i < 360; i += 10) {
 						DrawObjectBullet bullet = new DrawObjectBullet(
 								event.getX(), event.getY(),
-								5f, 10f,
+								5f, 0f,
 								0f, 0f,
-								i
+								i, 10f
 								);
 						dw.addBullet(bullet);
 					}
 				} else if (dw.mode.equals(DrawWorld.DemoMode.ZOOM)) {
-					// Add 36 bullets ringing out from the point of contact
-					// With linear downward acceleration
+					// Add 36 bullets zooming out from the point of contact
 					for (int i = 0; i < 360; i += 10) {
 						DrawObjectBullet bullet = new DrawObjectBullet(
 								event.getX(), event.getY(),
-								3f, 0f,
 								0f, 0.5f,
-								i
+								0f, 0f,
+								i, -15f
 								);
 						dw.addBullet(bullet);
 					}
