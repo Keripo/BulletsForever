@@ -21,7 +21,7 @@ public class DrawKeyHandler {
 				dw.targetBulletCount += 100;
 				return true;
 			case KeyEvent.KEYCODE_SEARCH:
-				dw.targetBulletCount = 0;
+				dw.removeAllBullets();
 				return true;
 		}
 		return false;

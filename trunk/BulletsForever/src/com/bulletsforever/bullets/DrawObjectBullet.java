@@ -14,8 +14,8 @@ public class DrawObjectBullet extends DrawObject {
 	public boolean remove;
 	private Paint bulletPaint;
 	
-	public DrawObjectBullet(float x, float y, float v, float angle) {
-		super(x, y, v, angle, 5f, 5f);
+	public DrawObjectBullet(float x, float y, float v, float vr, float ax, float ay, float angle) {
+		super(x, y, v, vr, ax, ay, angle, 5f, 5f);
 		this.remove = false;
 		
 		bulletPaint = new Paint();
