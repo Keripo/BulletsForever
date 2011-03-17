@@ -117,10 +117,18 @@ public class DrawWorld extends View {
 	private void checkCollisions() {
 		
 		// Bullets with players
+		float pxMin = player.x - player.hitboxHalfWidth;
+		float pxMax = player.x + player.hitboxHalfWidth;
+		float pyMin = player.y - player.hitboxHalfHeight;
+		float pyMax = player.y + player.hitboxHalfHeight;
+		
 		for (DrawObjectBullet bullet : bullets) {
-			if (!bullet.remove && player.hasCollided(bullet)) {
+			float bx = bullet.x;
+			float by = bullet.y;
+			if (!bullet.remove && //player.hasCollided(bullet)) {
+				bx > pxMin && bx < pxMax && by > pyMin && by < pyMax) { // Faster
 				player.onCollision(bullet);
-				bullet.onCollision(player);
+				//bullet.onCollision(player); // Does nothing
 				bullet.remove = true;
 				collisionCount++;
 			}

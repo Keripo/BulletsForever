@@ -100,12 +100,14 @@ public abstract class DrawObject {
 	}
 	
 	// Collision check
+	/*
 	public boolean hasCollided(DrawObject object) {
 		return (object.x > x - hitboxHalfWidth &&
 				object.x < x + hitboxHalfWidth &&
 				object.y > y - hitboxHalfHeight &&
 				object.y < y + hitboxHalfHeight);
 	}
+	*/
 	
 	// Call on collisions
 	public abstract void onCollision(DrawObject object);
