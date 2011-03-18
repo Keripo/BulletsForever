@@ -10,14 +10,16 @@ import android.graphics.Canvas;
 public class DrawObjectBullet extends DrawObject {
 	
 	public boolean remove;
+	public boolean boss;
 	//private Paint bulletPaint;
 	
-	public DrawObjectBullet(DrawWorld dw,
+	public DrawObjectBullet(DrawWorld dw, boolean boss,
 			float x, float y, float v, float a, float gx, float gy, float angle, float angle_v) {
 		super(dw, x, y, v, a, gx, gy, angle, angle_v, 5f, 5f);
 		
-		remove = false;
-		bitmap = dw.bl.getBitmap(R.drawable.bullet, hitboxHalfWidth, hitboxHalfHeight);
+		this.remove = false;
+		this.boss = boss;
+		this.bitmap = dw.bl.getBitmap(R.drawable.bullet, hitboxHalfWidth, hitboxHalfHeight);
 		//bulletPaint = new Paint();
 		//bulletPaint.setColor(Color.WHITE);
 	}

@@ -20,12 +20,24 @@ public class DrawTouchHandler implements OnTouchListener {
 	// Do not add multi-touch support for simplicity (no need for it in my opinion)
 	public boolean onTouch(View v, MotionEvent event) {
 		switch(event.getAction()) {
+			case MotionEvent.ACTION_MOVE:
+				if (dw.mode.equals(DrawWorld.DemoMode.MOVE)) {
+					// Change player's target location
+					dw.player.tx = event.getX();
+					dw.player.ty = event.getY();
+				}
+				return true;
 			case MotionEvent.ACTION_DOWN:
-				if (dw.mode.equals(DrawWorld.DemoMode.RANDOM)) {
+				if (dw.mode.equals(DrawWorld.DemoMode.MOVE)) {
+					// Change player's target location
+					dw.player.tx = event.getX();
+					dw.player.ty = event.getY();
+				// For demo purposes
+				} else if (dw.mode.equals(DrawWorld.DemoMode.RANDOM)) {
 					// Add 100 bullets in random locations at random speeds and angles
 					for (int i = 0; i < 100; i++) { 
 						DrawObjectBullet bullet = new DrawObjectBullet(
-								dw,
+								dw, true,
 								(float)Math.random() * Settings.screenWidth,
 								(float)Math.random() * Settings.screenHeight,
 								(float)Math.random() * 10f, 0f,
@@ -38,7 +50,7 @@ public class DrawTouchHandler implements OnTouchListener {
 					// Add 360 bullets fanning out from the point of contact
 					for (int i = 0; i < 360; i++) {
 						DrawObjectBullet bullet = new DrawObjectBullet(
-								dw,
+								dw, true,
 								event.getX(), event.getY(),
 								(float)Math.random() * 10f, 0f,
 								0f, 0f,
@@ -50,7 +62,7 @@ public class DrawTouchHandler implements OnTouchListener {
 					// Add 360 bullets spouting out from the point of contact
 					for (int i = 0; i < 360; i++) {
 						DrawObjectBullet bullet = new DrawObjectBullet(
-								dw,
+								dw, true,
 								event.getX(), event.getY(),
 								(float)Math.random() * 10f, 0f,
 								0f, 0.5f,
@@ -62,7 +74,7 @@ public class DrawTouchHandler implements OnTouchListener {
 					// Add 180 bullets spiraling out from the point of contact
 					for (int i = 0; i < 360; i += 2) {
 						DrawObjectBullet bullet = new DrawObjectBullet(
-								dw,
+								dw, true,
 								event.getX(), event.getY(),
 								(float)Math.random() * 10f, 0.1f,
 								0f, 0f,
@@ -74,7 +86,7 @@ public class DrawTouchHandler implements OnTouchListener {
 					// Add 36 bullets ringing out from the point of contact
 					for (int i = 0; i < 360; i += 10) {
 						DrawObjectBullet bullet = new DrawObjectBullet(
-								dw,
+								dw, true,
 								event.getX(), event.getY(),
 								5f, 0f,
 								0f, 0f,
@@ -86,7 +98,7 @@ public class DrawTouchHandler implements OnTouchListener {
 					// Add 36 bullets zooming out from the point of contact
 					for (int i = 0; i < 360; i += 10) {
 						DrawObjectBullet bullet = new DrawObjectBullet(
-								dw,
+								dw, true,
 								event.getX(), event.getY(),
 								0f, 0.5f,
 								0f, 0f,

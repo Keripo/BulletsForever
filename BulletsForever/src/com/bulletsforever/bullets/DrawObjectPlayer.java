@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 public class DrawObjectPlayer extends DrawObject {
 
 	//private Paint avatarPaint;
+	public float tx, ty;
 	
 	public DrawObjectPlayer(DrawWorld dw) {
 		// Middle of the screen
@@ -21,11 +22,21 @@ public class DrawObjectPlayer extends DrawObject {
 			);
 		
 		bitmap = dw.bl.getBitmap(R.drawable.iconplayer, hitboxHalfWidth, hitboxHalfHeight);
+		tx = x; // Don't move
+		ty = y; // Don't move
 		//avatarPaint = new Paint();
 		//avatarPaint.setColor(Color.BLUE);
 	}
 	
 	public void nextFrame() {
+		// Move to where the target destination is
+		float dtx = (tx > x) ? (tx - x) : (x - tx);
+		float dty = (ty > y) ? (ty - y) : (y - ty);
+		if (dtx > 0.5f && dty > 0.5f) { // floating point precision of 0.5 pixel (possible?)
+			dx = (tx - x) * 0.1f;
+			dy = (ty - y) * 0.1f;
+			super.nextFrame();
+		}
 		//super.nextFrame();
 		
 		// Lalalala
