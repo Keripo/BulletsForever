@@ -13,10 +13,18 @@ public class DrawObjectBullet extends DrawObject {
 	
 	public boolean remove;
 	private Paint bulletPaint;
+	char x;
+	public static float hitboxHalfWidth=5f;
+	public static float hitboxHalfHeight=5f;
+	// x= 'p' for player bullet and 'b' for boss bullet.
 	
-	public DrawObjectBullet(float x, float y, float v, float a, float gx, float gy, float angle, float angle_v) {
-		super(x, y, v, a, gx, gy, angle, angle_v, 5f, 5f);
+	public DrawObjectBullet(float x, float y, float v, float a, float gx, float gy, float angle, float angle_v, char xx) {
+		
+		
+		
+		super(x, y, v, a, gx, gy, angle, angle_v, hitboxHalfWidth, hitboxHalfHeight);
 		this.remove = false;
+		this.x=xx;
 		
 		bulletPaint = new Paint();
 		bulletPaint.setColor(Color.WHITE);

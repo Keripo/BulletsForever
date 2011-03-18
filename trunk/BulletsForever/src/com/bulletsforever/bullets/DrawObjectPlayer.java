@@ -12,14 +12,25 @@ import android.graphics.Paint;
 public class DrawObjectPlayer extends DrawObject {
 
 	private Paint avatarPaint;
+	public static float x=Settings.screenWidth / 2;
+	public static float y=Settings.screenHeight-100;
+	public static float hitboxHalfWidth=50f;
+	public static float hitboxHalfHeight=25f;
+	
+	
 	
 	public DrawObjectPlayer() {
 		// Middle of the screen
+		
+	
+		
 		super(
-			Settings.screenWidth / 2, Settings.screenHeight-100,   //Set the initial location for the player
+			x,y,   //Set the initial location for the player
 			0f,	0f, 0f, 0f, 0f, 0f,
-			50f, 25f
+			hitboxHalfWidth, hitboxHalfHeight
 			);
+		
+		
 		
 		avatarPaint = new Paint();
 		avatarPaint.setColor(Color.BLUE);
