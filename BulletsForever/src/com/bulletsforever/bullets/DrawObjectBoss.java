@@ -9,9 +9,9 @@ import android.graphics.Canvas;
  */
 public class DrawObjectBoss extends DrawObject {
 	
-	public DrawObjectBoss(float x, float y) {
+	public DrawObjectBoss(DrawWorld dw, float x, float y) {
 		// TODO Auto-generated constructor stub
-		super(x, y, 0f, 0f, 0f, 0f, 0f, 0f, 100f, 100f);
+		super(dw, x, y, 0f, 0f, 0f, 0f, 0f, 0f, 100f, 100f);
 	}
 
 	public void nextFrame() {

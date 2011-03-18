@@ -1,5 +1,6 @@
 package com.bulletsforever.bullets;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 /**
@@ -10,6 +11,10 @@ import android.graphics.Canvas;
  */
 public abstract class DrawObject {
 
+	// For info and details
+	public DrawWorld dw;
+	public Bitmap bitmap;
+	
 	// Tracking progress
 	public int frame;
 	
@@ -30,9 +35,13 @@ public abstract class DrawObject {
 	
 	// Initializer
 	public DrawObject(
+		DrawWorld dw,
 		float x, float y, float v, float a, float gx, float gy, float angle, float angle_v,
 		float hitboxHalfWidth, float hitboxHalfHeight
 		) {
+		// For access
+		this.dw = dw;
+		
 		// Start object's individual frame counter at 0
 		this.frame = 0;
 		

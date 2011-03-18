@@ -1,8 +1,6 @@
 package com.bulletsforever.bullets;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 
 /**
  * This is the player!
@@ -11,18 +9,20 @@ import android.graphics.Paint;
  */
 public class DrawObjectPlayer extends DrawObject {
 
-	private Paint avatarPaint;
+	//private Paint avatarPaint;
 	
-	public DrawObjectPlayer() {
+	public DrawObjectPlayer(DrawWorld dw) {
 		// Middle of the screen
 		super(
-			Settings.screenWidth / 2, Settings.screenHeight-100,   //Set the initial location for the player
+			dw,
+			Settings.screenWidth / 2, Settings.screenHeight - 100,   //Set the initial location for the player
 			0f,	0f, 0f, 0f, 0f, 0f,
 			50f, 25f
 			);
 		
-		avatarPaint = new Paint();
-		avatarPaint.setColor(Color.BLUE);
+		bitmap = dw.bl.getBitmap(R.drawable.iconplayer, hitboxHalfWidth, hitboxHalfHeight);
+		//avatarPaint = new Paint();
+		//avatarPaint.setColor(Color.BLUE);
 	}
 	
 	public void nextFrame() {
@@ -50,23 +50,26 @@ public class DrawObjectPlayer extends DrawObject {
 	
 	@Override
 	public void draw(Canvas canvas) {
+		/*
 		canvas.drawRect(
 				x - hitboxHalfWidth, y - hitboxHalfHeight,
 				x + hitboxHalfWidth, y + hitboxHalfHeight,
 				avatarPaint
 				);
-		
+		*/
+		canvas.drawBitmap(bitmap, x - hitboxHalfWidth, y - hitboxHalfHeight, null);
 	}
 
 	@Override
 	public void onCollision(DrawObject object) {
+		/*
 		avatarPaint.setARGB(
 				255,
 				(int)(Math.random() * 255),
 				(int)(Math.random() * 255),
 				(int)(Math.random() * 255)
 				);
-		
+		*/
 	}
 
 }
