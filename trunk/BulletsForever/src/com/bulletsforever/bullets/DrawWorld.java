@@ -18,6 +18,7 @@ public class DrawWorld extends View {
 
 	// For demostration purposes
 	protected enum DemoMode {
+		MOVE,
 		RANDOM,
 		EXPLOSION,
 		FIREWORKS,
@@ -54,7 +55,7 @@ public class DrawWorld extends View {
 		
 		// Setup
 		setupDraw();
-		mode = DemoMode.RANDOM;
+		mode = DemoMode.MOVE;
 		frame = 0;
 		collisionCount = 0;
 		
