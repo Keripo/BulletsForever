@@ -13,7 +13,7 @@ import android.view.WindowManager;
  */
 public class GameMain extends Activity {
 	
-	private DrawWorld drawWorld;
+	private DrawWorld dw;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -27,16 +27,22 @@ public class GameMain extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		
 		// Welcome, to the World
-		drawWorld = new DrawWorld(this);
-		setContentView(drawWorld);
+		dw = new DrawWorld(this);
+		setContentView(dw);
 		
 		// Start updating the screen
-		drawWorld.startUpdating();
+		dw.startUpdating();
 	}
-
+	
+	@Override
+	protected void onDestroy() {
+		dw.onDestroy();
+		super.onDestroy();
+	}
+	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (drawWorld.onKeyDown(keyCode, event)) {
+		if (dw.onKeyDown(keyCode, event)) {
 			return true;
 		} else {
 			return super.onKeyDown(keyCode, event);
@@ -45,7 +51,7 @@ public class GameMain extends Activity {
 	
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		if (drawWorld.onKeyUp(keyCode, event)) {
+		if (dw.onKeyUp(keyCode, event)) {
 			return true;
 		} else {
 			return super.onKeyUp(keyCode, event);

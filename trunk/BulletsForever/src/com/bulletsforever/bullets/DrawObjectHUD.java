@@ -15,7 +15,6 @@ import android.graphics.Paint.Align;
 public class DrawObjectHUD extends DrawObject {
 	
 	// Stuff
-	private DrawWorld dw;
 	private ToolsFPSCounter fpsCounter;
 	private Paint textPaint;
 	
@@ -30,8 +29,7 @@ public class DrawObjectHUD extends DrawObject {
 	private Rect boxRect;
 	
 	public DrawObjectHUD(DrawWorld dw) {
-		super(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f); // dummy
-		this.dw = dw;
+		super(dw, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f); // dummy
 		
 		// Text
 		textPaint = new Paint();

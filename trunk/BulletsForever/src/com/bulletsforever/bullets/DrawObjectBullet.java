@@ -1,8 +1,6 @@
 package com.bulletsforever.bullets;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 
 /**
  * This is the player!
@@ -12,14 +10,16 @@ import android.graphics.Paint;
 public class DrawObjectBullet extends DrawObject {
 	
 	public boolean remove;
-	private Paint bulletPaint;
+	//private Paint bulletPaint;
 	
-	public DrawObjectBullet(float x, float y, float v, float a, float gx, float gy, float angle, float angle_v) {
-		super(x, y, v, a, gx, gy, angle, angle_v, 5f, 5f);
-		this.remove = false;
+	public DrawObjectBullet(DrawWorld dw,
+			float x, float y, float v, float a, float gx, float gy, float angle, float angle_v) {
+		super(dw, x, y, v, a, gx, gy, angle, angle_v, 5f, 5f);
 		
-		bulletPaint = new Paint();
-		bulletPaint.setColor(Color.WHITE);
+		remove = false;
+		bitmap = dw.bl.getBitmap(R.drawable.bullet, hitboxHalfWidth, hitboxHalfHeight);
+		//bulletPaint = new Paint();
+		//bulletPaint.setColor(Color.WHITE);
 	}
 	
 	@Override
@@ -38,11 +38,14 @@ public class DrawObjectBullet extends DrawObject {
 	
 	@Override
 	public void draw(Canvas canvas) {
+		/*
 		canvas.drawRect(
 				x - hitboxHalfWidth, y - hitboxHalfHeight,
 				x + hitboxHalfWidth, y + hitboxHalfHeight,
 				bulletPaint
 				);
+		*/
+		canvas.drawBitmap(bitmap, x - hitboxHalfWidth, y - hitboxHalfHeight, null);
 	}
 
 	@Override

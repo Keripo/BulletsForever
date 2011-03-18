@@ -41,6 +41,7 @@ public class DrawWorld extends View {
 	protected int collisionCount;
 	
 	// DrawObjects
+	protected DrawBitmapLoader bl;
 	protected DrawObjectHUD hud;
 	protected DrawObjectPlayer player;
 	protected LinkedList<DrawObjectBullet> bullets;
@@ -55,7 +56,7 @@ public class DrawWorld extends View {
 		setupDraw();
 		mode = DemoMode.RANDOM;
 		frame = 0;
-		collisionCount = 0;		
+		collisionCount = 0;
 		
 		// Handlers
 		refreshHandler = new DrawRefreshHandler(this, Settings.getInt(R.string.refreshDelay));
@@ -72,6 +73,12 @@ public class DrawWorld extends View {
 		System.gc();
 	}
 	
+	// Exit game
+	public void onDestroy() {
+		removeAllBullets();
+		bl.onDestroy();
+	}
+	
 	// Add new drawable objects
 	public void addBullet(DrawObjectBullet bullet) {
 		bullets.add(bullet);
@@ -79,8 +86,9 @@ public class DrawWorld extends View {
 	
 	// Called by initializer
 	private void setupDraw() {
+		bl = new DrawBitmapLoader(this.getContext());
 		hud = new DrawObjectHUD(this);
-		player = new DrawObjectPlayer();
+		player = new DrawObjectPlayer(this);
 		bullets = new LinkedList<DrawObjectBullet>();
 	}
 	
