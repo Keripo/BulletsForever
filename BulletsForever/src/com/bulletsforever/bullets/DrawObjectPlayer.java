@@ -18,7 +18,7 @@ public class DrawObjectPlayer extends DrawObject {
 		super(
 			Settings.screenWidth / 2, Settings.screenHeight-100,   //Set the initial location for the player
 			0f,	0f, 0f, 0f, 0f, 0f,
-			25f, 25f
+			50f, 25f
 			);
 		
 		avatarPaint = new Paint();
@@ -34,25 +34,25 @@ public class DrawObjectPlayer extends DrawObject {
 		
 		
 		// the following lines have been commented by Austin and Yash on 17th march night.
-		
-		
-//		x += (Math.random() - 0.5f) * 15;
-//		y += (Math.random() - 0.5f) * 15;
-//		if (x < hitboxHalfWidth ||
-//			y < hitboxHalfHeight ||
-//			x > Settings.screenWidth - hitboxHalfWidth ||
-//			y > Settings.screenHeight - hitboxHalfHeight
-//			){ // Offscreen
-//			x = ((float)Math.random() * (Settings.screenWidth - hitboxHalfWidth)) + hitboxHalfWidth;
-//			y = ((float)Math.random() * (Settings.screenHeight - hitboxHalfHeight)) + hitboxHalfHeight;
-//		}
+		/*
+		x += (Math.random() - 0.5f) * 15;
+		y += (Math.random() - 0.5f) * 15;
+		if (x < hitboxHalfWidth ||
+			y < hitboxHalfHeight ||
+			x > Settings.screenWidth - hitboxHalfWidth ||
+			y > Settings.screenHeight - hitboxHalfHeight
+			){ // Offscreen
+			x = ((float)Math.random() * (Settings.screenWidth - hitboxHalfWidth)) + hitboxHalfWidth;
+			y = ((float)Math.random() * (Settings.screenHeight - hitboxHalfHeight)) + hitboxHalfHeight;
+		}
+		*/
 	}
 	
 	@Override
 	public void draw(Canvas canvas) {
 		canvas.drawRect(
-				x - 2*hitboxHalfWidth, y - hitboxHalfHeight,
-				x + 2*hitboxHalfWidth, y + hitboxHalfHeight,
+				x - hitboxHalfWidth, y - hitboxHalfHeight,
+				x + hitboxHalfWidth, y + hitboxHalfHeight,
 				avatarPaint
 				);
 		
