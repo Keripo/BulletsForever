@@ -12,11 +12,66 @@ import android.view.View.OnTouchListener;
 public class DrawTouchHandler implements OnTouchListener {
 
 	private DrawWorld dw;
-	
+
 	public DrawTouchHandler(DrawWorld dw) {
 		this.dw = dw;
 	}
+
+	//Added code for user touch and player bullets, NOT COMPLETE.
 	
+	public boolean onTouch(View v, MotionEvent event) {
+
+		switch(event.getAction()) {
+
+
+		case MotionEvent.ACTION_DOWN:
+		{
+			DrawObjectBullet bullet = new DrawObjectBullet(
+					DrawObjectPlayer.x,
+					DrawObjectPlayer.y,
+					10f, 5f,
+					0f, 0f,
+					180f, 0f,
+					'p'
+			);	
+			dw.addBullet(bullet);
+		}
+
+
+
+
+		case MotionEvent.ACTION_MOVE:
+		{
+			DrawObjectBullet bullet = new DrawObjectBullet(
+					DrawObjectPlayer.x,
+					DrawObjectPlayer.y,
+					10f, 5f,
+					0f, 0f,
+					180f, 0f,
+					'p'
+			);	
+			dw.addBullet(bullet);
+		}
+
+
+
+
+		case MotionEvent.ACTION_UP:
+
+		}
+
+return true;
+
+
+
+		// THE FOLLWING CODE HAS BEEN COMMENTED BY AUSTIN AND YASH ON THE 17TH OF MARCH.
+		
+
+		/*
+		 
+
+
+
 	// Do not add multi-touch support for simplicity (no need for it in my opinion)
 	public boolean onTouch(View v, MotionEvent event) {
 		switch(event.getAction()) {
@@ -96,5 +151,7 @@ public class DrawTouchHandler implements OnTouchListener {
 				return false;
 		}
 	}
+		 */
 
+	}
 }
