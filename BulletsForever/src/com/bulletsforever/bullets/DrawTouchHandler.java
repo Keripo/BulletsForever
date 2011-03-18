@@ -18,7 +18,6 @@ public class DrawTouchHandler implements OnTouchListener {
 	}
 	
 	// Do not add multi-touch support for simplicity (no need for it in my opinion)
-	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		switch(event.getAction()) {
 			case MotionEvent.ACTION_DOWN:

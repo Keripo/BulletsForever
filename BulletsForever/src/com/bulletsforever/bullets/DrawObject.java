@@ -52,7 +52,7 @@ public abstract class DrawObject {
 		rad = angle * (float)Math.PI / 180f;
 		dx = (float)(v * Math.sin(rad));
 		dy = (float)(v * Math.cos(rad));
-	}
+	}// GOOD THINKING PHIL.
 	
 	// Canvas-specific drawing
 	public abstract void draw(Canvas canvas);
