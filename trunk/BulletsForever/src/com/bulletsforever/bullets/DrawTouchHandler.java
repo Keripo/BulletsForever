@@ -25,6 +25,16 @@ public class DrawTouchHandler implements OnTouchListener {
 					// Change player's target location
 					dw.player.tx = event.getX();
 					dw.player.ty = event.getY();
+					
+					DrawObjectBullet bullet = new DrawObjectBullet(
+							dw, false,
+							dw.player.tx,
+							dw.player.ty,
+							10f, 5f,
+							0f, 0f,
+							180f, 0f
+					);	
+					dw.addBullet(bullet);
 				}
 				return true;
 			case MotionEvent.ACTION_DOWN:
@@ -32,6 +42,16 @@ public class DrawTouchHandler implements OnTouchListener {
 					// Change player's target location
 					dw.player.tx = event.getX();
 					dw.player.ty = event.getY();
+					
+					DrawObjectBullet bullet = new DrawObjectBullet(
+							dw, false,
+							dw.player.tx,
+							dw.player.ty,
+							10f, 5f,
+							0f, 0f,
+							180f, 0f
+					);	
+					dw.addBullet(bullet);
 				// For demo purposes
 				} else if (dw.mode.equals(DrawWorld.DemoMode.RANDOM)) {
 					// Add 100 bullets in random locations at random speeds and angles
