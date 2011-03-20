@@ -18,7 +18,7 @@ public class DrawObjectPlayer extends DrawObject {
 			dw,
 			Settings.screenWidth / 2, Settings.screenHeight - 100,   //Set the initial location for the player
 			0f,	0f, 0f, 0f, 0f, 0f,
-			50f, 25f
+			40f, 50f
 			);
 		
 		bitmap = dw.bl.getBitmap(R.drawable.iconplayer, hitboxHalfWidth, hitboxHalfHeight);

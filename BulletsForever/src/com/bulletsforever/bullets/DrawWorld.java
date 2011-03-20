@@ -135,7 +135,9 @@ public class DrawWorld extends View {
 			float bx = bullet.x;
 			float by = bullet.y;
 			if (!bullet.remove && //player.hasCollided(bullet)) {
-				bx > pxMin && bx < pxMax && by > pyMin && by < pyMax) { // Faster
+				bx > pxMin && bx < pxMax && by > pyMin && by < pyMax
+				&& bullet.boss == true 	  //to check if bullet is player's bullet
+				) { // Faster
 				player.onCollision(bullet);
 				//bullet.onCollision(player); // Does nothing
 				bullet.remove = true;
