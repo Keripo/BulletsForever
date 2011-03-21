@@ -45,6 +45,7 @@ public class DrawWorld extends View {
 	protected DrawBitmapLoader bl;
 	protected DrawObjectHUD hud;
 	protected DrawObjectPlayer player;
+	protected DrawObjectBoss boss;
 	protected LinkedList<DrawObjectBullet> bullets;
 	
 	// Initializer
@@ -90,6 +91,7 @@ public class DrawWorld extends View {
 		bl = new DrawBitmapLoader(this.getContext());
 		hud = new DrawObjectHUD(this);
 		player = new DrawObjectPlayer(this);
+		boss = new DrawObjectBoss(this, 1);
 		bullets = new LinkedList<DrawObjectBullet>();
 	}
 	
@@ -115,6 +117,9 @@ public class DrawWorld extends View {
 		// Update player
 		player.nextFrame();
 		
+		// Update boss
+		boss.nextFrame();
+		
 		// Update HUD
 		hud.nextFrame();
 		
@@ -131,17 +136,33 @@ public class DrawWorld extends View {
 		float pyMin = player.y - player.hitboxHalfHeight;
 		float pyMax = player.y + player.hitboxHalfHeight;
 		
+		// Bullets with boss
+		float boxMin = boss.x - boss.hitboxHalfWidth;
+		float boxMax = boss.x + boss.hitboxHalfWidth;
+		float boyMin = boss.y - boss.hitboxHalfHeight;
+		float boyMax = boss.y + boss.hitboxHalfHeight;
+		
 		for (DrawObjectBullet bullet : bullets) {
 			float bx = bullet.x;
 			float by = bullet.y;
-			if (!bullet.remove && //player.hasCollided(bullet)) {
-				bx > pxMin && bx < pxMax && by > pyMin && by < pyMax
-				&& bullet.boss == true 	  //to check if bullet is player's bullet
-				) { // Faster
-				player.onCollision(bullet);
-				//bullet.onCollision(player); // Does nothing
-				bullet.remove = true;
-				collisionCount++;
+			if (!bullet.remove) {
+				if (//player.hasCollided(bullet)) {
+					bullet.boss //to check if bullet is player's bullet
+					&& bx > pxMin && bx < pxMax && by > pyMin && by < pyMax	  
+					) { // Faster
+					player.onCollision(bullet);
+					//bullet.onCollision(player); // Does nothing
+					bullet.remove = true;
+					collisionCount++;
+				}
+				else if (
+						!bullet.boss
+						&& bx > boxMin && bx < boxMax && by > boyMin && by < boyMax
+						) {
+					boss.onCollision(bullet);
+					bullet.remove = true;
+					collisionCount++; //necessary?
+				}
 			}
 		}
 		// Cleanup collided bullets or bullets off-screen
