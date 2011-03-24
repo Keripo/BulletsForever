@@ -75,13 +75,13 @@ public class DrawObjectBoss extends DrawObject {
 			if (rand.nextBoolean()) 
 				this.turrets.addFirst(
 						new Turret(
-								this.x + 10*rand.NextInt(6), 
+								this.x + 10*rand.nextInt(6), 
 								this.y + 10*rand.nextInt(6))); //how to decide where on the boss to position turrets?
 			else
 				this.turrets.addLast(
 						new Turret(
-								this.x - 10*rand.NextInt(6), 
-								this.y - 10*rand.NextInt(6)));
+								this.x - 10*rand.nextInt(6), 
+								this.y - 10*rand.nextInt(6)));
 		}
 	}
 
@@ -111,11 +111,12 @@ public class DrawObjectBoss extends DrawObject {
 		}
 		
 		// Update turret position and fire bullets
-		for (Turret t : this.turrets) 
+		for (Turret t : this.turrets) {
 			t.x = this.x;
 			t.y = this.y;
 			if (rand.nextInt(60) == 0)
 				t.fire();
+		}
 	}	
 	
 	@Override
