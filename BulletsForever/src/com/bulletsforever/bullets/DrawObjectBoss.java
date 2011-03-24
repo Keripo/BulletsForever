@@ -23,10 +23,14 @@ public class DrawObjectBoss extends DrawObject {
 		
 		private float x;
 		private float y;	
+		private float offsetx;
+		private float offsety;
 		
-		private Turret(float x, float y) {
-			this.x = x;
-			this.y = y;
+		private Turret(float x, float y, float offsetx, float offsety) {
+			this.offsetx = offsetx;
+			this.offsety = offsety;
+			this.x = x + offsetx;
+			this.y = y + offsety;
 		}
 		
 		private void fire() {
@@ -73,15 +77,13 @@ public class DrawObjectBoss extends DrawObject {
 		for (int i = 0; i < this.num_turrets; i++) {			
 			// Randomize the order in which turrets are stored to avoid the turrets being destroyed in a predictable order
 			if (rand.nextBoolean()) 
-				this.turrets.addFirst(
-						new Turret(
-								this.x + 10*rand.nextInt(6), 
-								this.y + 10*rand.nextInt(6))); //how to decide where on the boss to position turrets?
+				this.turrets.addFirst(new Turret(this.x, this.y,
+									10 * rand.nextInt(6),
+									10 * rand.nextInt(6)));
 			else
-				this.turrets.addLast(
-						new Turret(
-								this.x - 10*rand.nextInt(6), 
-								this.y - 10*rand.nextInt(6)));
+				this.turrets.addLast(new Turret(this.x, this.y,
+									-10 * rand.nextInt(6),
+									-10 * rand.nextInt(6)));
 		}
 	}
 
@@ -112,8 +114,8 @@ public class DrawObjectBoss extends DrawObject {
 		
 		// Update turret position and fire bullets
 		for (Turret t : this.turrets) {
-			t.x = this.x;
-			t.y = this.y;
+			t.x = this.x + t.offsetx;
+			t.y = this.y + t.offsety;
 			if (rand.nextInt(60) == 0)
 				t.fire();
 		}
