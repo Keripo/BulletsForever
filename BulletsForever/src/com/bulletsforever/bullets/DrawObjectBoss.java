@@ -78,12 +78,12 @@ public class DrawObjectBoss extends DrawObject {
 			// Randomize the order in which turrets are stored to avoid the turrets being destroyed in a predictable order
 			if (rand.nextBoolean()) 
 				this.turrets.addFirst(new Turret(this.x, this.y,
-									10 * rand.nextInt(6),
-									10 * rand.nextInt(6)));
+									10 * rand.nextInt(11),
+									10 * rand.nextInt(11)));
 			else
 				this.turrets.addLast(new Turret(this.x, this.y,
-									-10 * rand.nextInt(6),
-									-10 * rand.nextInt(6)));
+									-10 * rand.nextInt(11),
+									-10 * rand.nextInt(11)));
 		}
 	}
 
