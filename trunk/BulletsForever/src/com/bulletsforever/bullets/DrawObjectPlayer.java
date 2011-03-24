@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 public class DrawObjectPlayer extends DrawObject {
 
 	public float tx, ty;
+	public boolean shooting;
 	private static final float MAX_SPEED = 20f;
 	private static final float DAMP_RATIO = 0.75f;
 	
@@ -25,6 +26,7 @@ public class DrawObjectPlayer extends DrawObject {
 		bitmap = dw.bl.getBitmap(R.drawable.iconplayer, hitboxHalfWidth, hitboxHalfHeight);
 		tx = x; // Don't move
 		ty = y; // Don't move
+		shooting = false; // Don't shoot at first
 	}
 	
 	public void nextFrame() {

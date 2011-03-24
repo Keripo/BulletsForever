@@ -17,6 +17,7 @@ public class DrawObjectBoss extends DrawObject {
 	
 	private DrawWorld dw;
 	private Random rand;
+	private float maxX, maxY;
 	
 	private class Turret {
 		
@@ -44,26 +45,29 @@ public class DrawObjectBoss extends DrawObject {
 			
 			dw.addBullet(new DrawObjectBullet(dw, 
 					true, 
-					this.x, this.y, 
-					0.1f, 0f, 0f, 0f, angle, 0f
+					dw.boss.x, dw.boss.y, 
+					10f, 0f, 0f, 0f, angle, 0f
 					));
 		}
 	}
 	
 	public DrawObjectBoss(DrawWorld dw, int level) {
 		super(dw, 
-			Settings.screenWidth / 2, Settings.screenHeight, //starts middle of top of screen
+			Settings.screenWidth / 2, Settings.screenHeight / 8,
 			0f,	0f, 0f, 0f, 0f, 0f, 
-			90f, 100f //not sure what would be a good size
+			100f, 100f //not sure what would be a good size
 			);
 		
 		this.bitmap = dw.bl.getBitmap(R.drawable.icon, hitboxHalfWidth, hitboxHalfHeight);
 		this.dw = dw;
 		this.rand = new Random();
+		this.maxX = Settings.screenWidth - hitboxHalfWidth;
+		this.maxY = Settings.screenHeight / 2;
+		
 		
 		this.level = level;
 		this.num_turrets = this.level * 8; //arbitrary 
-		this.health = this.num_turrets * 10;  
+		this.health = this.num_turrets * 100;  
 		
 		this.turrets = new LinkedList<Turret>();
 		for (int i = 0; i < this.num_turrets; i++) {			
@@ -79,6 +83,7 @@ public class DrawObjectBoss extends DrawObject {
 		super.nextFrame();
 		
 		// Correct for movement offscreen
+		/*
 		if (this.x < Settings.screenXMin)
 			x = Settings.screenXMin;
 		else if (this.x > Settings.screenXMax)
@@ -87,11 +92,15 @@ public class DrawObjectBoss extends DrawObject {
 			y = Settings.screenYMin;
 		else if (this.y > (Settings.screenYMax / 2)) //boss must stay on top half of screen
 			y = Settings.screenYMax / 2;
+		*/
+		x = x > maxX ? maxX : x < hitboxHalfWidth ? hitboxHalfWidth : x;
+		y = y > maxY ? maxY : y < hitboxHalfHeight ? hitboxHalfHeight : y;
 		
-		// 1/5 chance of change in random movement 
-		if (rand.nextInt(5) == 0) { 
-			this.v = (float)rand.nextDouble(); //new random speed
-			this.a = rand.nextInt(360); //new random trajectory
+		// Chance of random movement every second (~60 frames) 
+		if (rand.nextInt(60) == 0) { 
+			this.v = (float)rand.nextDouble() * 5; //new random speed
+			this.angle = rand.nextInt(360); //new random trajectory
+			this.calcAngle();
 		}
 		
 		// Fire bullets
@@ -113,7 +122,7 @@ public class DrawObjectBoss extends DrawObject {
 			return; //evolution not implemented!!!
 		
 		// A random turret is destroyed every 10 health lost
-		else if (this.health % 10 == 0) {
+		else if (this.health % 100 == 0 && !turrets.isEmpty()) {
 			if (rand.nextBoolean())
 				this.turrets.removeFirst();
 			else

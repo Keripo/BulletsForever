@@ -57,14 +57,18 @@ public abstract class DrawObject {
 		this.hitboxHalfWidth = hitboxHalfWidth;
 		this.hitboxHalfHeight = hitboxHalfHeight;
 		
-		// Calculate initial velocity
-		rad = angle * (float)Math.PI / 180f;
-		dx = (float)(v * Math.sin(rad));
-		dy = (float)(v * Math.cos(rad));
+		calcAngle();
 	}// GOOD THINKING PHIL.
 	
 	// Canvas-specific drawing
 	public abstract void draw(Canvas canvas);
+	
+	public void calcAngle() {
+		// Calculate initial velocity
+		rad = angle * (float)Math.PI / 180f;
+		dx = (float)(v * Math.sin(rad));
+		dy = (float)(v * Math.cos(rad));
+	}
 	
 	// Update coords, etc.
 	// Synchronous frame by frame - no skipping!
@@ -82,11 +86,7 @@ public abstract class DrawObject {
 			// Recalculate angles
 			angle_v *= 0.95f; // decay to allow for spiraling
 			angle += angle_v;
-			rad = angle * (float)Math.PI / 180f;
-		
-			// Recalculate x/y velocities
-			dx = (float)(v * Math.sin(rad));
-			dy = (float)(v * Math.cos(rad));
+			calcAngle();
 		}
 		
 		// Apply gravity
