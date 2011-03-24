@@ -73,9 +73,15 @@ public class DrawObjectBoss extends DrawObject {
 		for (int i = 0; i < this.num_turrets; i++) {			
 			// Randomize the order in which turrets are stored to avoid the turrets being destroyed in a predictable order
 			if (rand.nextBoolean()) 
-				this.turrets.addFirst(new Turret(this.x, this.y)); //how to decide where on the boss to position turrets?
+				this.turrets.addFirst(
+						new Turret(
+								this.x + 10*rand.NextInt(6), 
+								this.y + 10*rand.nextInt(6))); //how to decide where on the boss to position turrets?
 			else
-				this.turrets.addLast(new Turret(this.x, this.y));
+				this.turrets.addLast(
+						new Turret(
+								this.x - 10*rand.NextInt(6), 
+								this.y - 10*rand.NextInt(6)));
 		}
 	}
 
@@ -96,6 +102,7 @@ public class DrawObjectBoss extends DrawObject {
 		x = x > maxX ? maxX : x < hitboxHalfWidth ? hitboxHalfWidth : x;
 		y = y > maxY ? maxY : y < hitboxHalfHeight ? hitboxHalfHeight : y;
 		
+		
 		// Chance of random movement every second (~60 frames) 
 		if (rand.nextInt(60) == 0) { 
 			this.v = (float)rand.nextDouble() * 5; //new random speed
@@ -103,9 +110,11 @@ public class DrawObjectBoss extends DrawObject {
 			this.calcAngle();
 		}
 		
-		// Fire bullets
+		// Update turret position and fire bullets
 		for (Turret t : this.turrets) 
-			if (rand.nextBoolean())
+			t.x = this.x;
+			t.y = this.y;
+			if (rand.nextInt(60) == 0)
 				t.fire();
 	}	
 	
