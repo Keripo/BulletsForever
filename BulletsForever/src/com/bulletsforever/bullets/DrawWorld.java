@@ -108,7 +108,7 @@ public class DrawWorld extends View {
 	// If we want asynchronous, we will need to keep a timer
 	// and potentially call nextFrame() multiple times per onDraw cycle
 	private void nextFrame() {
-
+		
 		// Update bullets
 		for (DrawObjectBullet bullet : bullets) {
 			bullet.nextFrame();
@@ -125,6 +125,19 @@ public class DrawWorld extends View {
 		
 		// Check for collisions
 		checkCollisions();
+		
+		// Add player bullets
+		if (player.shooting) {
+			DrawObjectBullet bullet = new DrawObjectBullet(
+					this, false,
+					player.x,
+					player.y,
+					10f, 5f,
+					0f, 0f,
+					180f, 0f
+			);	
+			this.addBullet(bullet);
+		}
 	}
 	
 	// Called by update
@@ -201,6 +214,9 @@ public class DrawWorld extends View {
 		
 		// Draw player
 		player.draw(canvas);
+		
+		// Draw boss
+		boss.draw(canvas);
 		
 		// Draw HUD last
 		hud.draw(canvas);
