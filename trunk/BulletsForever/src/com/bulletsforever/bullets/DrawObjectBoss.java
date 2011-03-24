@@ -36,8 +36,8 @@ public class DrawObjectBoss extends DrawObject {
 		private void fire() {
 			
 			// Calculate angle between turret and player
-			float dx = dw.boss.x - dw.player.x;
-			float dy = dw.boss.y - dw.player.y;
+			float dx = this.x - dw.player.x;
+			float dy = this.y - dw.player.y;
 			float angle;
 			if (dx != 0)
 				angle = (float)(Math.atan(dx/dy) * 180f / (float)Math.PI); 
