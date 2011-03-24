@@ -49,7 +49,7 @@ public class DrawObjectBoss extends DrawObject {
 			
 			dw.addBullet(new DrawObjectBullet(dw, 
 					true, 
-					dw.boss.x, dw.boss.y, 
+					this.x, this.y, 
 					10f, 0f, 0f, 0f, angle, 0f
 					));
 		}
