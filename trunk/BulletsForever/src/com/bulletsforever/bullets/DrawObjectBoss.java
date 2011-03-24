@@ -39,11 +39,11 @@ public class DrawObjectBoss extends DrawObject {
 			float dx = this.x - dw.player.x;
 			float dy = this.y - dw.player.y;
 			float angle;
-			if (dx != 0)
+			if (dy != 0)
 				angle = (float)(Math.atan(dx/dy) * 180f / (float)Math.PI); 
 			else {
-				if (dy > 0) angle = 90;
-				else if (dy == 0) angle = 0;
+				if (dx > 0) angle = 90;
+				else if (dx == 0) angle = 0;
 				else angle = 270;
 			}
 			
