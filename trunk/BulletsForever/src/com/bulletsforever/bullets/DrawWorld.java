@@ -207,6 +207,9 @@ public class DrawWorld extends View {
 		// Clear screen by drawing background
 		canvas.drawColor(Color.BLACK);
 		
+		// Draw boss
+		boss.draw(canvas);
+		
 		// Draw bullets
 		for (DrawObjectBullet bullet : bullets) {
 			bullet.draw(canvas);
@@ -214,9 +217,6 @@ public class DrawWorld extends View {
 		
 		// Draw player
 		player.draw(canvas);
-		
-		// Draw boss
-		boss.draw(canvas);
 		
 		// Draw HUD last
 		hud.draw(canvas);
