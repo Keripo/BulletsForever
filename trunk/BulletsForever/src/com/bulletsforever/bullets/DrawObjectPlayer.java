@@ -1,6 +1,10 @@
 package com.bulletsforever.bullets;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 
 /**
  * This is the player!
@@ -11,6 +15,10 @@ public class DrawObjectPlayer extends DrawObject {
 
 	public float tx, ty;
 	public boolean shooting;
+	
+	private int hit_frames;
+	private Paint hit_filter;
+	private static final int MAX_HIT_FRAMES = 10;
 	private static final float MAX_SPEED = 20f;
 	private static final float DAMP_RATIO = 0.75f;
 	
@@ -27,6 +35,11 @@ public class DrawObjectPlayer extends DrawObject {
 		tx = x; // Don't move
 		ty = y; // Don't move
 		shooting = false; // Don't shoot at first
+		
+		// Damaged
+		hit_frames = 0;
+		hit_filter = new Paint();
+		hit_filter.setColorFilter(new PorterDuffColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY));
 	}
 	
 	public void nextFrame() {
@@ -41,21 +54,26 @@ public class DrawObjectPlayer extends DrawObject {
 				dx *= ratio;
 				dy *= ratio;
 			}
-			super.nextFrame();
 		} else {
 			dx = 0;
 			dy = 0;
 		}
+		super.nextFrame();
 	}
 	
 	@Override
 	public void draw(Canvas canvas) {
-		canvas.drawBitmap(bitmap, x - hitboxHalfWidth, y - hitboxHalfHeight, null);
+		if (hit_frames > 0) {
+			canvas.drawBitmap(bitmap, x - hitboxHalfWidth, y - hitboxHalfHeight, hit_filter);
+			hit_frames--;
+		} else {
+			canvas.drawBitmap(bitmap, x - hitboxHalfWidth, y - hitboxHalfHeight, null);
+		}
 	}
 
 	@Override
 	public void onCollision(DrawObject object) {
-		// TODO
+		hit_frames = MAX_HIT_FRAMES;
 	}
 
 }
