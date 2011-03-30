@@ -6,7 +6,7 @@
 	android:versionCode="1"
 	android:installLocation="preferExternal">
 	<uses-sdk
-		android:minSdkVersion="3"
+		android:minSdkVersion="4"
 		android:targetSdkVersion="9"
 	/>
 	<application
