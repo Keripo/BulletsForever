@@ -172,7 +172,10 @@ public class DrawWorld extends View {
 						!bullet.boss
 						&& bx > boxMin && bx < boxMax && by > boyMin && by < boyMax
 						) {
-					boss.onCollision(bullet);
+					int currentLevel = boss.getLevel();  //get current level
+					boss.onCollision(bullet);            //checks boss HP - if its 0, boss level increments in DrawObjectBoss
+					if (boss.getLevel() > currentLevel)  //if new level is greater than current level, draw new next level boss
+						boss = new DrawObjectBoss(this, currentLevel+1);
 					bullet.remove = true;
 					collisionCount++; //necessary?
 				}

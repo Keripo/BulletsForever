@@ -61,8 +61,16 @@ public class DrawObjectBoss extends DrawObject {
 			0f,	0f, 0f, 0f, 0f, 0f, 
 			100f, 100f //not sure what would be a good size
 			);
-		
-		this.bitmap = dw.bl.getBitmap(R.drawable.icon, hitboxHalfWidth, hitboxHalfHeight);
+		//draw boss icon depending on level
+		this.level = level;
+		if (level == 1)
+			this.bitmap = dw.bl.getBitmap(R.drawable.icon, hitboxHalfWidth, hitboxHalfHeight);
+		else if(level == 2)
+			this.bitmap = dw.bl.getBitmap(R.drawable.boss2f, hitboxHalfWidth, hitboxHalfHeight);
+		else if(level == 3)
+			this.bitmap = dw.bl.getBitmap(R.drawable.boss3f, hitboxHalfWidth, hitboxHalfHeight);
+		else
+			this.bitmap = dw.bl.getBitmap(R.drawable.boss4f, hitboxHalfWidth, hitboxHalfHeight);
 		this.dw = dw;
 		this.rand = new Random();
 		this.maxX = Settings.screenWidth - hitboxHalfWidth;
@@ -71,7 +79,7 @@ public class DrawObjectBoss extends DrawObject {
 		
 		this.level = level;
 		this.num_turrets = this.level * 8; //arbitrary 
-		this.health = this.num_turrets * 100;  
+		this.health = this.num_turrets * 50;  //also arbitrary - game balance
 		
 		this.turrets = new LinkedList<Turret>();
 		for (int i = 0; i < this.num_turrets; i++) {			
@@ -130,8 +138,10 @@ public class DrawObjectBoss extends DrawObject {
 	public void onCollision(DrawObject object) {
 		this.health--;
 		
-		if (this.health == 0)
-			return; //evolution not implemented!!!
+		if (this.health == 0){
+			level++;          //if health reaches 0, increment boss level
+			return;
+		}
 		
 		// A random turret is destroyed every 10 health lost
 		else if (this.health % 100 == 0 && !turrets.isEmpty()) {
@@ -140,6 +150,9 @@ public class DrawObjectBoss extends DrawObject {
 			else
 				this.turrets.removeLast();
 		}
+	}
+	public int getLevel(){
+		return level;
 	}
 
 
