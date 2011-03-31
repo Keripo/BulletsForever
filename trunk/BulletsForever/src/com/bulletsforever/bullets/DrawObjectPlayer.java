@@ -18,7 +18,8 @@ public class DrawObjectPlayer extends DrawObject {
 	public boolean shooting;
 	
 	private int hit_frames;
-	private Paint hit_filter;
+	private Paint hit_filter;	
+	
 	private static final int MAX_HIT_FRAMES = 5;
 	private static final float MAX_SPEED = 20f;
 	private static final float DAMP_RATIO = 0.75f;
@@ -29,10 +30,13 @@ public class DrawObjectPlayer extends DrawObject {
 			dw,
 			Settings.screenWidth / 2, Settings.screenHeight - 100,   //Set the initial location for the player
 			0f,	0f, 0f, 0f, 0f, 0f,
-			40f, 50f
+			20f, 25f
 			);
 		
-		bitmap = dw.bl.getBitmap(R.drawable.iconplayer, hitboxHalfWidth, hitboxHalfHeight);
+		// Note: Image is bigger than hitbox on purpose (4x the size)
+		bitmap = dw.bl.getBitmap(R.drawable.iconplayer, hitboxHalfWidth * 2, hitboxHalfHeight * 2);
+		drawOffsetX = hitboxHalfWidth * 2;
+		drawOffsetY = hitboxHalfHeight * 4;
 		tx = x; // Don't move
 		ty = y; // Don't move
 		shooting = false; // Don't shoot at first
@@ -66,22 +70,18 @@ public class DrawObjectPlayer extends DrawObject {
 		if (hit_frames > 0) {
 			hit_filter = new Paint();
 			hit_filter.setColorFilter(new PorterDuffColorFilter(Color.DKGRAY, PorterDuff.Mode.MULTIPLY));
-			canvas.drawBitmap(bitmap, x - hitboxHalfWidth, y - hitboxHalfHeight, hit_filter);
+			canvas.drawBitmap(bitmap, x - drawOffsetX, y - drawOffsetY, hit_filter);
 			hit_frames--;
-		} 
-		else if(health <= 200 && health > 100){
+		} else if(health <= 200 && health > 100){
 			hit_filter = new Paint();
 			hit_filter.setColorFilter(new PorterDuffColorFilter(Color.YELLOW, PorterDuff.Mode.MULTIPLY));
-			canvas.drawBitmap(bitmap, x - hitboxHalfWidth, y - hitboxHalfHeight, hit_filter);
-		}
-		
-		else if(health <= 100){
+			canvas.drawBitmap(bitmap, x - drawOffsetX, y - drawOffsetY, hit_filter);
+		} else if(health <= 100){
 			hit_filter = new Paint();
 			hit_filter.setColorFilter(new PorterDuffColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY));
-			canvas.drawBitmap(bitmap, x - hitboxHalfWidth, y - hitboxHalfHeight, hit_filter);
-		}
-		else {
-			canvas.drawBitmap(bitmap, x - hitboxHalfWidth, y - hitboxHalfHeight, null);
+			canvas.drawBitmap(bitmap, x - drawOffsetX, y - drawOffsetY, hit_filter);
+		} else {
+			canvas.drawBitmap(bitmap, x - drawOffsetX, y - drawOffsetY, null);
 		}
 	}
 
