@@ -5,7 +5,10 @@ import java.util.LinkedList;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.Paint.Align;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -192,7 +195,19 @@ public class DrawWorld extends View {
 		}
 		
 		// Game Over check
-		// TODO - Do something
+		if(player.health == 0){
+			Paint textPaint = new Paint();
+			textPaint.setColor(Color.WHITE);
+			textPaint.setTextSize(40f);
+			textPaint.setTextAlign(Align.CENTER);
+			textPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
+			Canvas canvas = new Canvas();
+			canvas.drawText(
+					"GAME OVER",
+					10f, 10f, textPaint);
+			
+			stopUpdating();
+		}
 		
 		// Player bullets with boss
 		// TODO - Do something
