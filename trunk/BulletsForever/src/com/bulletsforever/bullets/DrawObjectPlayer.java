@@ -13,12 +13,13 @@ import android.graphics.PorterDuffColorFilter;
  */
 public class DrawObjectPlayer extends DrawObject {
 
+	public int health = 300;
 	public float tx, ty;
 	public boolean shooting;
 	
 	private int hit_frames;
 	private Paint hit_filter;
-	private static final int MAX_HIT_FRAMES = 10;
+	private static final int MAX_HIT_FRAMES = 5;
 	private static final float MAX_SPEED = 20f;
 	private static final float DAMP_RATIO = 0.75f;
 	
@@ -38,8 +39,7 @@ public class DrawObjectPlayer extends DrawObject {
 		
 		// Damaged
 		hit_frames = 0;
-		hit_filter = new Paint();
-		hit_filter.setColorFilter(new PorterDuffColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY));
+		
 	}
 	
 	public void nextFrame() {
@@ -64,9 +64,23 @@ public class DrawObjectPlayer extends DrawObject {
 	@Override
 	public void draw(Canvas canvas) {
 		if (hit_frames > 0) {
+			hit_filter = new Paint();
+			hit_filter.setColorFilter(new PorterDuffColorFilter(Color.DKGRAY, PorterDuff.Mode.MULTIPLY));
 			canvas.drawBitmap(bitmap, x - hitboxHalfWidth, y - hitboxHalfHeight, hit_filter);
 			hit_frames--;
-		} else {
+		} 
+		else if(health <= 200 && health > 100){
+			hit_filter = new Paint();
+			hit_filter.setColorFilter(new PorterDuffColorFilter(Color.YELLOW, PorterDuff.Mode.MULTIPLY));
+			canvas.drawBitmap(bitmap, x - hitboxHalfWidth, y - hitboxHalfHeight, hit_filter);
+		}
+		
+		else if(health <= 100){
+			hit_filter = new Paint();
+			hit_filter.setColorFilter(new PorterDuffColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY));
+			canvas.drawBitmap(bitmap, x - hitboxHalfWidth, y - hitboxHalfHeight, hit_filter);
+		}
+		else {
 			canvas.drawBitmap(bitmap, x - hitboxHalfWidth, y - hitboxHalfHeight, null);
 		}
 	}
@@ -74,6 +88,8 @@ public class DrawObjectPlayer extends DrawObject {
 	@Override
 	public void onCollision(DrawObject object) {
 		hit_frames = MAX_HIT_FRAMES;
+		health--;
+		
 	}
 
 }
