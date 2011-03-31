@@ -50,7 +50,7 @@ public class DrawObjectBoss extends DrawObject {
 			dw.addBullet(new DrawObjectBullet(dw, 
 					true, 
 					this.x, this.y, 
-					10f, 0f, 0f, 0f, angle, 0f
+					4f, 0f, 0f, 0f, angle, 0f
 					));
 		}
 	}
@@ -59,18 +59,28 @@ public class DrawObjectBoss extends DrawObject {
 		super(dw, 
 			Settings.screenWidth / 2, Settings.screenHeight / 8,
 			0f,	0f, 0f, 0f, 0f, 0f, 
-			100f, 100f //not sure what would be a good size
+			75f, 75f //not sure what would be a good size
 			);
 		//draw boss icon depending on level
+		// Note: Image is bigger than hitbox on purpose (1.44x the size)
 		this.level = level;
-		if (level == 1)
-			this.bitmap = dw.bl.getBitmap(R.drawable.icon, hitboxHalfWidth, hitboxHalfHeight);
-		else if(level == 2)
-			this.bitmap = dw.bl.getBitmap(R.drawable.boss2f, hitboxHalfWidth, hitboxHalfHeight);
-		else if(level == 3)
-			this.bitmap = dw.bl.getBitmap(R.drawable.boss3f, hitboxHalfWidth, hitboxHalfHeight);
-		else
-			this.bitmap = dw.bl.getBitmap(R.drawable.boss4f, hitboxHalfWidth, hitboxHalfHeight);
+		this.drawOffsetX = hitboxHalfWidth * 1.2f;
+		this.drawOffsetY = hitboxHalfHeight * 1.2f;
+		switch(level) {
+			default:
+			case 1:
+				bitmap = dw.bl.getBitmap(R.drawable.icon, drawOffsetX, drawOffsetY);
+				break;
+			case 2:
+				bitmap = dw.bl.getBitmap(R.drawable.boss2f, drawOffsetX, drawOffsetY);
+				break;
+			case 3:
+				bitmap = dw.bl.getBitmap(R.drawable.boss3f, drawOffsetX, drawOffsetY);
+				break;
+			case 4:
+				bitmap = dw.bl.getBitmap(R.drawable.boss4f, drawOffsetX, drawOffsetY);
+				break;
+		}
 		this.dw = dw;
 		this.rand = new Random();
 		this.maxX = Settings.screenWidth - hitboxHalfWidth;
@@ -109,8 +119,8 @@ public class DrawObjectBoss extends DrawObject {
 		else if (this.y > (Settings.screenYMax / 2)) //boss must stay on top half of screen
 			y = Settings.screenYMax / 2;
 		*/
-		x = x > maxX ? maxX : x < hitboxHalfWidth ? hitboxHalfWidth : x;
-		y = y > maxY ? maxY : y < hitboxHalfHeight ? hitboxHalfHeight : y;
+		x = x > maxX ? maxX : x < drawOffsetX ? drawOffsetY : x;
+		y = y > maxY ? maxY : y < drawOffsetY ? drawOffsetY : y;
 		
 		
 		// Chance of random movement every second (~60 frames) 
@@ -131,7 +141,7 @@ public class DrawObjectBoss extends DrawObject {
 	
 	@Override
 	public void draw(Canvas canvas) {
-		canvas.drawBitmap(bitmap, x - hitboxHalfWidth, y - hitboxHalfHeight, null);
+		canvas.drawBitmap(bitmap, x - drawOffsetX, y - drawOffsetY, null);
 	}
 
 	@Override

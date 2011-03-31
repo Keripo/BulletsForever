@@ -32,6 +32,7 @@ public abstract class DrawObject {
 	
 	// Hitbox
 	public float hitboxHalfWidth, hitboxHalfHeight;
+	public float drawOffsetX, drawOffsetY;
 	
 	// Initializer
 	public DrawObject(
@@ -56,6 +57,8 @@ public abstract class DrawObject {
 		this.angle_v = angle_v;
 		this.hitboxHalfWidth = hitboxHalfWidth;
 		this.hitboxHalfHeight = hitboxHalfHeight;
+		this.drawOffsetX = hitboxHalfWidth;
+		this.drawOffsetY = hitboxHalfHeight;
 		
 		calcAngle();
 	}// GOOD THINKING PHIL.
