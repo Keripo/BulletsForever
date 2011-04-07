@@ -43,4 +43,25 @@
 		<item>10</item>
 	</string-array>
 	
+	<string name="playerHealthTitle">Player HP</string>
+	<string name="playerHealthDesc">"Player\'s starting health point total"</string>
+	<string name="playerHealth">playerHealth</string>
+	<string name="playerHealthDefault">300</string>
+	<string-array name="playerHealthNames">
+		<item>100 HP</item>
+		<item>200 HP</item>
+		<item>300 HP</item>
+		<item>400 HP</item>
+		<item>500 HP</item>
+		<item>9000+ HP</item>
+	</string-array>
+	<string-array name="playerHealthValues">
+		<item>100</item>
+		<item>200</item>
+		<item>300</item>
+		<item>400</item>
+		<item>500</item>
+		<item>9999</item>
+	</string-array>
+	
 </resources>
