@@ -40,8 +40,8 @@ public class DrawObjectDynamicArm extends DrawObject {
 	private void fire() {
 		
 		// Calculate angle between this and player
-		float dx = this.x - dw.player.x;
-		float dy = Math.abs(this.y - dw.player.y);
+		float dx = dw.player.x - this.x;
+		float dy = Math.abs(dw.player.y - this.y);
 		float angle;
 		if (dy != 0)
 			angle = (float)(Math.atan(dx/dy) * 180f / (float)Math.PI); 
