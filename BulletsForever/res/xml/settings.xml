@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<!--
+	PreferenceScreen are screens showing settings
+	PreferenceCategories are the mini subsection/titles
+	ListPreference is a preference entry
+	
+	Make sure to also add the key and defaultValue to
+	Settings.java's key array or the setting won't load!
+-->
+	<PreferenceCategory android:title="Display Settings">
+		<ListPreference
+			android:title="@string/refreshDelayTitle"
+			android:summary="@string/refreshDelayDesc"
+			android:key="@string/refreshDelay"
+			android:defaultValue="@string/refreshDelayDefault"
+			android:entries="@array/refreshDelayNames"
+			android:entryValues="@array/refreshDelayValues" />
+		<ListPreference
+			android:title="@string/fpsUpdateFrequencyTitle"
+			android:summary="@string/fpsUpdateFrequencyDesc"
+			android:key="@string/fpsUpdateFrequency"
+			android:defaultValue="@string/fpsUpdateFrequencyDefault"
+			android:entries="@array/fpsUpdateFrequencyValues"
+			android:entryValues="@array/fpsUpdateFrequencyValues" />
+	</PreferenceCategory>
+</PreferenceScreen>
