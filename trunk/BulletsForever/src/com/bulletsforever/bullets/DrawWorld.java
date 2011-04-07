@@ -193,8 +193,21 @@ public class DrawWorld extends View {
 								boss.onCollision(bullet);
 								bullet.remove = true;
 								collisionCountBoss++;
-								if (boss.health == 0) 
-									boss = new DrawObjectDynamicBoss(this, boss.level, boss.side_power, boss.front_power);
+								if (boss.health == 0) {
+									switch (boss.next_evolution) {
+									case FRONT: 
+										boss = new DrawObjectDynamicBoss(this, 
+											boss.level, 
+											boss.side_power, 
+											boss.front_power+1);
+										break;
+									default:
+										boss = new DrawObjectDynamicBoss(this, 
+												boss.level, 
+												boss.side_power+1, 
+												boss.front_power);
+									}
+								}
 							}
 						}
 						
