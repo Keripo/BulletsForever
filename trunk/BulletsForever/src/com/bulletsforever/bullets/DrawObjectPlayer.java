@@ -13,13 +13,16 @@ import android.graphics.PorterDuffColorFilter;
  */
 public class DrawObjectPlayer extends DrawObject {
 
-	public int health = 300;
+	public int health;
 	public float tx, ty;
 	public boolean shooting;
 	
 	private int hit_frames;
 	private Paint hit_filter;	
 	
+	private static final int HP_MAX = 100;
+	private static final int HP_YELLOW = 50;
+	private static final int HP_RED = 25;
 	private static final int MAX_HIT_FRAMES = 5;
 	private static final float MAX_SPEED = 20f;
 	private static final float DAMP_RATIO = 0.75f;
@@ -42,6 +45,7 @@ public class DrawObjectPlayer extends DrawObject {
 		shooting = false; // Don't shoot at first
 		
 		// Damaged
+		health = HP_MAX;
 		hit_frames = 0;
 		
 	}
@@ -62,6 +66,24 @@ public class DrawObjectPlayer extends DrawObject {
 			dx = 0;
 			dy = 0;
 		}
+		
+		// Add player bullets
+		if (shooting && frame % 2 == 0) { // Fire every other frames
+			for (int i = 0; i < dw.boss.level; i++) {
+				// Randomly spray bullets in a 20 degree cone
+				float angle_offset = (float)(Math.random() - 0.5f) * 20f;
+				DrawObjectBullet bullet = new DrawObjectBullet(
+						dw, false,
+						x,
+						y,
+						10f, 5f,
+						0f, 0f,
+						180f + angle_offset, 0f
+				);	
+				dw.addBullet(bullet);
+			}
+		}
+		
 		super.nextFrame();
 	}
 	
@@ -72,11 +94,11 @@ public class DrawObjectPlayer extends DrawObject {
 			hit_filter.setColorFilter(new PorterDuffColorFilter(Color.DKGRAY, PorterDuff.Mode.MULTIPLY));
 			canvas.drawBitmap(bitmap, x - drawOffsetX, y - drawOffsetY, hit_filter);
 			hit_frames--;
-		} else if(health <= 200 && health > 100){
+		} else if(health <= HP_YELLOW && health > HP_RED){
 			hit_filter = new Paint();
 			hit_filter.setColorFilter(new PorterDuffColorFilter(Color.YELLOW, PorterDuff.Mode.MULTIPLY));
 			canvas.drawBitmap(bitmap, x - drawOffsetX, y - drawOffsetY, hit_filter);
-		} else if(health <= 100){
+		} else if(health <= HP_RED){
 			hit_filter = new Paint();
 			hit_filter.setColorFilter(new PorterDuffColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY));
 			canvas.drawBitmap(bitmap, x - drawOffsetX, y - drawOffsetY, hit_filter);

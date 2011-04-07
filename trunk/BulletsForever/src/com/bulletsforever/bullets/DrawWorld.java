@@ -121,8 +121,8 @@ public class DrawWorld extends View {
 	private void nextFrame() {
 		
 		// Update bullets
-		for (DrawObjectBullet bullet : player_bullets) 	bullet.nextFrame();
-		for (DrawObjectBullet bullet: boss_bullets) 	bullet.nextFrame();
+		for (DrawObjectBullet bullet : player_bullets)	bullet.nextFrame();
+		for (DrawObjectBullet bullet : boss_bullets)	bullet.nextFrame();
 		
 		// Update player
 		player.nextFrame();
@@ -135,19 +135,6 @@ public class DrawWorld extends View {
 		
 		// Check for collisions
 		checkCollisions();
-		
-		// Add player bullets
-		if (player.shooting) {
-			DrawObjectBullet bullet = new DrawObjectBullet(
-					this, false,
-					player.x,
-					player.y,
-					10f, 5f,
-					0f, 0f,
-					180f, 0f
-			);	
-			this.addBullet(bullet);
-		}
 	}
 	
 	// Called by update
