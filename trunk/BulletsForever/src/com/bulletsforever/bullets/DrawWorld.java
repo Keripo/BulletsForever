@@ -48,8 +48,10 @@ public class DrawWorld extends View {
 	protected DrawBitmapLoader bl;
 	protected DrawObjectHUD hud;
 	protected DrawObjectPlayer player;
-	protected DrawObjectBoss boss;
-	protected LinkedList<DrawObjectBullet> bullets;
+	/*protected DrawObjectBoss boss;*/
+	protected DrawObjectDynamicBoss boss;
+	protected LinkedList<DrawObjectBullet> player_bullets;
+	protected LinkedList<DrawObjectBullet> boss_bullets;
 	
 	// Initializer
 	public DrawWorld(Context c) {
@@ -74,7 +76,8 @@ public class DrawWorld extends View {
 	
 	// Clear all bullets
 	public void removeAllBullets() {
-		bullets = new LinkedList<DrawObjectBullet>();
+		player_bullets = new LinkedList<DrawObjectBullet>();
+		boss_bullets = new LinkedList<DrawObjectBullet>();
 		System.gc();
 	}
 	
@@ -86,7 +89,10 @@ public class DrawWorld extends View {
 	
 	// Add new drawable objects
 	public void addBullet(DrawObjectBullet bullet) {
-		bullets.add(bullet);
+		if (!bullet.boss)
+			player_bullets.add(bullet);
+		else
+			boss_bullets.add(bullet);
 	}
 	
 	// Called by initializer
@@ -94,8 +100,10 @@ public class DrawWorld extends View {
 		bl = new DrawBitmapLoader(this.getContext());
 		hud = new DrawObjectHUD(this);
 		player = new DrawObjectPlayer(this);
-		boss = new DrawObjectBoss(this, 1);
-		bullets = new LinkedList<DrawObjectBullet>();
+		/*boss = new DrawObjectBoss(this, 1);*/
+		boss = new DrawObjectDynamicBoss(this, 1, 1, 1);
+		player_bullets = new LinkedList<DrawObjectBullet>();
+		boss_bullets = new LinkedList<DrawObjectBullet>();
 	}
 	
 	// Control
@@ -113,9 +121,8 @@ public class DrawWorld extends View {
 	private void nextFrame() {
 		
 		// Update bullets
-		for (DrawObjectBullet bullet : bullets) {
-			bullet.nextFrame();
-		}
+		for (DrawObjectBullet bullet : player_bullets) 	bullet.nextFrame();
+		for (DrawObjectBullet bullet: boss_bullets) 	bullet.nextFrame();
 		
 		// Update player
 		player.nextFrame();
@@ -152,45 +159,71 @@ public class DrawWorld extends View {
 		float pyMin = player.y - player.hitboxHalfHeight;
 		float pyMax = player.y + player.hitboxHalfHeight;
 		
-		// Bullets with boss
-		float boxMin = boss.x - boss.hitboxHalfWidth;
-		float boxMax = boss.x + boss.hitboxHalfWidth;
-		float boyMin = boss.y - boss.hitboxHalfHeight;
-		float boyMax = boss.y + boss.hitboxHalfHeight;
-		
-		for (DrawObjectBullet bullet : bullets) {
+		for (DrawObjectBullet bullet : boss_bullets) {
 			float bx = bullet.x;
 			float by = bullet.y;
-			if (!bullet.remove) {
-				if (//player.hasCollided(bullet)) {
-					bullet.boss //to check if bullet is player's bullet
-					&& bx > pxMin && bx < pxMax && by > pyMin && by < pyMax	  
-					) { // Faster
-					player.onCollision(bullet);
-					//bullet.onCollision(player); // Does nothing
-					bullet.remove = true;
-					collisionCount++;
-				}
-				else if (
-						!bullet.boss
-						&& bx > boxMin && bx < boxMax && by > boyMin && by < boyMax
-						) {
-					int currentLevel = boss.getLevel();  //get current level
-					boss.onCollision(bullet);            //checks boss HP - if its 0, boss level increments in DrawObjectBoss
-					if (boss.getLevel() > currentLevel)  //if new level is greater than current level, draw new next level boss
-						boss = new DrawObjectBoss(this, currentLevel+1);
-					bullet.remove = true;
-					collisionCount++; //necessary?
-				}
+			if (!bullet.remove && bx > pxMin && bx < pxMax && by > pyMin && by < pyMax) { 
+				player.onCollision(bullet);
+				//bullet.onCollision(player); // Does nothing
+				bullet.remove = true;
+				collisionCount++;
 			}
 		}
+		
+		// Bullets with boss
+		
+		float boxMin, boxMax, boyMin, boyMax;
+		
+		/*for (DrawObjectBullet bullet: player_bullets)
+			if (!bullet.remove) {
+				float bx = bullet.x, by = bullet.y;
+				boxMin = boss.x - boss.hitboxHalfWidth;
+				boxMax = boss.x + boss.hitboxHalfWidth;
+				boyMin = boss.y - boss.hitboxHalfHeight;
+				boyMax = boss.y + boss.hitboxHalfHeight;
+				if (bx > boxMin && bx < boxMax && by > boyMin && by < boyMax) {
+					boss.onCollision(bullet);
+					bullet.remove = true;
+					collisionCount++;
+					if (boss.health == 0) 
+						boss = new DrawObjectBoss(this, boss.level);
+				}
+			}*/
+
+		for (DrawObjectBullet bullet: player_bullets)
+			if (!bullet.remove) 
+				if (!checkCollisionArm(boss.left, bullet))
+					if (!checkCollisionArm(boss.right, bullet))
+						if (!checkCollisionArm(boss.front, bullet)) {
+							float bx = bullet.x, by = bullet.y;
+							boxMin = boss.x - boss.hitboxHalfWidth;
+							boxMax = boss.x + boss.hitboxHalfWidth;
+							boyMin = boss.y - boss.hitboxHalfHeight;
+							boyMax = boss.y + boss.hitboxHalfHeight;
+							if (bx > boxMin && bx < boxMax && by > boyMin && by < boyMax) {
+								boss.onCollision(bullet);
+								bullet.remove = true;
+								collisionCount++;
+								if (boss.health == 0) 
+									boss = new DrawObjectDynamicBoss(this, boss.level, boss.side_power, boss.front_power);
+							}
+						}
+						
+								
 		// Cleanup collided bullets or bullets off-screen
 		// Use an iterator to prevent concurrency issues
-		Iterator<DrawObjectBullet> it = bullets.iterator();
-		while (it.hasNext()) {
-			DrawObjectBullet bullet = it.next();
+		Iterator<DrawObjectBullet> it1 = player_bullets.iterator();
+		while (it1.hasNext()) {
+			DrawObjectBullet bullet = it1.next();
 			if (bullet.remove) {
-				it.remove();
+				it1.remove();
+			}
+		}
+		Iterator<DrawObjectBullet> it2 = boss_bullets.iterator();
+		while (it2.hasNext()) {
+			DrawObjectBullet bullet = it2.next();
+			if (bullet.remove) {
+				it2.remove();
 			}
 		}
 		
@@ -214,6 +247,30 @@ public class DrawWorld extends View {
 		
 	}
 	
+	/* Helper method for checkCollisions()
+	 * Returns true if a collision happened */
+	private boolean checkCollisionArm(DrawObjectDynamicArm part, DrawObjectBullet bullet) {
+		float bx = bullet.x, by = bullet.y;
+		float boxMin, boxMax, boyMin, boyMax;
+		DrawObjectDynamicArm curr = part;
+
+		while (curr != null) {
+			boxMin = curr.x - curr.hitboxHalfWidth;
+			boxMax = curr.x + curr.hitboxHalfWidth;
+			boyMin = curr.y - curr.hitboxHalfHeight;
+			boyMax = curr.y + curr.hitboxHalfHeight;
+			
+			if (bx > boxMin && bx < boxMax && by > boyMin && by < boyMax) {
+				curr.onCollision(bullet);
+				bullet.remove = true;
+				collisionCount++;
+				return true;
+			}
+			curr = curr.child;
+		}
+		return false;
+	}
+	
 	// Called as a result of the refresh handler
 	@Override
 	protected void onDraw(Canvas canvas) {
@@ -229,10 +286,9 @@ public class DrawWorld extends View {
 		boss.draw(canvas);
 		
 		// Draw bullets
-		for (DrawObjectBullet bullet : bullets) {
-			bullet.draw(canvas);
-		}
-		
+		for (DrawObjectBullet bullet : player_bullets) 	bullet.draw(canvas);
+		for (DrawObjectBullet bullet : boss_bullets) 	bullet.draw(canvas);
+
 		// Draw player
 		player.draw(canvas);
 		
