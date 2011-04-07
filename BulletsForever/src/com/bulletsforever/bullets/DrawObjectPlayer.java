@@ -20,9 +20,10 @@ public class DrawObjectPlayer extends DrawObject {
 	private int hit_frames;
 	private Paint hit_filter;	
 	
-	private static final int HP_MAX = 100;
-	private static final int HP_YELLOW = 50;
-	private static final int HP_RED = 25;
+	private int HP_MAX;
+	private int HP_YELLOW;
+	private int HP_RED;
+	
 	private static final int MAX_HIT_FRAMES = 5;
 	private static final float MAX_SPEED = 20f;
 	private static final float DAMP_RATIO = 0.75f;
@@ -44,7 +45,10 @@ public class DrawObjectPlayer extends DrawObject {
 		ty = y; // Don't move
 		shooting = false; // Don't shoot at first
 		
-		// Damaged
+		// Health
+		HP_MAX = Settings.getInt(R.string.playerHealth);
+		HP_YELLOW = HP_MAX / 3;
+		HP_RED = HP_MAX / 5;
 		health = HP_MAX;
 		hit_frames = 0;
 		
