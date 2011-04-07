@@ -69,8 +69,8 @@ public class DrawObjectHUD extends DrawObject {
 		// Info
 		canvas.drawText(
 				String.format(
-						"%s - Bullets: %d, Collisions: %d",
-						dw.mode.toString(), dw.bullets.size(), dw.collisionCount),
+						"%s - PBullets: %d, , BBullets: %d, Collisions: %d",
+						dw.mode.toString(), dw.player_bullets.size(), dw.boss_bullets.size(), dw.collisionCount),
 				infoX, infoY, textPaint);
 		
 		// FPS counter
