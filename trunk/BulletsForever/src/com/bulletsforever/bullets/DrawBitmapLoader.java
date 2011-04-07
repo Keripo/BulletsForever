@@ -22,6 +22,7 @@ public class DrawBitmapLoader {
 	}
 	
 	// Get a Bitmap to draw
+	// Note: do not try to load the same image resource with different dimensions
 	public Bitmap getBitmap(int id, float halfWidth, float halfHeight) {
 		Bitmap b = bitmaps.get(id);
 		if (b == null) {

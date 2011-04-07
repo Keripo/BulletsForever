@@ -18,7 +18,7 @@ public class DrawObjectDynamicArm extends DrawObject {
 			core.hitboxHalfWidth / 2, core.hitboxHalfHeight / 2 //half as large as boss core
 			);
 		
-		this.bitmap = dw.bl.getBitmap(R.drawable.icon, this.drawOffsetX, this.drawOffsetY);
+		this.bitmap = dw.bl.getBitmap(R.drawable.jms, this.drawOffsetX, this.drawOffsetY);
 		
 		this.core = core;
 		this.displacex = displacex;
@@ -60,6 +60,7 @@ public class DrawObjectDynamicArm extends DrawObject {
 	
 	public void draw(Canvas canvas) {
 		canvas.drawBitmap(bitmap, x - drawOffsetX, y - drawOffsetY, null);
+		drawDebugCircle(canvas); // FIXME For debugging
 	}
 
 	public void onCollision(DrawObject object) {

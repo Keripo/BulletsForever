@@ -2,6 +2,8 @@ package com.bulletsforever.bullets;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 /**
  * This is DrawWorld's drawable objects
@@ -11,6 +13,9 @@ import android.graphics.Canvas;
  */
 public abstract class DrawObject {
 
+	// For debugging
+	protected static Paint debugCirclePaint;
+	
 	// For info and details
 	public DrawWorld dw;
 	public Bitmap bitmap;
@@ -65,6 +70,15 @@ public abstract class DrawObject {
 	
 	// Canvas-specific drawing
 	public abstract void draw(Canvas canvas);
+	
+	// Call this to draw a small circle at the centre of the DrawObject
+	public void drawDebugCircle(Canvas canvas) {
+		if (debugCirclePaint == null) {
+			debugCirclePaint = new Paint();
+			debugCirclePaint.setColor(Color.RED);
+		}
+		canvas.drawCircle(this.x, this.y, 5f, debugCirclePaint);
+	}
 	
 	public void calcAngle() {
 		// Calculate initial velocity
