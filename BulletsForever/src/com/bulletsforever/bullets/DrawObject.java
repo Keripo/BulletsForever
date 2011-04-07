@@ -15,6 +15,7 @@ public abstract class DrawObject {
 
 	// For debugging
 	protected static Paint debugCirclePaint;
+	protected static Paint debugRectPaint;
 	
 	// For info and details
 	public DrawWorld dw;
@@ -71,13 +72,23 @@ public abstract class DrawObject {
 	// Canvas-specific drawing
 	public abstract void draw(Canvas canvas);
 	
-	// Call this to draw a small circle at the centre of the DrawObject
+	// Call this to draw a small circle at the centre and box indicating hitbox
 	public void drawDebugCircle(Canvas canvas) {
 		if (debugCirclePaint == null) {
 			debugCirclePaint = new Paint();
 			debugCirclePaint.setColor(Color.RED);
+			debugCirclePaint.setAlpha(128);
 		}
-		canvas.drawCircle(this.x, this.y, 5f, debugCirclePaint);
+		if (debugRectPaint == null) {
+			debugRectPaint = new Paint();
+			debugRectPaint.setColor(Color.BLUE);
+			debugRectPaint.setAlpha(128);
+		}
+		canvas.drawRect(
+				x - hitboxHalfWidth, y - hitboxHalfHeight, x + hitboxHalfWidth, y + hitboxHalfHeight,
+				debugRectPaint
+				);
+		canvas.drawCircle(x, y, 5f, debugCirclePaint);
 	}
 	
 	public void calcAngle() {
