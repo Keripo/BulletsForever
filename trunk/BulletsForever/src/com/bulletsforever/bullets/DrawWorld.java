@@ -227,21 +227,6 @@ public class DrawWorld extends View {
 			}
 		}
 		
-		// Game Over check
-		if(player.health == 0){
-			Paint textPaint = new Paint();
-			textPaint.setColor(Color.WHITE);
-			textPaint.setTextSize(40f);
-			textPaint.setTextAlign(Align.CENTER);
-			textPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
-			Canvas canvas = new Canvas();
-			canvas.drawText(
-					"GAME OVER",
-					10f, 10f, textPaint);
-			
-			stopUpdating();
-		}
-		
 		// Player bullets with boss
 		// TODO - Do something
 		
@@ -294,6 +279,18 @@ public class DrawWorld extends View {
 		
 		// Draw HUD last
 		hud.draw(canvas);
+		
+		// Game Over check
+		if(player.health == 0){
+			Paint textPaint = new Paint();
+			textPaint.setColor(Color.WHITE);
+			textPaint.setTextSize(Settings.screenWidth / 7); // Relative to screen width
+			textPaint.setTextAlign(Align.CENTER);
+			textPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
+			canvas.drawText("GAME OVER", Settings.screenWidth / 2, Settings.screenHeight / 2, textPaint);
+			// Stop game after this last draw
+			stopUpdating();
+		}
 	}
 	
 	// Move this code to DrawKeyHandler for better code organization
