@@ -42,7 +42,8 @@ public class DrawWorld extends View {
 	
 	protected DemoMode mode;
 	protected int frame;
-	protected int collisionCount;
+	protected int collisionCountBoss;
+	protected int collisionCountPlayer;
 	
 	// DrawObjects
 	protected DrawBitmapLoader bl;
@@ -63,7 +64,8 @@ public class DrawWorld extends View {
 		setupDraw();
 		mode = DemoMode.MOVE;
 		frame = 0;
-		collisionCount = 0;
+		collisionCountBoss = 0;
+		collisionCountPlayer = 0;
 		
 		// Handlers
 		refreshHandler = new DrawRefreshHandler(this, Settings.getInt(R.string.refreshDelay));
@@ -153,7 +155,7 @@ public class DrawWorld extends View {
 				player.onCollision(bullet);
 				//bullet.onCollision(player); // Does nothing
 				bullet.remove = true;
-				collisionCount++;
+				collisionCountPlayer++;
 			}
 		}
 		
@@ -190,7 +192,7 @@ public class DrawWorld extends View {
 							if (bx > boxMin && bx < boxMax && by > boyMin && by < boyMax) {
 								boss.onCollision(bullet);
 								bullet.remove = true;
-								collisionCount++;
+								collisionCountBoss++;
 								if (boss.health == 0) 
 									boss = new DrawObjectDynamicBoss(this, boss.level, boss.side_power, boss.front_power);
 							}
@@ -235,7 +237,7 @@ public class DrawWorld extends View {
 			if (bx > boxMin && bx < boxMax && by > boyMin && by < boyMax) {
 				curr.onCollision(bullet);
 				bullet.remove = true;
-				collisionCount++;
+				collisionCountBoss++;
 				return true;
 			}
 			curr = curr.child;

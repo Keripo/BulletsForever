@@ -22,7 +22,8 @@ public class DrawObjectHUD extends DrawObject {
 	private float fpsX, fpsY;
 	
 	// Info
-	private float infoX, infoY;
+	private float infoX1, infoY1;
+	private float infoX2, infoY2;
 	
 	// Box
 	private Paint boxPaint;
@@ -39,19 +40,21 @@ public class DrawObjectHUD extends DrawObject {
 		textPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.ITALIC));
 		
 		// Info
-		infoX = 10f;
-		infoY = 10f + textPaint.getFontSpacing();
+		infoX1 = 10f;
+		infoY1 = textPaint.getFontSpacing();
+		infoX2 = 10f;
+		infoY2 = infoY1 + textPaint.getFontSpacing();
 		
 		// FPS counter
 		fpsCounter = new ToolsFPSCounter(Settings.getInt(R.string.fpsUpdateFrequency));
 		fpsX = 10f;
-		fpsY = infoY + 10f + textPaint.getFontSpacing();
+		fpsY = infoY2 + textPaint.getFontSpacing();
 		
 		// Box
 		boxPaint = new Paint();
 		boxPaint.setARGB(255/2, 32, 128, 32); // Dark green
 		boxRect = new Rect();
-		boxRect.set(0, 0, Settings.screenWidth, (int)(fpsY + textPaint.getFontSpacing()));
+		boxRect.set(0, 0, Settings.screenWidth, (int)(fpsY + textPaint.getFontSpacing() / 2));
 		
 	}
 	
@@ -69,9 +72,18 @@ public class DrawObjectHUD extends DrawObject {
 		// Info
 		canvas.drawText(
 				String.format(
-						"%s - PBullets: %d, , BBullets: %d, Collisions: %d",
-						dw.mode.toString(), dw.player_bullets.size(), dw.boss_bullets.size(), dw.collisionCount),
-				infoX, infoY, textPaint);
+						"Player: HP: %d, Bullets: %d, Collisions: %d",
+						dw.player.health,
+						dw.player_bullets.size(),
+						dw.collisionCountPlayer),
+				infoX1, infoY1, textPaint);
+		canvas.drawText(
+				String.format(
+						"Boss: HP: %d, Bullets: %d, Collisions: %d",
+						dw.boss.health,
+						dw.boss_bullets.size(),
+						dw.collisionCountBoss),
+				infoX2, infoY2, textPaint);
 		
 		// FPS counter
 		canvas.drawText(fpsCounter.getDisplayedFPS(), fpsX, fpsY, textPaint);
