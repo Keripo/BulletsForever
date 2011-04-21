@@ -17,8 +17,8 @@ public class GameMain extends Activity {
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Settings.reload(this);
-		Settings.setScreenDimensions(this);
+		//Settings.reload(this);
+		//Settings.setScreenDimensions(this);
 		System.gc(); // Cleanup before setup
 		
 		// Fullscreen

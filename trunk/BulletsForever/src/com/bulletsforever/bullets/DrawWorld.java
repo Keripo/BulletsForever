@@ -54,6 +54,10 @@ public class DrawWorld extends View {
 	protected LinkedList<DrawObjectBullet> player_bullets;
 	protected LinkedList<DrawObjectBullet> boss_bullets;
 	
+	// SoundPool
+	protected AudioSoundPool sp;
+	protected int sfxBoss, sfxGameOver;
+	
 	// Initializer
 	public DrawWorld(Context c) {
 		super(c);
@@ -61,6 +65,7 @@ public class DrawWorld extends View {
 		this.requestFocus();
 		
 		// Setup
+		setupSound();
 		setupDraw();
 		mode = DemoMode.MOVE;
 		frame = 0;
@@ -76,6 +81,13 @@ public class DrawWorld extends View {
 		refreshHandler.start();
 	}
 	
+	// Setup Sound
+	private void setupSound() {
+		sp = new AudioSoundPool(getContext());
+		sfxBoss = sp.load(R.raw.fanfare);
+		sfxGameOver = sp.load(R.raw.oyasumi);
+	}
+	
 	// Clear all bullets
 	public void removeAllBullets() {
 		player_bullets = new LinkedList<DrawObjectBullet>();
@@ -87,6 +99,7 @@ public class DrawWorld extends View {
 	public void onDestroy() {
 		removeAllBullets();
 		bl.onDestroy();
+		sp.onDestroy();
 	}
 	
 	// Add new drawable objects
@@ -207,6 +220,7 @@ public class DrawWorld extends View {
 												boss.side_power+1, 
 												boss.front_power);
 									}
+									sp.play(sfxBoss);
 								}
 							}
 						}
@@ -291,6 +305,7 @@ public class DrawWorld extends View {
 			textPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
 			canvas.drawText("GAME OVER", Settings.screenWidth / 2, Settings.screenHeight / 2, textPaint);
 			// Stop game after this last draw
+			sp.play(sfxGameOver);
 			stopUpdating();
 		}
 	}

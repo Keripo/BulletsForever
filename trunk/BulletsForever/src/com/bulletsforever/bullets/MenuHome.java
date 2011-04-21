@@ -3,6 +3,7 @@ package com.bulletsforever.bullets;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -16,33 +17,40 @@ import android.view.View.OnClickListener;
  */
 public class MenuHome extends Activity {
 	
-	ToolsMusicPlayer p;
-	int soundId_techno;
+	AudioMusicPlayer mp;
 	
 	@Override
-    public void onCreate(Bundle savedInstanceState) {
-    	super.onCreate(savedInstanceState);
-    	
-    	// Fullscreen
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		// Fullscreen
 		requestWindowFeature(Window.FEATURE_NO_TITLE); 
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		Settings.reload(this);
 		
-    	// Splash screen
-        setContentView(R.layout.main);
-        findViewById(R.id.splash).setOnClickListener(
-        	new OnClickListener() {
+		// Splash screen
+		setContentView(R.layout.main);
+		findViewById(R.id.splash).setOnClickListener(
+			new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					startGame();
 				}
-        	}
-        );
-        
-        // Background music
-        p = new ToolsMusicPlayer(this);
-        soundId_techno = p.load(R.raw.techno);
-        p.play(soundId_techno);
-    }
+			}
+		);
+
+		// Music Player
+		if (Settings.getBoolean(R.string.bgmusic)) {
+			try {
+				mp = new AudioMusicPlayer();
+				mp.load(getAssets().openFd("bgmusic/techno.mp3").getFileDescriptor());
+				mp.start();
+			} catch (Exception e) {
+				Log.v(e.getClass().getName(), e.getMessage());
+			}
+		}
+		
+	}
 	
 	// Launch!
 	private void startGame() {
@@ -66,7 +74,7 @@ public class MenuHome extends Activity {
 	
 	@Override
 	public void onDestroy() {
-		p.onDestroy();
+		if (mp != null) mp.onDestroy();
 		super.onDestroy();
 	}
 }

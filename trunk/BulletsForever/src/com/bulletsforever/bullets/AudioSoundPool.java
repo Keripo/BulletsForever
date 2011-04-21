@@ -5,21 +5,21 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 
 /**
- * This is for playing music files
- * This should be set up by MenuHome
+ * This is for playing sound effects
+ * This should be set up by GameMain
  */
-public class ToolsMusicPlayer {
+public class AudioSoundPool {
 	
 	private SoundPool p;
 	private Context c;
 	
 	// Constructor
-	public ToolsMusicPlayer(Context c) {
+	public AudioSoundPool(Context c) {
 		this.c = c;
 		p = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
 	}
 	
-	// Load a new music file, returns a sound ID to reference
+	// Load a new wav file, returns a sound ID to reference
 	public int load(int resId) {
 		return p.load(c, resId, 1);
 	}
@@ -36,6 +36,9 @@ public class ToolsMusicPlayer {
 	}
 	public void play(int soundId) {
 		p.play(soundId, 1, 1f, 1, 0, 1);
+	}
+	public void playLoop(int soundId) {
+		p.play(soundId, 1, 1f, 1, -1, 1);
 	}
 	public void pause(int soundId) {
 		p.pause(soundId);

@@ -10,6 +10,11 @@
 		<item>1</item>
 	</string-array>
 	
+	<string name="bgmusicTitle">Background Music</string>
+	<string name="bgmusicDesc">"Turn background music on/off (app restart needed)"</string>
+	<string name="bgmusic">bgmusic</string>
+	<string name="bgmusicDefault">1</string>
+	
 	<string name="refreshDelayTitle">Refresh Rate</string>
 	<string name="refreshDelayDesc">Screen refresh rate (controls max FPS)</string>
 	<string name="refreshDelay">refreshDelay</string>

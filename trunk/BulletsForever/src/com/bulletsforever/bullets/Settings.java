@@ -24,6 +24,7 @@ public class Settings {
 	
 	// Manually keep this updated with settings.xml
 	private static int[][] keys = {
+		{R.string.bgmusic,				R.string.bgmusicDefault},
 		{R.string.playerHealth,			R.string.playerHealthDefault},
 		{R.string.refreshDelay,			R.string.refreshDelayDefault},
 		{R.string.fpsUpdateFrequency,	R.string.fpsUpdateFrequencyDefault}
