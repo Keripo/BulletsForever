@@ -16,6 +16,9 @@ import android.view.View.OnClickListener;
  */
 public class MenuHome extends Activity {
 	
+	ToolsMusicPlayer p;
+	int soundId_techno;
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
@@ -34,6 +37,11 @@ public class MenuHome extends Activity {
 				}
         	}
         );
+        
+        // Background music
+        p = new ToolsMusicPlayer(this);
+        soundId_techno = p.load(R.raw.techno);
+        p.play(soundId_techno);
     }
 	
 	// Launch!
@@ -54,5 +62,11 @@ public class MenuHome extends Activity {
 		} else {
 			return super.onKeyDown(keyCode, event);
 		}
+	}
+	
+	@Override
+	public void onDestroy() {
+		p.onDestroy();
+		super.onDestroy();
 	}
 }
