@@ -14,8 +14,8 @@
 			android:summary="@string/bgmusicDesc"
 			android:key="@string/bgmusic"
 			android:defaultValue="@string/bgmusicDefault"
-			android:entries="@array/toggleNames"
-			android:entryValues="@array/toggleValues" />
+			android:entries="@array/bgmusicNames"
+			android:entryValues="@array/bgmusicValues" />
 		<ListPreference
 			android:title="@string/playerHealthTitle"
 			android:summary="@string/playerHealthDesc"
@@ -39,5 +39,14 @@
 			android:defaultValue="@string/fpsUpdateFrequencyDefault"
 			android:entries="@array/fpsUpdateFrequencyValues"
 			android:entryValues="@array/fpsUpdateFrequencyValues" />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="Misc">
+		<ListPreference
+			android:title="@string/debugHitboxesTitle"
+			android:summary="@string/debugHitboxesDesc"
+			android:key="@string/debugHitboxes"
+			android:defaultValue="@string/debugHitboxesDefault"
+			android:entries="@array/toggleNames"
+			android:entryValues="@array/toggleValues" />
 	</PreferenceCategory>
 </PreferenceScreen>

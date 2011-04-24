@@ -40,10 +40,23 @@ public class MenuHome extends Activity {
 		);
 
 		// Music Player
-		if (Settings.getBoolean(R.string.bgmusic)) {
+		String bgmusic = "";
+		switch (Settings.getInt(R.string.bgmusic)) {
+			case 1:
+				bgmusic = "bgmusic/techno.mp3";
+				break;
+			case 2:
+				//bgmusic = "bgmusic/classical.mp3"; // TODO
+				bgmusic = "bgmusic/techno.mp3";
+				break;
+			case 0:
+			default:
+				break;
+		}
+		if (!bgmusic.equals("")) {
 			try {
 				mp = new AudioMusicPlayer();
-				mp.load(getAssets().openFd("bgmusic/techno.mp3").getFileDescriptor());
+				mp.load(getAssets().openFd(bgmusic).getFileDescriptor());
 				mp.start();
 			} catch (Exception e) {
 				Log.v(e.getClass().getName(), e.getMessage());

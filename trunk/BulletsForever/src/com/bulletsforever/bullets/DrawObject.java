@@ -73,7 +73,7 @@ public abstract class DrawObject {
 	public abstract void draw(Canvas canvas);
 	
 	// Call this to draw a small circle at the centre and box indicating hitbox
-	public void drawDebugCircle(Canvas canvas) {
+	public void drawDebug(Canvas canvas) {
 		if (debugCirclePaint == null) {
 			debugCirclePaint = new Paint();
 			debugCirclePaint.setColor(Color.RED);
