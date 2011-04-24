@@ -53,6 +53,7 @@ public class DrawWorld extends View {
 	protected DrawObjectDynamicBoss boss;
 	protected LinkedList<DrawObjectBullet> player_bullets;
 	protected LinkedList<DrawObjectBullet> boss_bullets;
+	protected boolean drawDebugHitboxes;
 	
 	// SoundPool
 	protected AudioSoundPool sp;
@@ -119,6 +120,7 @@ public class DrawWorld extends View {
 		boss = new DrawObjectDynamicBoss(this, 1, 1, 1);
 		player_bullets = new LinkedList<DrawObjectBullet>();
 		boss_bullets = new LinkedList<DrawObjectBullet>();
+		drawDebugHitboxes = Settings.getBoolean(R.string.debugHitboxes);
 	}
 	
 	// Control
@@ -307,6 +309,12 @@ public class DrawWorld extends View {
 			// Stop game after this last draw
 			sp.play(sfxGameOver);
 			stopUpdating();
+		}
+		
+		// Debug hitboxes
+		if (drawDebugHitboxes) {
+			boss.drawDebug(canvas);
+			player.drawDebug(canvas);
 		}
 	}
 	

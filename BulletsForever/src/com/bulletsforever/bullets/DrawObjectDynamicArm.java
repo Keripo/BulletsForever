@@ -60,7 +60,6 @@ public class DrawObjectDynamicArm extends DrawObject {
 	
 	public void draw(Canvas canvas) {
 		canvas.drawBitmap(bitmap, x - drawOffsetX, y - drawOffsetY, null);
-		drawDebugCircle(canvas); // FIXME For debugging
 	}
 
 	public void onCollision(DrawObject object) {

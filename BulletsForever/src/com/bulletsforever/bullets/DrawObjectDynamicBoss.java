@@ -193,10 +193,25 @@ public class DrawObjectDynamicBoss extends DrawObject {
 		drawArm(this.front, canvas);
 	}
 	
+	public void drawDebug(Canvas canvas) {
+		super.drawDebug(canvas);
+		drawArmDebug(this.left, canvas);
+		drawArmDebug(this.right, canvas);
+		drawArmDebug(this.front, canvas);
+	}
+	
 	private void drawArm(DrawObjectDynamicArm part, Canvas canvas) {
 		DrawObjectDynamicArm curr = part;
 		while (curr != null) {
 			curr.draw(canvas);
+			curr = curr.child;
+		}
+	}
+	
+	private void drawArmDebug(DrawObjectDynamicArm part, Canvas canvas) {
+		DrawObjectDynamicArm curr = part;
+		while (curr != null) {
+			curr.drawDebug(canvas);
 			curr = curr.child;
 		}
 	}
