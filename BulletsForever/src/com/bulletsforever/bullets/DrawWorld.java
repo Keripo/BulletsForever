@@ -121,7 +121,7 @@ public class DrawWorld extends View {
 		hud = new DrawObjectHUD(this);
 		player = new DrawObjectPlayer(this);
 		/*boss = new DrawObjectBoss(this, 1);*/
-		boss = new DrawObjectDynamicBoss(this, 1, 1, 1);
+		boss = new DrawObjectDynamicBoss(this, 1, 1, 1, 1);
 		player_bullets = new LinkedList<DrawObjectBullet>();
 		boss_bullets = new LinkedList<DrawObjectBullet>();
 		drawDebugHitboxes = Settings.getBoolean(R.string.debugHitboxes);
@@ -232,19 +232,27 @@ public class DrawWorld extends View {
 								boss.onCollision(bullet);
 								bullet.remove = true;
 								collisionCountBoss++;
-								if (boss.health == 0) {
+								if (boss.health == 0) {									
 									switch (boss.next_evolution) {
-									case FRONT: 
-										boss = new DrawObjectDynamicBoss(this, 
-											boss.level, 
-											boss.side_power, 
-											boss.front_power+1);
-										break;
-									default:
+									case LEFT:
 										boss = new DrawObjectDynamicBoss(this, 
 												boss.level, 
-												boss.side_power+1, 
+												boss.left_power+1, 
+												boss.right_power,
 												boss.front_power);
+									case RIGHT:
+										boss = new DrawObjectDynamicBoss(this, 
+												boss.level, 
+												boss.left_power, 
+												boss.right_power+1,
+												boss.front_power);
+									default: 
+										boss = new DrawObjectDynamicBoss(this, 
+											boss.level, 
+											boss.left_power,
+											boss.right_power,
+											boss.front_power+1);
+										break;
 									}
 									sp.play(sfxBoss);
 								}
