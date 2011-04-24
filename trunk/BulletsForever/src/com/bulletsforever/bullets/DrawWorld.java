@@ -7,6 +7,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.Paint.Align;
 import android.view.KeyEvent;
@@ -39,6 +41,8 @@ public class DrawWorld extends View {
 	// DrawWorld variables
 	private DrawRefreshHandler refreshHandler;
 	private DrawKeyHandler keyHandler;
+	boolean bigCollision = false;
+	
 	
 	protected DemoMode mode;
 	protected int frame;
@@ -156,13 +160,34 @@ public class DrawWorld extends View {
 	
 	// Called by update
 	private void checkCollisions() {
+		bigCollision = false;
 		
-		// Bullets with players
+		float boxMin, boxMax, boyMin, boyMax;
+		
+		
 		float pxMin = player.x - player.hitboxHalfWidth;
 		float pxMax = player.x + player.hitboxHalfWidth;
 		float pyMin = player.y - player.hitboxHalfHeight;
 		float pyMax = player.y + player.hitboxHalfHeight;
 		
+		boxMin = boss.x - boss.hitboxHalfWidth;
+		boxMax = boss.x + boss.hitboxHalfWidth;
+		boyMin = boss.y - boss.hitboxHalfHeight;
+		boyMax = boss.y + boss.hitboxHalfHeight;
+		
+		
+// Collision of boss with Player
+		
+		if(  (pxMax>boxMin && pxMin<boxMax)&& (pyMin<boyMax && pyMax>boyMin))
+		{
+			bigCollision = true;
+			player.health -= 0.00000000000005;
+		}
+		
+		
+		
+		
+		// Bullets with player
 		for (DrawObjectBullet bullet : boss_bullets) {
 			float bx = bullet.x;
 			float by = bullet.y;
@@ -176,7 +201,6 @@ public class DrawWorld extends View {
 		
 		// Bullets with boss
 		
-		float boxMin, boxMax, boyMin, boyMax;
 		
 		/*for (DrawObjectBullet bullet: player_bullets)
 			if (!bullet.remove) {
@@ -245,8 +269,7 @@ public class DrawWorld extends View {
 			}
 		}
 		
-		// Player bullets with boss
-		// TODO - Do something
+		
 		
 	}
 	
@@ -299,16 +322,45 @@ public class DrawWorld extends View {
 		hud.draw(canvas);
 		
 		// Game Over check
-		if(player.health == 0){
+		if(player.health <= 0){
 			Paint textPaint = new Paint();
-			textPaint.setColor(Color.WHITE);
+			textPaint.setColor(Color.argb(255, 238, 0, 0));
 			textPaint.setTextSize(Settings.screenWidth / 7); // Relative to screen width
 			textPaint.setTextAlign(Align.CENTER);
 			textPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
 			canvas.drawText("GAME OVER", Settings.screenWidth / 2, Settings.screenHeight / 2, textPaint);
+			
+		
+			Paint textPaint2 = new Paint();
+			textPaint2.setColor(Color.argb(255, 255, 165, 0));
+			textPaint2.setTextSize(Settings.screenWidth / 20); // Relative to screen width
+			textPaint2.setTextAlign(Align.CENTER);
+			textPaint2.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
+			canvas.drawText("To restart game press 'back' button", Settings.screenWidth / 2 , (  (Settings.screenHeight / 2)+(Settings.screenWidth / 7)) , textPaint2);
+				
+				
+				
+			Paint textPaint3 = new Paint();
+			textPaint3.setColor(Color.rgb(0, 205, 0));
+			textPaint3.setTextSize(Settings.screenWidth / 20); // Relative to screen width
+			textPaint3.setTextAlign(Align.CENTER);
+			textPaint3.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
+			canvas.drawText("To restart level press 'menu' button", Settings.screenWidth / 2 , (  (Settings.screenHeight / 2)+(2*Settings.screenWidth / 7)) , textPaint3);
+				
+			
+
+			
+			
+			
+			
+			
+			
 			// Stop game after this last draw
 			sp.play(sfxGameOver);
 			stopUpdating();
+			
+
+			
 		}
 		
 		// Debug hitboxes

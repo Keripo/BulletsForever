@@ -221,4 +221,5 @@ public class DrawObjectDynamicBoss extends DrawObject {
 		if (this.health == 0) 
 			this.level++;
 	}
+	
 }
