@@ -19,6 +19,7 @@ public class DrawObjectPlayer extends DrawObject {
 	
 	private int hit_frames;
 	private Paint hit_filter;	
+	private Paint collision_filter;
 	
 	private int HP_MAX;
 	private int HP_YELLOW;
@@ -91,6 +92,10 @@ public class DrawObjectPlayer extends DrawObject {
 		super.nextFrame();
 	}
 	
+	int flag_red = 0;
+	int flag_green=0;
+	int flag_blue=0;
+	
 	@Override
 	public void draw(Canvas canvas) {
 		if (hit_frames > 0) {
@@ -106,6 +111,22 @@ public class DrawObjectPlayer extends DrawObject {
 			hit_filter = new Paint();
 			hit_filter.setColorFilter(new PorterDuffColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY));
 			canvas.drawBitmap(bitmap, x - drawOffsetX, y - drawOffsetY, hit_filter);
+			
+		} else if(dw.bigCollision){
+			collision_filter = new Paint();
+			
+			collision_filter.setColorFilter(new PorterDuffColorFilter(Color.rgb(255-flag_red, 153-flag_green, 255- flag_blue), PorterDuff.Mode.MULTIPLY));
+			canvas.drawBitmap(bitmap, x - drawOffsetX, y - drawOffsetY, collision_filter);
+			
+			//if(flag_red<99)
+			//flag_red++;
+			
+			//if(flag_green<184)
+				//flag_green++;
+			
+			if(flag_blue< 255)
+			flag_blue=flag_blue+5;
+			
 		} else {
 			canvas.drawBitmap(bitmap, x - drawOffsetX, y - drawOffsetY, null);
 		}
