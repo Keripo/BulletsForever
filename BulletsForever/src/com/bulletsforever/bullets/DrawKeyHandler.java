@@ -10,7 +10,7 @@ import android.view.KeyEvent;
 public class DrawKeyHandler {
 
 	private DrawWorld dw;
-	
+
 	public DrawKeyHandler(DrawWorld dw) {
 		this.dw = dw;
 	}
@@ -18,7 +18,13 @@ public class DrawKeyHandler {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch(keyCode) {
 			case KeyEvent.KEYCODE_MENU:
-				dw.mode = dw.mode.next();
+				if(dw.player.health <= 0)
+				{
+					dw.player.health = 100;
+					dw.boss= new DrawObjectDynamicBoss(dw, dw.boss.level, dw.boss.level, dw.boss.level);
+					dw.startUpdating();
+				}
+
 				return true;
 			case KeyEvent.KEYCODE_SEARCH:
 				dw.removeAllBullets();
@@ -27,6 +33,8 @@ public class DrawKeyHandler {
 		return false;
 	}
 
+	
+	
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
 		return false;
 	}
