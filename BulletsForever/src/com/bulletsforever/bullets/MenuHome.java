@@ -32,7 +32,6 @@ public class MenuHome extends Activity {
 		setContentView(R.layout.main);
 		findViewById(R.id.splash).setOnClickListener(
 			new OnClickListener() {
-				@Override
 				public void onClick(View v) {
 					startGame();
 				}
