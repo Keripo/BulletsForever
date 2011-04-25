@@ -2,6 +2,7 @@ package com.bulletsforever.bullets;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
@@ -14,6 +15,7 @@ import android.view.WindowManager;
 public class GameMain extends Activity {
 	
 	private DrawWorld dw;
+	private AudioMusicPlayer mp;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,6 +28,29 @@ public class GameMain extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE); 
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		
+		// Music Player
+		int bgmusic = -1;
+		switch (Settings.getInt(R.string.bgmusic)) {
+			case 1: //Techno
+				bgmusic = R.raw.techno;
+				break;
+			case 2:  //Classical
+				bgmusic = R.raw.classical;
+				break;
+			case 0:
+			default:
+				break;
+		}
+		if (bgmusic != -1) {
+			try {
+				mp = new AudioMusicPlayer();
+				mp.load(getBaseContext(), bgmusic);
+				mp.start();
+			} catch (Exception e) {
+				Log.v(e.getClass().getName(), e.getMessage());
+			}
+		}
+		
 		// Welcome, to the World
 		dw = new DrawWorld(this);
 		setContentView(dw);
@@ -36,7 +61,8 @@ public class GameMain extends Activity {
 	
 	@Override
 	protected void onDestroy() {
-		dw.onDestroy();
+		if (dw != null) dw.onDestroy();
+		if (mp != null) mp.onDestroy();
 		super.onDestroy();
 	}
 	

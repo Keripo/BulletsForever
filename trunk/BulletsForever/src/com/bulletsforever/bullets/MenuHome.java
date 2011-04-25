@@ -17,7 +17,8 @@ import android.view.View.OnClickListener;
  */
 public class MenuHome extends Activity {
 	
-	AudioMusicPlayer mp;
+	private static final int RESUME_MUSIC = 111;
+	private AudioMusicPlayer mp;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,68 +39,67 @@ public class MenuHome extends Activity {
 			}
 		);
 		
+		startMusic();
+	}
+	
+	private void startMusic() {
 		// Music Player
-		String bgmusic = "";
+		int bgmusic = -1;
 		switch (Settings.getInt(R.string.bgmusic)) {
 			case 1: //Techno
-				bgmusic = "bgmusic/technoSplash.mp3";
+				bgmusic = R.raw.techno_splash;
 				break;
 			case 2:  //Classical
-				bgmusic = "bgmusic/classicalSplash.mp3"; // TODO
+				bgmusic = R.raw.classical_splash;
 				break;
 			case 0:
 			default:
 				break;
 		}
-		if (!bgmusic.equals("")) {
+		if (bgmusic != -1) {
 			try {
 				mp = new AudioMusicPlayer();
-				mp.load(getAssets().openFd(bgmusic).getFileDescriptor());
+				mp.load(getBaseContext(), bgmusic);
 				mp.start();
 			} catch (Exception e) {
 				Log.v(e.getClass().getName(), e.getMessage());
 			}
 		}
-		
+	}
+	
+	private void stopMusic() {
+		if (mp != null) mp.onDestroy();
+		mp = null;
 	}
 	
 	// Launch!
 	private void startGame() {
 		Settings.setScreenDimensions(this);
+		stopMusic();
 		Intent intent = new Intent();
 		intent.setClass(MenuHome.this, GameMain.class);
-		MenuHome.this.startActivity(intent);
-		
-		// Music Player
-		String bgmusic = "";
-		switch (Settings.getInt(R.string.bgmusic)) {
-			case 1: //Techno
-				bgmusic = "bgmusic/techno.mp3";
+		startActivityForResult(intent, RESUME_MUSIC);
+	}
+	
+	// Resume menu music
+	protected void onActivityResult(int requestCode, int resultCode, Intent data){
+		switch (requestCode) {
+			case RESUME_MUSIC:
+				Settings.reload(this);
+				startMusic();
 				break;
-			case 2:  //Classical
-				bgmusic = "bgmusic/classical.mp3"; // TODO
-				break;
-			case 0:
 			default:
 				break;
-		}
-		if (!bgmusic.equals("")) {
-			try {
-				mp = new AudioMusicPlayer();
-				mp.load(getAssets().openFd(bgmusic).getFileDescriptor());
-				mp.start();
-			} catch (Exception e) {
-				Log.v(e.getClass().getName(), e.getMessage());
-			}
 		}
 	}
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_MENU) {
+			stopMusic();
 			Intent intent = new Intent();
 			intent.setClass(MenuHome.this, MenuSettings.class);
-			MenuHome.this.startActivity(intent);
+			startActivityForResult(intent, RESUME_MUSIC);
 			return true;
 		} else {
 			return super.onKeyDown(keyCode, event);
@@ -108,7 +108,7 @@ public class MenuHome extends Activity {
 	
 	@Override
 	public void onDestroy() {
-		if (mp != null) mp.onDestroy();
+		stopMusic();
 		super.onDestroy();
 	}
 }

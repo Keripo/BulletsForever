@@ -1,7 +1,6 @@
 package com.bulletsforever.bullets;
 
-import java.io.FileDescriptor;
-
+import android.content.Context;
 import android.media.MediaPlayer;
 
 public class AudioMusicPlayer {
@@ -26,17 +25,15 @@ public class AudioMusicPlayer {
 		}
 	}
 	
-	public boolean load(FileDescriptor fd) {
+	public boolean load(Context c, int id) {
 		try {
 			if (p != null) {
 				p.stop();
 				p.release();
 				p = null;
 			}
-			p = new MediaPlayer();
-			p.setDataSource(fd);
+			p = MediaPlayer.create(c, id); 
 			p.setLooping(true);
-			p.prepare();
 			return true;
 		} catch (Exception e) {
 			p = null;
