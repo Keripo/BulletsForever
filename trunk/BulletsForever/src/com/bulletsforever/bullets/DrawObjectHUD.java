@@ -72,21 +72,19 @@ public class DrawObjectHUD extends DrawObject {
 		// Info
 		canvas.drawText(
 				String.format(
-						"Player: HP: %d, Bullets: %d, Collisions: %d",
-						dw.player.health,
-						dw.player_bullets.size(),
-						dw.collisionCountPlayer),
+						"Boss Level: %d",
+						dw.boss.level						
+						),
 				infoX1, infoY1, textPaint);
 		canvas.drawText(
 				String.format(
-						"Boss: HP: %d, Bullets: %d, Collisions: %d",
-						dw.boss.health,
-						dw.boss_bullets.size(),
-						dw.collisionCountBoss),
+						"Boss HP: %d",
+						dw.boss.health
+						),
 				infoX2, infoY2, textPaint);
 		
 		// FPS counter
-		canvas.drawText(fpsCounter.getDisplayedFPS(), fpsX, fpsY, textPaint);
+	//	canvas.drawText(fpsCounter.getDisplayedFPS(), fpsX, fpsY, textPaint);
 	
 	}
 	
