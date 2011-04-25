@@ -19,7 +19,10 @@ public class DrawObjectBullet extends DrawObject {
 		
 		this.remove = false;
 		this.boss = boss;
-		this.bitmap = dw.bl.getBitmap(R.drawable.bullet, hitboxHalfWidth, hitboxHalfHeight);
+		if(!boss)
+			this.bitmap = dw.bl.getBitmap(R.drawable.bullet, hitboxHalfWidth, hitboxHalfHeight);
+		else
+			this.bitmap = dw.bl.getBitmap(R.drawable.bullet2, hitboxHalfWidth, hitboxHalfHeight);
 		//bulletPaint = new Paint();
 		//bulletPaint.setColor(Color.WHITE);
 	}

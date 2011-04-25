@@ -58,8 +58,10 @@ public class DrawWorld extends View {
 	protected boolean drawDebugHitboxes;
 	
 	// SoundPool
-	protected AudioSoundPool sp;
-	protected int sfxBoss, sfxGameOver;
+	protected AudioSoundPool sp_boss;
+	protected AudioSoundPool sp_player;
+	protected AudioSoundPool sp_game;
+	protected int sfxBoss, sfxGameOver, sfxCollision, sfxPlayerShoot, sfxBossShoot;
 	
 	// Initializer
 	public DrawWorld(Context c) {
@@ -86,9 +88,14 @@ public class DrawWorld extends View {
 	
 	// Setup Sound
 	private void setupSound() {
-		sp = new AudioSoundPool(getContext());
-		sfxBoss = sp.load(R.raw.fanfare);
-		sfxGameOver = sp.load(R.raw.oyasumi);
+		sp_boss = new AudioSoundPool(getContext());
+		sp_player = new AudioSoundPool(getContext());
+		sp_game = new AudioSoundPool(getContext());
+		sfxBoss = sp_game.load(R.raw.boss_explosion);
+		sfxGameOver = sp_game.load(R.raw.oyasumi);
+		sfxCollision = sp_game.load(R.raw.player_boss_collision);
+		sfxPlayerShoot = sp_player.load(R.raw.player_bullet);
+		sfxBossShoot = sp_boss.load(R.raw.boss_bullet);
 	}
 	
 	// Clear all bullets
@@ -102,15 +109,21 @@ public class DrawWorld extends View {
 	public void onDestroy() {
 		removeAllBullets();
 		bl.onDestroy();
-		sp.onDestroy();
+		sp_game.onDestroy();
+		sp_player.onDestroy();
+		sp_boss.onDestroy();
 	}
 	
 	// Add new drawable objects
 	public void addBullet(DrawObjectBullet bullet) {
-		if (!bullet.boss)
+		if (!bullet.boss){
 			player_bullets.add(bullet);
-		else
+			sp_player.play(sfxPlayerShoot);
+		}
+		else{
 			boss_bullets.add(bullet);
+			sp_boss.play(sfxBossShoot);
+		}
 	}
 	
 	// Called by initializer
@@ -179,6 +192,7 @@ public class DrawWorld extends View {
 		if(  (pxMax>boxMin && pxMin<boxMax)&& (pyMin<boyMax && pyMax>boyMin))
 		{
 			bigCollision = true;
+			sp_game.play(sfxCollision);
 			player.health -= 0.00000000000005;
 		}
 		
@@ -252,7 +266,7 @@ public class DrawWorld extends View {
 											boss.front_power+1);
 										break;
 									}
-									sp.play(sfxBoss);
+									sp_game.play(sfxBoss);
 								}
 							}
 						}
@@ -353,18 +367,9 @@ public class DrawWorld extends View {
 			textPaint3.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
 			canvas.drawText("To restart level press 'menu' button", Settings.screenWidth / 2 , (  (Settings.screenHeight / 2)+(2*Settings.screenWidth / 7)) , textPaint3);
 				
-			
-
-			
-			
-			
-			
-			
-			
 			// Stop game after this last draw
-			sp.play(sfxGameOver);
+			sp_game.play(sfxGameOver);
 			stopUpdating();
-			
 
 			
 		}
