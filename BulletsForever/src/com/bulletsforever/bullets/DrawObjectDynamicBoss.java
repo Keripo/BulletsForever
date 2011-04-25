@@ -40,7 +40,7 @@ public class DrawObjectDynamicBoss extends DrawObject {
 		this.rand = new Random();
 		
 		this.level = level;
-		this.health = level * 400;
+		this.health = level * 50;
 		this.next_evolution = Arm.FRONT; //to avoid multi-leveling
 		
 		// Calculate number of body parts for left/right and front
