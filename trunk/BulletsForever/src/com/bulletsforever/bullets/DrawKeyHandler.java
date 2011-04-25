@@ -21,7 +21,7 @@ public class DrawKeyHandler {
 				if(dw.player.health <= 0)
 				{
 					dw.player.health = 100;
-					dw.boss= new DrawObjectDynamicBoss(dw, dw.boss.level, dw.boss.level, dw.boss.level);
+					dw.boss= new DrawObjectDynamicBoss(dw, dw.boss.level, dw.boss.level, dw.boss.level, dw.boss.level);
 					dw.startUpdating();
 				}
 
