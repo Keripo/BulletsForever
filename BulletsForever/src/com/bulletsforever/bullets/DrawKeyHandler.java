@@ -20,7 +20,7 @@ public class DrawKeyHandler {
 			case KeyEvent.KEYCODE_MENU:
 				if(dw.player.health <= 0)
 				{
-					dw.player.health = 100;
+					dw.player.health = dw.player.HP_MAX;
 					dw.boss= new DrawObjectDynamicBoss(dw, dw.boss.level, dw.boss.level, dw.boss.level, dw.boss.level);
 					dw.startUpdating();
 				}

@@ -21,7 +21,7 @@ public class DrawObjectPlayer extends DrawObject {
 	private Paint hit_filter;	
 	private Paint collision_filter;
 	
-	private int HP_MAX;
+	public int HP_MAX;
 	private int HP_YELLOW;
 	private int HP_RED;
 	
