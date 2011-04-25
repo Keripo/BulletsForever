@@ -125,7 +125,7 @@ public class DrawObjectPlayer extends DrawObject {
 				//flag_green++;
 			
 			if(flag_blue< 255)
-			flag_blue=flag_blue+5;
+			flag_blue = flag_blue+1;
 			
 		} else {
 			canvas.drawBitmap(bitmap, x - drawOffsetX, y - drawOffsetY, null);
