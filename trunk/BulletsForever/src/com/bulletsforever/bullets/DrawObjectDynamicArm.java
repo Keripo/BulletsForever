@@ -59,7 +59,7 @@ public class DrawObjectDynamicArm extends DrawObject {
 		}
 		else {
 			// Max powered arms shoot ring-pattern bullets
-			for (int i = 0; i < 360; i += 10) {
+			for (int i = 0; i < 360; i += 36) {
 				DrawObjectBullet bullet = new DrawObjectBullet(
 						dw, true,
 						this.x, this.y,
@@ -81,7 +81,7 @@ public class DrawObjectDynamicArm extends DrawObject {
 	/* Returns number of children destroyed */
 	public int destroyChildren() {
 		// suicide bullets in zoom-pattern
-		for (int i = 0; i < 360; i += 10) {
+		for (int i = 0; i < 360; i += 36) {
 			DrawObjectBullet bullet = new DrawObjectBullet(
 					dw, true,
 					this.x, this.y,

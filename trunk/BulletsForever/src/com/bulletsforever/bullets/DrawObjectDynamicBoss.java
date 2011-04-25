@@ -19,15 +19,15 @@ public class DrawObjectDynamicBoss extends DrawObject {
 	public Arm next_evolution;
 	
 	public DrawObjectDynamicArm left, right, front;
-	public int left_power, right_power, front_power, max_power;
-	public boolean left_maxed, right_maxed, front_maxed;
+	public int side_power, front_power, max_power;
+	public boolean side_maxed, front_maxed;
 	
 	private DrawWorld dw;
 	private Random rand;
 	
 	private float maxX, minX, maxY, minY;
 	
-	public DrawObjectDynamicBoss(DrawWorld dw, int level, int left_power, int right_power, int front_power) {
+	public DrawObjectDynamicBoss(DrawWorld dw, int level, int side_power, int front_power) {
 		super(dw, 
 			Settings.screenWidth / 2, Settings.screenHeight / 8,
 			0f,	0f, 0f, 0f, 0f, 0f, 
@@ -45,33 +45,20 @@ public class DrawObjectDynamicBoss extends DrawObject {
 		
 		// Calculate number of body parts for left/right and front
 		this.max_power = (int)((Settings.screenHeight / 2 - 2 * this.hitboxHalfHeight) / this.hitboxHalfWidth); 
-		if (left_power > this.max_power) {
-			this.left_power = this.max_power;
-			this.left_maxed = true;
-		}
-		if (right_power > this.max_power) {
-			this.right_power = this.max_power;
-			this.right_maxed = true;
-		}
-		if (front_power > this.max_power) {
-			this.front_power = this.max_power;
-			this.front_maxed = true;
-		}
-
+		this.side_power = side_power > 2 ? 2 : side_power;
+		this.front_power = front_power > this.max_power ? this.max_power : front_power;
+		if (this.side_power == 2) this.side_maxed = true;
+		else this.side_maxed = false;
+		if (this.front_power == this.max_power) this.front_maxed = true;
+		else this.front_maxed = false;
 		
 		// Calculate movement boundaries based on size including body parts
-		switch(this.left_power) {
-		case 0:		this.minX = this.hitboxHalfWidth; 		break;
-		case 1:		this.minX = 2 * this.hitboxHalfWidth;	break;
-		default:	this.minX = 3 * this.hitboxHalfWidth;	break; //due to scaling only two arm pieces can extend sideways
+		switch(this.side_power) {
+		case 0:		this.minX = (3/2) * this.hitboxHalfWidth; 	break;
+		case 1:		this.minX = (5/2) * this.hitboxHalfWidth;	break;
+		default:	this.minX = (7/2) * this.hitboxHalfWidth;	break; //due to scaling only two arm pieces can extend sideways
 		}
-		this.maxX = Settings.screenWidth;
-		switch(this.right_power) {
-		case 0: 	this.maxX -= this.hitboxHalfWidth; 		break;
-		case 1:		this.maxX -= 2 * this.hitboxHalfWidth;	break;
-		default:	this.maxX -= 3 * this.hitboxHalfWidth;	break;		
-		}
-
+		this.maxX = Settings.screenWidth - this.minX;
 		this.minY = this.hitboxHalfHeight;
 		this.maxY = Settings.screenHeight / 2 - (this.front_power + 1) * this.hitboxHalfHeight;
 		
@@ -81,42 +68,28 @@ public class DrawObjectDynamicBoss extends DrawObject {
 	/* Helper method for constructor */
 	private void makeArms() {
 		
-		DrawObjectDynamicArm prev = null;
-		DrawObjectDynamicArm curr;
+		DrawObjectDynamicArm prevl = null, prevr = null, prev = null;
+		DrawObjectDynamicArm currl, currr, curr;
 		
-		// Left arm
-		for (int i = left_power-2; i >= 0; i--) {
-			curr = new DrawObjectDynamicArm(this.dw, this, 
-					-((5/2) * this.hitboxHalfWidth), 
-					i * this.hitboxHalfHeight);
-			curr.child = prev;
-			prev = curr;
+		for (int i = side_power; i > 0; i--) {
+			currl = new DrawObjectDynamicArm(this.dw, this, 
+					-(this.hitboxHalfWidth + (i-1/2) * this.hitboxHalfWidth), 0);	
+			currl.child = prevl;
+			prevl = currl;
+			
+			currr = new DrawObjectDynamicArm(this.dw, this, 
+					this.hitboxHalfWidth + (i-1/2) * this.hitboxHalfWidth, 0);
+			currr.child = prevr;
+			prevr = currr;
 		}
-		curr = new DrawObjectDynamicArm(this.dw, this,
-				-((3/2) * this.hitboxHalfWidth), 0);
-		curr.child = prev;
-		this.left = curr;
-		
-		// Right arm
-		for (int j = right_power-2; j >= 0; j--) {
-			curr = new DrawObjectDynamicArm(this.dw, this, 
-					(5/2) * this.hitboxHalfWidth, 
-					j * this.hitboxHalfHeight);
-			curr.child = prev;
-			prev = curr;
-		}
-		curr = new DrawObjectDynamicArm(this.dw, this,
-				(3/2) * this.hitboxHalfWidth, 0);
-		curr.child = prev;
-		this.right = curr;
-		
-		// Front arm
-		for (int k = front_power; k > 0; k--) {
+		for (int j = front_power; j > 0; j--) {
 			curr = new DrawObjectDynamicArm(this.dw,this,
-					0, this.hitboxHalfHeight + (k-1/2) * this.hitboxHalfHeight);
+					0, this.hitboxHalfHeight + (j-1/2) * this.hitboxHalfHeight);
 			curr.child = prev;
 			prev = curr;
 		}
+		this.left = prevl;
+		this.right = prevr;
 		this.front = prev;
 	}
 	
@@ -135,7 +108,7 @@ public class DrawObjectDynamicBoss extends DrawObject {
 		}
 		
 		// Fire a bullet
-		if (rand.nextInt(120) == 0)
+		if (rand.nextInt(100) == 0)
 			this.fire();
 		
 		int destroyed_left = this.nextFrameArm(this.left, Arm.LEFT),
@@ -166,23 +139,23 @@ public class DrawObjectDynamicBoss extends DrawObject {
 		switch (arm) {
 		case LEFT: 
 			curr = this.left;
-			maxed = this.left_maxed;
+			maxed = this.side_maxed;
 			break;
 		case RIGHT:
 			curr = this.right;
-			maxed = this.right_maxed;
+			maxed = this.side_maxed;
 			break;
 		default:	
 			curr = this.front;
 			maxed = this.front_maxed;
-			break;
+			break;			
 		}
 
 		while (curr != null) {
 			
 			// Part not destroyed; fire bullet
 			if (curr.health > 0) {
-				if (rand.nextInt(60) == 0)
+				if (rand.nextInt(50) == 0)
 					curr.nextFrame(true, maxed);
 				else	
 					curr.nextFrame(false, maxed);
@@ -260,9 +233,11 @@ public class DrawObjectDynamicBoss extends DrawObject {
 	}
 
 	public void onCollision(DrawObject object) {
-		this.health--;	
-		if (this.health == 0) 
-			this.level++;
+		if (this.left == null && this.right == null && this.front == null) {
+			this.health--;	
+			if (this.health == 0) 
+				this.level++;
+		}
 	}
 	
 }
