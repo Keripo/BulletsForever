@@ -1,6 +1,11 @@
 package com.bulletsforever.bullets;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+
 import java.util.*;
 
 /**
@@ -18,6 +23,10 @@ public class DrawObjectBoss extends DrawObject {
 	private DrawWorld dw;
 	private Random rand;
 	private float maxX, maxY;
+	private Paint hit_filter;
+	private int hit_frames;
+	
+	private static final int MAX_HIT_FRAMES = 5;
 	
 	private class Turret {
 		
@@ -86,7 +95,7 @@ public class DrawObjectBoss extends DrawObject {
 		this.maxX = Settings.screenWidth - hitboxHalfWidth;
 		this.maxY = Settings.screenHeight / 2;
 		
-		
+		hit_frames = 0;
 		this.level = level;
 		this.num_turrets = this.level * 8; //arbitrary 
 		this.health = this.num_turrets * 50;  //also arbitrary - game balance
@@ -134,18 +143,27 @@ public class DrawObjectBoss extends DrawObject {
 		for (Turret t : this.turrets) {
 			t.x = this.x + t.offsetx;
 			t.y = this.y + t.offsety;
-			if (rand.nextInt(60) == 0)
+			if (rand.nextInt(60) == 0){
 				t.fire();
+			}
 		}
 	}	
 	
 	@Override
 	public void draw(Canvas canvas) {
+		if (hit_frames > 0) {
+			hit_filter = new Paint();
+			hit_filter.setColorFilter(new PorterDuffColorFilter(Color.DKGRAY, PorterDuff.Mode.MULTIPLY));
+			canvas.drawBitmap(bitmap, x - drawOffsetX, y - drawOffsetY, hit_filter);
+			hit_frames--;
+		}
+		else		
 		canvas.drawBitmap(bitmap, x - drawOffsetX, y - drawOffsetY, null);
 	}
 
 	@Override
 	public void onCollision(DrawObject object) {
+		hit_frames = MAX_HIT_FRAMES;
 		this.health--;
 		
 		if (this.health == 0){

@@ -92,8 +92,8 @@ public class DrawObjectPlayer extends DrawObject {
 		super.nextFrame();
 	}
 	
-	int flag_red = 0;
-	int flag_green=0;
+//	int flag_red = 0;
+//	int flag_green=0;
 	int flag_blue=0;
 	
 	@Override
@@ -115,7 +115,7 @@ public class DrawObjectPlayer extends DrawObject {
 		} else if(dw.bigCollision){
 			collision_filter = new Paint();
 			
-			collision_filter.setColorFilter(new PorterDuffColorFilter(Color.rgb(255-flag_red, 153-flag_green, 255- flag_blue), PorterDuff.Mode.MULTIPLY));
+			collision_filter.setColorFilter(new PorterDuffColorFilter(Color.rgb(255, 153, 255- flag_blue), PorterDuff.Mode.MULTIPLY));
 			canvas.drawBitmap(bitmap, x - drawOffsetX, y - drawOffsetY, collision_filter);
 			
 			//if(flag_red<99)
@@ -127,9 +127,8 @@ public class DrawObjectPlayer extends DrawObject {
 			if(flag_blue< 255)
 			flag_blue = flag_blue+1;
 			
-		} else {
+		} else
 			canvas.drawBitmap(bitmap, x - drawOffsetX, y - drawOffsetY, null);
-		}
 	}
 
 	@Override
