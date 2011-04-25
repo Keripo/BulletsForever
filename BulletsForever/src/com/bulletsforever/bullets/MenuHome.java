@@ -37,16 +37,15 @@ public class MenuHome extends Activity {
 				}
 			}
 		);
-
+		
 		// Music Player
 		String bgmusic = "";
 		switch (Settings.getInt(R.string.bgmusic)) {
-			case 1:
-				bgmusic = "bgmusic/techno.mp3";
+			case 1: //Techno
+				bgmusic = "bgmusic/technoSplash.mp3";
 				break;
-			case 2:
-				//bgmusic = "bgmusic/classical.mp3"; // TODO
-				bgmusic = "bgmusic/techno.mp3";
+			case 2:  //Classical
+				bgmusic = "bgmusic/classicalSplash.mp3"; // TODO
 				break;
 			case 0:
 			default:
@@ -70,6 +69,29 @@ public class MenuHome extends Activity {
 		Intent intent = new Intent();
 		intent.setClass(MenuHome.this, GameMain.class);
 		MenuHome.this.startActivity(intent);
+		
+		// Music Player
+		String bgmusic = "";
+		switch (Settings.getInt(R.string.bgmusic)) {
+			case 1: //Techno
+				bgmusic = "bgmusic/techno.mp3";
+				break;
+			case 2:  //Classical
+				bgmusic = "bgmusic/classical.mp3"; // TODO
+				break;
+			case 0:
+			default:
+				break;
+		}
+		if (!bgmusic.equals("")) {
+			try {
+				mp = new AudioMusicPlayer();
+				mp.load(getAssets().openFd(bgmusic).getFileDescriptor());
+				mp.start();
+			} catch (Exception e) {
+				Log.v(e.getClass().getName(), e.getMessage());
+			}
+		}
 	}
 	
 	@Override
