@@ -61,7 +61,7 @@ public class DrawWorld extends View {
 	
 	// SoundPool
 	protected AudioSoundPool sp;
-	protected int sfxBoss, sfxGameOver, sfxCollision, sfxPlayerShot, sfxBossShot;
+	protected int sfxBoss, sfxGameOver, sfxCollision, sfxPlayerShot, sfxBossShot, sfxBossArm;
 	
 	// Initializer
 	public DrawWorld(Context c) {
@@ -95,6 +95,7 @@ public class DrawWorld extends View {
 		sfxCollision = sp.load(R.raw.player_boss_collision);
 		sfxPlayerShot = sp.load(R.raw.player_bullet);
 		sfxBossShot = sp.load(R.raw.boss_bullet);
+		sfxBossArm = sp.load(R.raw.boss_arm_explosion);
 	}
 	
 	// Clear all bullets
@@ -365,9 +366,22 @@ public class DrawWorld extends View {
 				textPaint4.setTextAlign(Align.CENTER);
 				textPaint4.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
 				canvas.drawText("Lives left = "+(lives-1), Settings.screenWidth / 2 , (  (Settings.screenHeight / 2)+(3*Settings.screenWidth / 7)) , textPaint4);
-
+			}
 			
-			
+			if(boss.level == 2){
+				Paint textPaint5 = new Paint();
+				textPaint5.setColor(Color.argb(255, 238, 0, 0));
+				textPaint5.setTextSize(Settings.screenWidth / 7); // Relative to screen width
+				textPaint5.setTextAlign(Align.CENTER);
+				textPaint5.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
+				canvas.drawText("YOU WIN!", Settings.screenWidth / 2, Settings.screenHeight / 2, textPaint5);
+				
+				Paint textPaint6 = new Paint();
+				textPaint6.setColor(Color.argb(255, 255, 165, 0));
+				textPaint6.setTextSize(Settings.screenWidth / 20); // Relative to screen width
+				textPaint6.setTextAlign(Align.CENTER);
+				textPaint6.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
+				canvas.drawText("To restart game press 'back' button", Settings.screenWidth / 2 , (  (Settings.screenHeight / 2)+(Settings.screenWidth / 7)) , textPaint6);
 			}
 			
 			lives--;

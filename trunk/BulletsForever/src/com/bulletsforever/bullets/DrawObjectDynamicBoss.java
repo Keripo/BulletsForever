@@ -121,8 +121,8 @@ public class DrawObjectDynamicBoss extends DrawObject {
 		}
 		
 		// Fire a bullet
-		if (rand.nextInt(100) == 0)
-			this.fire();
+		if (rand.nextInt(100) < this.level)
+				this.fire();
 		
 		int destroyed_left = this.nextFrameArm(this.left, Arm.LEFT),
 			destroyed_right = this.nextFrameArm(this.right, Arm.RIGHT),
@@ -174,7 +174,7 @@ public class DrawObjectDynamicBoss extends DrawObject {
 				boolean rings = false;
 				if (maxed) rings = this.rand.nextBoolean();
 				
-				if (rand.nextInt(50) == 0)
+				if (rand.nextInt(50) < this.level)
 					curr.nextFrame(true, rings);
 				else	
 					curr.nextFrame(false, rings);
@@ -203,9 +203,9 @@ public class DrawObjectDynamicBoss extends DrawObject {
 		
 		// Max powered boss core shoots spirals
 		if (this.front_maxed && this.side_maxed) {
-			for (int i = 0; i < 360; i += 20) {
+			for (int i = 0; i < 360; i += 15) {
 				DrawObjectBullet bullet = new DrawObjectBullet(
-						dw, true,
+						dw, true, true,
 						this.x, this.y,
 						0f, 0.1f,
 						0f, 0f,
@@ -228,7 +228,7 @@ public class DrawObjectDynamicBoss extends DrawObject {
 			}
 		
 			dw.addBullet(new DrawObjectBullet(dw, 
-					true, 
+					true, false,
 					this.x, this.y, 
 					4f, 0f, 0f, 0f, angle, 0f
 					));
@@ -271,9 +271,9 @@ public class DrawObjectDynamicBoss extends DrawObject {
 			this.health--;	
 			if (this.health == 0) {
 				//release suicide bullets
-				for (int i = 0; i < 360; i += 20) {
+				for (int i = 0; i < 360; i += 15) {
 					DrawObjectBullet bullet = new DrawObjectBullet(
-							dw, true,
+							dw, true, true,
 							this.x, this.y,
 							4f, 0f, 0f, 0f, i, 10f
 							);

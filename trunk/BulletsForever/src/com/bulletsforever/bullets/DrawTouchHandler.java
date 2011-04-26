@@ -39,7 +39,7 @@ public class DrawTouchHandler implements OnTouchListener {
 					// Add 100 bullets in random locations at random speeds and angles
 					for (int i = 0; i < 100; i++) { 
 						DrawObjectBullet bullet = new DrawObjectBullet(
-								dw, true,
+								dw, true, false,
 								(float)Math.random() * Settings.screenWidth,
 								(float)Math.random() * Settings.screenHeight,
 								(float)Math.random() * 10f, 0f,
@@ -52,7 +52,7 @@ public class DrawTouchHandler implements OnTouchListener {
 					// Add 360 bullets fanning out from the point of contact
 					for (int i = 0; i < 360; i++) {
 						DrawObjectBullet bullet = new DrawObjectBullet(
-								dw, true,
+								dw, true, false,
 								event.getX(), event.getY(),
 								(float)Math.random() * 10f, 0f,
 								0f, 0f,
@@ -64,7 +64,7 @@ public class DrawTouchHandler implements OnTouchListener {
 					// Add 360 bullets spouting out from the point of contact
 					for (int i = 0; i < 360; i++) {
 						DrawObjectBullet bullet = new DrawObjectBullet(
-								dw, true,
+								dw, true, false,
 								event.getX(), event.getY(),
 								(float)Math.random() * 10f, 0f,
 								0f, 0.5f,
@@ -76,7 +76,7 @@ public class DrawTouchHandler implements OnTouchListener {
 					// Add 180 bullets spiraling out from the point of contact
 					for (int i = 0; i < 360; i += 2) {
 						DrawObjectBullet bullet = new DrawObjectBullet(
-								dw, true,
+								dw, true, false,
 								event.getX(), event.getY(),
 								(float)Math.random() * 10f, 0.1f,
 								0f, 0f,
@@ -88,7 +88,7 @@ public class DrawTouchHandler implements OnTouchListener {
 					// Add 36 bullets ringing out from the point of contact
 					for (int i = 0; i < 360; i += 10) {
 						DrawObjectBullet bullet = new DrawObjectBullet(
-								dw, true,
+								dw, true, false,
 								event.getX(), event.getY(),
 								5f, 0f,
 								0f, 0f,
@@ -100,7 +100,7 @@ public class DrawTouchHandler implements OnTouchListener {
 					// Add 36 bullets zooming out from the point of contact
 					for (int i = 0; i < 360; i += 10) {
 						DrawObjectBullet bullet = new DrawObjectBullet(
-								dw, true,
+								dw, true, false,
 								event.getX(), event.getY(),
 								0f, 0.5f,
 								0f, 0f,

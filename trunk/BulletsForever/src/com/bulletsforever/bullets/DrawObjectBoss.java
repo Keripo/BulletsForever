@@ -57,7 +57,7 @@ public class DrawObjectBoss extends DrawObject {
 			}
 			
 			dw.addBullet(new DrawObjectBullet(dw, 
-					true, 
+					true, false,
 					this.x, this.y, 
 					4f, 0f, 0f, 0f, angle, 0f
 					));
@@ -151,13 +151,13 @@ public class DrawObjectBoss extends DrawObject {
 	
 	@Override
 	public void draw(Canvas canvas) {
-		if (hit_frames > 0) {
-			hit_filter = new Paint();
-			hit_filter.setColorFilter(new PorterDuffColorFilter(Color.DKGRAY, PorterDuff.Mode.MULTIPLY));
-			canvas.drawBitmap(bitmap, x - drawOffsetX, y - drawOffsetY, hit_filter);
-			hit_frames--;
-		}
-		else		
+//		if (hit_frames > 0) {
+//			hit_filter = new Paint();
+//			hit_filter.setColorFilter(new PorterDuffColorFilter(Color.DKGRAY, PorterDuff.Mode.MULTIPLY));
+//			canvas.drawBitmap(bitmap, x - drawOffsetX, y - drawOffsetY, hit_filter);
+//			hit_frames--;
+//		}
+//		else		
 		canvas.drawBitmap(bitmap, x - drawOffsetX, y - drawOffsetY, null);
 	}
 
