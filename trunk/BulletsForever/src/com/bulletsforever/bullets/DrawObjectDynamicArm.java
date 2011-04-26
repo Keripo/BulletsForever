@@ -63,7 +63,7 @@ public class DrawObjectDynamicArm extends DrawObject {
 				DrawObjectBullet bullet = new DrawObjectBullet(
 						dw, true,
 						this.x, this.y,
-						5f, 0f, 0f, 0f, i, 10f
+						4f, 0f, 0f, 0f, i, 10f
 						);
 				dw.addBullet(bullet);
 			}
