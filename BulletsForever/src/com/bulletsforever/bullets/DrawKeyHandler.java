@@ -18,7 +18,7 @@ public class DrawKeyHandler {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch(keyCode) {
 			case KeyEvent.KEYCODE_MENU:
-				if(dw.player.health <= 0)
+				if(dw.player.health <= 0 && dw.lives > 0)
 				{
 					dw.player.health = dw.player.HP_MAX;
 					dw.boss= new DrawObjectDynamicBoss(dw, dw.boss.level, dw.boss.level, dw.boss.level);
