@@ -40,6 +40,7 @@ public class DrawWorld extends View {
 	private DrawRefreshHandler refreshHandler;
 	private DrawKeyHandler keyHandler;
 	boolean bigCollision = false;
+	int lives = 3;
 	
 	
 	protected DemoMode mode;
@@ -342,15 +343,18 @@ public class DrawWorld extends View {
 			textPaint2.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
 			canvas.drawText("To restart game press 'back' button", Settings.screenWidth / 2 , (  (Settings.screenHeight / 2)+(Settings.screenWidth / 7)) , textPaint2);
 				
-				
-				
-			Paint textPaint3 = new Paint();
-			textPaint3.setColor(Color.rgb(0, 205, 0));
-			textPaint3.setTextSize(Settings.screenWidth / 20); // Relative to screen width
-			textPaint3.setTextAlign(Align.CENTER);
-			textPaint3.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
-			canvas.drawText("To restart level press 'menu' button", Settings.screenWidth / 2 , (  (Settings.screenHeight / 2)+(2*Settings.screenWidth / 7)) , textPaint3);
-				
+
+			if(lives > 0){
+				Paint textPaint3 = new Paint();
+				textPaint3.setColor(Color.rgb(0, 205, 0));
+				textPaint3.setTextSize(Settings.screenWidth / 20); // Relative to screen width
+				textPaint3.setTextAlign(Align.CENTER);
+				textPaint3.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
+				canvas.drawText("Lives = "+lives+". To restart level press 'menu' button", Settings.screenWidth / 2 , (  (Settings.screenHeight / 2)+(2*Settings.screenWidth / 7)) , textPaint3);
+			}
+			
+			lives--;
+			
 			// Stop game after this last draw
 			sp.play(sfxGameOver);
 			stopUpdating();
