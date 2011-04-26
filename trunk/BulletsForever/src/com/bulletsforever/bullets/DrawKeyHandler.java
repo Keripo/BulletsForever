@@ -22,6 +22,7 @@ public class DrawKeyHandler {
 				{
 					dw.player.health = dw.player.HP_MAX;
 					dw.boss= new DrawObjectDynamicBoss(dw, dw.boss.level, dw.boss.level, dw.boss.level);
+					dw.removeAllBullets();
 					dw.startUpdating();
 				}
 

@@ -1,6 +1,8 @@
 package com.bulletsforever.bullets;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -100,6 +102,27 @@ public class MenuHome extends Activity {
 			Intent intent = new Intent();
 			intent.setClass(MenuHome.this, MenuSettings.class);
 			startActivityForResult(intent, RESUME_MUSIC);
+			return true;
+		} else if (keyCode == KeyEvent.KEYCODE_SEARCH) {
+			AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+			alertBuilder
+				.setCancelable(true)
+				.setTitle("Instructions")
+				.setMessage(
+					"Move the player and shoot using the touch screen.\n" +
+					"Destroy all the boss parts before killing the core.\n" +
+					"Player starts off with 3 lives. Get to level 10 to win!\n"
+					)
+				.setPositiveButton(
+						"OK",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						}
+						)
+				.show()
+				.setOwnerActivity(this);
 			return true;
 		} else {
 			return super.onKeyDown(keyCode, event);
