@@ -78,7 +78,7 @@ public class DrawObjectPlayer extends DrawObject {
 				// Randomly spray bullets in a 20 degree cone
 				float angle_offset = (float)(Math.random() - 0.5f) * 20f;
 				DrawObjectBullet bullet = new DrawObjectBullet(
-						dw, false,
+						dw, false, false,
 						x,
 						y,
 						10f, 5f,

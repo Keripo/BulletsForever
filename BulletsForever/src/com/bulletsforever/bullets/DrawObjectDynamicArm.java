@@ -52,7 +52,7 @@ public class DrawObjectDynamicArm extends DrawObject {
 				else angle = 270;
 			}
 		
-			dw.addBullet(new DrawObjectBullet(dw, true, 
+			dw.addBullet(new DrawObjectBullet(dw, true, false,
 					this.x, this.y, 
 					4f, 0f, 0f, 0f, angle, 0f
 					));
@@ -61,7 +61,7 @@ public class DrawObjectDynamicArm extends DrawObject {
 			// Max powered arms shoot ring-pattern bullets
 			for (int i = 0; i < 360; i += 36) {
 				DrawObjectBullet bullet = new DrawObjectBullet(
-						dw, true,
+						dw, true, true,
 						this.x, this.y,
 						0f, 0.1f, 0f, 0f, i, 10f
 						);
@@ -81,14 +81,16 @@ public class DrawObjectDynamicArm extends DrawObject {
 	/* Returns number of children destroyed */
 	public int destroyChildren() {
 		// suicide bullets in ring-pattern
-		for (int i = 0; i < 360; i += 20) {
+		for (int i = 0; i < 360; i += 15) {
 			DrawObjectBullet bullet = new DrawObjectBullet(
-					dw, true,
+					dw, true, true,
 					this.x, this.y,
 					4f, 0f, 0f, 0f, i, 10f
 					);
 			dw.addBullet(bullet);
 		}
+		AudioSoundPool sp = dw.sp;
+		sp.play(dw.sfxBossArm);
 		if (this.child == null) 
 			return 0;
 		return this.child.destroyChildren() + 1;
