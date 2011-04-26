@@ -40,9 +40,9 @@ public class DrawObjectDynamicArm extends DrawObject {
 	private void fire(boolean rings) {
 		
 		if(!rings) {
-			// Calculate angle between this and player
+			// Calculate angle between this and player  //For random direction: float angle = this.core.rand.nextInt(360);
 			float dx = dw.player.x - this.x;
-			float dy = Math.abs(dw.player.y - this.y);
+			float dy = Math.abs(dw.player.y - this.y); 
 			float angle;
 			if (dy != 0)
 				angle = (float)(Math.atan(dx/dy) * 180f / (float)Math.PI); 
@@ -54,7 +54,7 @@ public class DrawObjectDynamicArm extends DrawObject {
 		
 			dw.addBullet(new DrawObjectBullet(dw, true, 
 					this.x, this.y, 
-					4f * this.core.level, 0f, 0f, 0f, angle, 0f
+					4f, 0f, 0f, 0f, angle, 0f
 					));
 		}
 		else {
@@ -63,7 +63,7 @@ public class DrawObjectDynamicArm extends DrawObject {
 				DrawObjectBullet bullet = new DrawObjectBullet(
 						dw, true,
 						this.x, this.y,
-						0f, 1f, 0f, 0f, i, 10f
+						0f, 0.1f, 0f, 0f, i, 10f
 						);
 				dw.addBullet(bullet);
 			}
@@ -81,11 +81,11 @@ public class DrawObjectDynamicArm extends DrawObject {
 	/* Returns number of children destroyed */
 	public int destroyChildren() {
 		// suicide bullets in ring-pattern
-		for (int i = 0; i < 360; i += 36) {
+		for (int i = 0; i < 360; i += 20) {
 			DrawObjectBullet bullet = new DrawObjectBullet(
 					dw, true,
 					this.x, this.y,
-					4f * this.core.level, 0f, 0f, 0f, i, 10f
+					4f, 0f, 0f, 0f, i, 10f
 					);
 			dw.addBullet(bullet);
 		}

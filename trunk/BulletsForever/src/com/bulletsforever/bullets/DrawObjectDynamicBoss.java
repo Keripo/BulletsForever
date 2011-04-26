@@ -26,6 +26,7 @@ public class DrawObjectDynamicBoss extends DrawObject {
 	private Random rand;
 	
 	private float maxX, minX, maxY, minY;
+	private float abs_maxX, abs_minX;
 	
 	public DrawObjectDynamicBoss(DrawWorld dw, int level, int side_power, int front_power) {
 		super(dw, 
@@ -62,6 +63,9 @@ public class DrawObjectDynamicBoss extends DrawObject {
 		this.minY = this.hitboxHalfHeight;
 		this.maxY = Settings.screenHeight / 2 - (this.front_power + 1) * this.hitboxHalfHeight;
 		
+		this.abs_minX = 2 * this.hitboxHalfWidth;
+		this.abs_maxX = Settings.screenWidth - this.abs_minX;
+		
 		this.makeArms();
 	}	
 	
@@ -75,15 +79,15 @@ public class DrawObjectDynamicBoss extends DrawObject {
 			
 			if (i <= 2) {
 				currl = new DrawObjectDynamicArm(this.dw, this, 
-						-(this.hitboxHalfWidth + (i+1/2) * this.hitboxHalfWidth), 0);
+						-(this.hitboxHalfWidth + (i-3/2) * this.hitboxHalfWidth), 0);
 				currr = new DrawObjectDynamicArm(this.dw, this, 
-						this.hitboxHalfWidth + (i+1/2) * this.hitboxHalfWidth, 0);
+						this.hitboxHalfWidth + (i-3/2) * this.hitboxHalfWidth, 0);
 			}
 			else {
 				currl = new DrawObjectDynamicArm(this.dw, this,
-						-((7/2) * this.hitboxHalfWidth), (i-2) * this.hitboxHalfHeight);
+						-((5/2) * this.hitboxHalfWidth), (i-2) * this.hitboxHalfHeight);
 				currr = new DrawObjectDynamicArm(this.dw, this,
-						(7/2) * this.hitboxHalfWidth, (i-2) * this.hitboxHalfHeight);
+						(5/2) * this.hitboxHalfWidth, (i-2) * this.hitboxHalfHeight);
 			}
 			
 			currl.child = prevl;
@@ -93,7 +97,7 @@ public class DrawObjectDynamicBoss extends DrawObject {
 		}
 		for (int j = front_power; j > 0; j--) {
 			curr = new DrawObjectDynamicArm(this.dw,this,
-					0, this.hitboxHalfHeight + (j-1/2) * this.hitboxHalfHeight);
+					0, this.hitboxHalfHeight + (j-3/2) * this.hitboxHalfHeight);
 			curr.child = prev;
 			prev = curr;
 		}
@@ -117,7 +121,7 @@ public class DrawObjectDynamicBoss extends DrawObject {
 		}
 		
 		// Fire a bullet
-		if (rand.nextInt(100 / this.level) == 0)
+		if (rand.nextInt(100) == 0)
 			this.fire();
 		
 		int destroyed_left = this.nextFrameArm(this.left, Arm.LEFT),
@@ -126,16 +130,18 @@ public class DrawObjectDynamicBoss extends DrawObject {
 		
 		// Update movement boundaries & evolution 
 		this.minX -= destroyed_left * this.hitboxHalfWidth;
-			if (this.left == null && this.front != null && this.right != null) 
-				this.next_evolution = Arm.LEFT;
+		this.minX = this.minX < this.abs_minX ? this.abs_minX : this.minX;
+		if (this.left == null && this.front != null && this.right != null) 
+			this.next_evolution = Arm.LEFT;
 
 		this.maxX += destroyed_right * this.hitboxHalfWidth;
+		this.maxX = this.maxX > this.abs_maxX ? this.abs_maxX : this.maxX;
 		if (this.right == null && this.front != null && this.left != null)
 				this.next_evolution = Arm.RIGHT;
-		
+
 		this.maxY += destroyed_front * this.hitboxHalfHeight;
-			if (this.front == null && this.left != null && this.right != null)
-				this.next_evolution = Arm.FRONT;
+		if (this.front == null && this.left != null && this.right != null)
+			this.next_evolution = Arm.FRONT;
 	}	
 	
 	/* Helper function for nextFrame()
@@ -168,7 +174,7 @@ public class DrawObjectDynamicBoss extends DrawObject {
 				boolean rings = false;
 				if (maxed) rings = this.rand.nextBoolean();
 				
-				if (rand.nextInt(50 / this.level) == 0)
+				if (rand.nextInt(50) == 0)
 					curr.nextFrame(true, rings);
 				else	
 					curr.nextFrame(false, rings);
@@ -197,11 +203,11 @@ public class DrawObjectDynamicBoss extends DrawObject {
 		
 		// Max powered boss core shoots spirals
 		if (this.front_maxed && this.side_maxed) {
-			for (int i = 0; i < 360; i += 36) {
+			for (int i = 0; i < 360; i += 20) {
 				DrawObjectBullet bullet = new DrawObjectBullet(
 						dw, true,
 						this.x, this.y,
-						0f, 1f,
+						0f, 0.1f,
 						0f, 0f,
 						i, 10f
 						);
@@ -224,7 +230,7 @@ public class DrawObjectDynamicBoss extends DrawObject {
 			dw.addBullet(new DrawObjectBullet(dw, 
 					true, 
 					this.x, this.y, 
-					4f * this.level, 0f, 0f, 0f, angle, 0f
+					4f, 0f, 0f, 0f, angle, 0f
 					));
 		}
 	}
@@ -265,11 +271,11 @@ public class DrawObjectDynamicBoss extends DrawObject {
 			this.health--;	
 			if (this.health == 0) {
 				//release suicide bullets
-				for (int i = 0; i < 360; i += 36) {
+				for (int i = 0; i < 360; i += 20) {
 					DrawObjectBullet bullet = new DrawObjectBullet(
 							dw, true,
 							this.x, this.y,
-							4f * this.level, 0f, 0f, 0f, i, 10f
+							4f, 0f, 0f, 0f, i, 10f
 							);
 					dw.addBullet(bullet);
 				}
