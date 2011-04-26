@@ -58,9 +58,7 @@ public class DrawWorld extends View {
 	protected boolean drawDebugHitboxes;
 	
 	// SoundPool
-	protected AudioSoundPool sp_boss;
-	protected AudioSoundPool sp_player;
-	protected AudioSoundPool sp_game;
+	protected AudioSoundPool sp;
 	protected int sfxBoss, sfxGameOver, sfxCollision, sfxPlayerShot, sfxBossShot;
 	
 	// Initializer
@@ -88,14 +86,12 @@ public class DrawWorld extends View {
 	
 	// Setup Sound
 	private void setupSound() {
-		sp_boss = new AudioSoundPool(getContext());
-		sp_player = new AudioSoundPool(getContext());
-		sp_game = new AudioSoundPool(getContext());
-		sfxBoss = sp_game.load(R.raw.boss_explosion);
-		sfxGameOver = sp_game.load(R.raw.oyasumi);
-		sfxCollision = sp_game.load(R.raw.player_boss_collision);
-		sfxPlayerShot = sp_player.load(R.raw.player_bullet);
-		sfxBossShot = sp_boss.load(R.raw.boss_bullet);
+		sp = new AudioSoundPool(getContext(), 4);
+		sfxBoss = sp.load(R.raw.boss_explosion);
+		sfxGameOver = sp.load(R.raw.oyasumi);
+		sfxCollision = sp.load(R.raw.player_boss_collision);
+		sfxPlayerShot = sp.load(R.raw.player_bullet);
+		sfxBossShot = sp.load(R.raw.boss_bullet);
 	}
 	
 	// Clear all bullets
@@ -109,9 +105,7 @@ public class DrawWorld extends View {
 	public void onDestroy() {
 		removeAllBullets();
 		bl.onDestroy();
-		sp_game.onDestroy();
-		sp_player.onDestroy();
-		sp_boss.onDestroy();
+		sp.onDestroy();
 	}
 	
 	// Add new drawable objects
@@ -190,7 +184,7 @@ public class DrawWorld extends View {
 		if(  (pxMax>boxMin && pxMin<boxMax)&& (pyMin<boyMax && pyMax>boyMin))
 		{
 			bigCollision = true;
-			sp_game.play(sfxCollision);
+			sp.play(sfxCollision);
 			player.health -= 0.00000000000005;
 		}
 		
@@ -203,7 +197,7 @@ public class DrawWorld extends View {
 				//bullet.onCollision(player); // Does nothing
 				bullet.remove = true;
 				collisionCountPlayer++;
-				sp_boss.play(sfxBossShot);
+				sp.play(sfxBossShot);
 			}
 		}
 		
@@ -240,8 +234,8 @@ public class DrawWorld extends View {
 								boss.onCollision(bullet);
 								bullet.remove = true;
 								collisionCountBoss++;
-								sp_player.play(sfxPlayerShot);
-								if (boss.health == 0) {									
+								sp.play(sfxPlayerShot);
+								if (boss.health <= 0) {									
 									switch (boss.next_evolution) {
 									case FRONT: 
 										boss = new DrawObjectDynamicBoss(this, 
@@ -255,7 +249,7 @@ public class DrawWorld extends View {
 												boss.side_power+1,
 												boss.front_power);
 									}
-									sp_game.play(sfxBoss);
+									sp.play(sfxBoss);
 								}
 							}
 						}
@@ -299,7 +293,7 @@ public class DrawWorld extends View {
 				curr.onCollision(bullet);
 				bullet.remove = true;
 				collisionCountBoss++;
-				sp_player.play(sfxPlayerShot);
+				sp.play(sfxPlayerShot);
 				return true;
 			}
 			curr = curr.child;
@@ -358,7 +352,7 @@ public class DrawWorld extends View {
 			canvas.drawText("To restart level press 'menu' button", Settings.screenWidth / 2 , (  (Settings.screenHeight / 2)+(2*Settings.screenWidth / 7)) , textPaint3);
 				
 			// Stop game after this last draw
-			sp_game.play(sfxGameOver);
+			sp.play(sfxGameOver);
 			stopUpdating();
 		}
 		
