@@ -10,6 +10,13 @@
 -->
 	<PreferenceCategory android:title="Gameplay">
 		<ListPreference
+			android:title="@string/howtoTitle"
+			android:summary="@string/howtoDesc"
+			android:key="@string/howto"
+			android:defaultValue="@string/howtoDefault"
+			android:entries="@array/howtoPlay"
+			android:entryValues="@array/howtoValues" />
+		<ListPreference
 			android:title="@string/bgmusicTitle"
 			android:summary="@string/bgmusicDesc"
 			android:key="@string/bgmusic"

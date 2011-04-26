@@ -10,6 +10,20 @@
 		<item>1</item>
 	</string-array>
 	
+	<string name="howtoTitle">How to Play</string>
+	<string name="howtoDesc">"Learn to play Bullets Forever"</string>
+	<string name="howto">howto</string>
+	<string name="howtoDefault">0</string>
+	<string-array name="howtoPlay">
+		<item>Move the player and shoot using the touch screen.</item>
+		<item>Destroy all the boss parts before killing the core.</item>
+		<item>Player starts off with 3 lives. Get to level 10 to win!</item>
+	</string-array>
+	<string-array name="howtoValues">
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+	</string-array>
 	
 	<string name="bgmusicTitle">Background Music</string>
 	<string name="bgmusicDesc">"Background music theme (app restart needed)"</string>
