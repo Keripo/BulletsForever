@@ -54,9 +54,9 @@ public class DrawObjectDynamicBoss extends DrawObject {
 		
 		// Calculate movement boundaries based on size including body parts
 		switch(this.side_power) {
-		case 0:		this.minX = (3/2) * this.hitboxHalfWidth; 	break;
-		case 1:		this.minX = (5/2) * this.hitboxHalfWidth;	break;
-		default:	this.minX = (7/2) * this.hitboxHalfWidth;	break; //due to scaling only two arm pieces can extend sideways
+		case 0:		this.minX = 2 * this.hitboxHalfWidth; 	break;
+		case 1:		this.minX = 3 * this.hitboxHalfWidth;	break;
+		default:	this.minX = 4 * this.hitboxHalfWidth;	break; //due to scaling only two arm pieces can extend sideways
 		}
 		this.maxX = Settings.screenWidth - this.minX;
 		this.minY = this.hitboxHalfHeight;
@@ -182,23 +182,38 @@ public class DrawObjectDynamicBoss extends DrawObject {
 	
 	private void fire() {
 		
-		// Calculate angle between this and player
-		float dx = this.x - dw.player.x;
-		float dy = Math.abs(this.y - dw.player.y);
-		float angle;
-		if (dy != 0)
-			angle = (float)(Math.atan(dx/dy) * 180f / (float)Math.PI); 
-		else {
-			if (dx > 0) angle = 90;
-			else if (dx == 0) angle = 0;
-			else angle = 270;
+		// Max powered boss core shoots spirals
+		if (this.front_maxed && this.side_maxed) {
+			for (int i = 0; i < 360; i += 36) {
+				DrawObjectBullet bullet = new DrawObjectBullet(
+						dw, true,
+						this.x, this.y,
+						(float)Math.random() * 4f, 0.1f,
+						0f, 0f,
+						i, 10f
+						);
+				dw.addBullet(bullet);
+			}
 		}
+		else {
+			// Calculate angle between this and player
+			float dx = this.x - dw.player.x;
+			float dy = Math.abs(this.y - dw.player.y);
+			float angle;
+			if (dy != 0)
+				angle = (float)(Math.atan(dx/dy) * 180f / (float)Math.PI); 
+			else {
+				if (dx > 0) angle = 90;
+				else if (dx == 0) angle = 0;
+				else angle = 270;
+			}
 		
-		dw.addBullet(new DrawObjectBullet(dw, 
-				true, 
-				this.x, this.y, 
-				4f, 0f, 0f, 0f, angle, 0f
-				));
+			dw.addBullet(new DrawObjectBullet(dw, 
+					true, 
+					this.x, this.y, 
+					4f, 0f, 0f, 0f, angle, 0f
+					));
+		}
 	}
 	
 	public void draw(Canvas canvas) {
@@ -235,8 +250,18 @@ public class DrawObjectDynamicBoss extends DrawObject {
 	public void onCollision(DrawObject object) {
 		if (this.left == null && this.right == null && this.front == null) {
 			this.health--;	
-			if (this.health == 0) 
+			if (this.health == 0) {
+				//release suicide bullets
+				for (int i = 0; i < 360; i += 36) {
+					DrawObjectBullet bullet = new DrawObjectBullet(
+							dw, true,
+							this.x, this.y,
+							0f, 0.5f, 0f, 0f, i, -15f
+							);
+					dw.addBullet(bullet);
+				}
 				this.level++;
+			}
 		}
 	}
 	
