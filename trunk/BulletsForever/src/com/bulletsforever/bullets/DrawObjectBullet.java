@@ -1,4 +1,4 @@
-package com.bulletsforever.bullets;
+fpackage com.bulletsforever.bullets;
 
 import android.graphics.Canvas;
 
@@ -22,7 +22,7 @@ public class DrawObjectBullet extends DrawObject {
 		if(!boss)
 			this.bitmap = dw.bl.getBitmap(R.drawable.bullet, hitboxHalfWidth, hitboxHalfHeight);
 		else
-			this.bitmap = dw.bl.getBitmap(R.drawable.bullet2, hitboxHalfWidth, hitboxHalfHeight);
+			this.bitmap = dw.bl.getBitmap(R.drawable.bossbullet, hitboxHalfWidth, hitboxHalfHeight);
 		//bulletPaint = new Paint();
 		//bulletPaint.setColor(Color.WHITE);
 	}
