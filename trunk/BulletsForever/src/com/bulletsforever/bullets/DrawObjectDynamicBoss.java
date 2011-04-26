@@ -40,7 +40,7 @@ public class DrawObjectDynamicBoss extends DrawObject {
 		this.rand = new Random();
 		
 		this.level = level;
-		this.health = level * 50;
+		this.health = level * 100;
 		this.next_evolution = Arm.FRONT; //to avoid multi-leveling
 		
 		// Calculate number of body parts for left/right and front
@@ -102,13 +102,13 @@ public class DrawObjectDynamicBoss extends DrawObject {
 		
 		// Chance of random movement every second (~60 frames) 
 		if (rand.nextInt(60) == 0) { 
-			this.v = (float)rand.nextDouble() * 5; //new random speed
+			this.v = (float)rand.nextDouble() * 5 * this.level; //new random speed
 			this.angle = rand.nextInt(360); //new random trajectory
 			this.calcAngle();
 		}
 		
 		// Fire a bullet
-		if (rand.nextInt(100) == 0)
+		if (rand.nextInt(100 / this.level) == 0)
 			this.fire();
 		
 		int destroyed_left = this.nextFrameArm(this.left, Arm.LEFT),
@@ -155,10 +155,14 @@ public class DrawObjectDynamicBoss extends DrawObject {
 			
 			// Part not destroyed; fire bullet
 			if (curr.health > 0) {
-				if (rand.nextInt(50) == 0)
-					curr.nextFrame(true, maxed);
+				
+				boolean rings = false;
+				if (maxed) rings = this.rand.nextBoolean();
+				
+				if (rand.nextInt(50 / this.level) == 0)
+					curr.nextFrame(true, rings);
 				else	
-					curr.nextFrame(false, maxed);
+					curr.nextFrame(false, rings);
 				prev = curr;
 				curr = curr.child;
 			}
@@ -184,11 +188,11 @@ public class DrawObjectDynamicBoss extends DrawObject {
 		
 		// Max powered boss core shoots spirals
 		if (this.front_maxed && this.side_maxed) {
-			for (int i = 0; i < 360; i += 36) {
+			for (int i = 0; i < 360; i += 10) {
 				DrawObjectBullet bullet = new DrawObjectBullet(
 						dw, true,
 						this.x, this.y,
-						(float)Math.random() * 4f, 0.1f,
+						(float)Math.random() * 4f * this.level, 0.1f,
 						0f, 0f,
 						i, 10f
 						);
@@ -211,7 +215,7 @@ public class DrawObjectDynamicBoss extends DrawObject {
 			dw.addBullet(new DrawObjectBullet(dw, 
 					true, 
 					this.x, this.y, 
-					4f, 0f, 0f, 0f, angle, 0f
+					4f * this.level, 0f, 0f, 0f, angle, 0f
 					));
 		}
 	}
@@ -252,7 +256,7 @@ public class DrawObjectDynamicBoss extends DrawObject {
 			this.health--;	
 			if (this.health == 0) {
 				//release suicide bullets
-				for (int i = 0; i < 360; i += 36) {
+				for (int i = 0; i < 360; i += 10) {
 					DrawObjectBullet bullet = new DrawObjectBullet(
 							dw, true,
 							this.x, this.y,

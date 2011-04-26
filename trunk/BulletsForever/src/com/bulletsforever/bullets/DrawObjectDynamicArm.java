@@ -28,18 +28,18 @@ public class DrawObjectDynamicArm extends DrawObject {
 		this.dw = dw;
 	}
 	
-	public void nextFrame(boolean fire, boolean maxed) {
+	public void nextFrame(boolean fire, boolean rings) {
 		super.nextFrame();
 
 		this.x = this.core.x + this.displacex;
 		this.y = this.core.y + this.displacey;
 		if (fire)
-			this.fire(maxed);
+			this.fire(rings);
 	}	
 	
-	private void fire(boolean maxed) {
+	private void fire(boolean rings) {
 		
-		if(!maxed) {
+		if(!rings) {
 			// Calculate angle between this and player
 			float dx = dw.player.x - this.x;
 			float dy = Math.abs(dw.player.y - this.y);
@@ -54,16 +54,16 @@ public class DrawObjectDynamicArm extends DrawObject {
 		
 			dw.addBullet(new DrawObjectBullet(dw, true, 
 					this.x, this.y, 
-					4f, 0f, 0f, 0f, angle, 0f
+					4f * this.core.level, 0f, 0f, 0f, angle, 0f
 					));
 		}
 		else {
 			// Max powered arms shoot ring-pattern bullets
-			for (int i = 0; i < 360; i += 36) {
+			for (int i = 0; i < 360; i += 10) {
 				DrawObjectBullet bullet = new DrawObjectBullet(
 						dw, true,
 						this.x, this.y,
-						4f, 0f, 0f, 0f, i, 10f
+						4f * this.core.level, 0f, 0f, 0f, i, 10f
 						);
 				dw.addBullet(bullet);
 			}
@@ -81,7 +81,7 @@ public class DrawObjectDynamicArm extends DrawObject {
 	/* Returns number of children destroyed */
 	public int destroyChildren() {
 		// suicide bullets in zoom-pattern
-		for (int i = 0; i < 360; i += 36) {
+		for (int i = 0; i < 360; i += 10) {
 			DrawObjectBullet bullet = new DrawObjectBullet(
 					dw, true,
 					this.x, this.y,
