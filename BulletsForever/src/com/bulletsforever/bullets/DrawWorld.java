@@ -235,7 +235,7 @@ public class DrawWorld extends View {
 								boss.onCollision(bullet);
 								bullet.remove = true;
 								collisionCountBoss++;
-								sp.play(sfxPlayerShot);
+								//sp.play(sfxPlayerShot);
 								if (boss.health <= 0) {									
 									switch (boss.next_evolution) {
 									case FRONT: 
@@ -294,7 +294,7 @@ public class DrawWorld extends View {
 				curr.onCollision(bullet);
 				bullet.remove = true;
 				collisionCountBoss++;
-				sp.play(sfxPlayerShot);
+				//sp.play(sfxPlayerShot);
 				return true;
 			}
 			curr = curr.child;
@@ -343,14 +343,24 @@ public class DrawWorld extends View {
 			textPaint2.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
 			canvas.drawText("To restart game press 'back' button", Settings.screenWidth / 2 , (  (Settings.screenHeight / 2)+(Settings.screenWidth / 7)) , textPaint2);
 				
-
 			if(lives > 0){
 				Paint textPaint3 = new Paint();
 				textPaint3.setColor(Color.rgb(0, 205, 0));
 				textPaint3.setTextSize(Settings.screenWidth / 20); // Relative to screen width
 				textPaint3.setTextAlign(Align.CENTER);
 				textPaint3.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
-				canvas.drawText("Lives = "+lives+". To restart level press 'menu' button", Settings.screenWidth / 2 , (  (Settings.screenHeight / 2)+(2*Settings.screenWidth / 7)) , textPaint3);
+				//canvas.drawText("Lives = "+lives+".", Settings.screenWidth / 2, (  (Settings.screenHeight / 2)+(2*Settings.screenWidth / 7)) , textPaint3);
+				canvas.drawText("To restart level press 'menu' button", Settings.screenWidth / 2 , (  (Settings.screenHeight / 2)+(2*Settings.screenWidth / 7)) , textPaint3);
+			
+				Paint textPaint4 = new Paint();
+				textPaint4.setColor(Color.rgb(0, 205, 0));
+				textPaint4.setTextSize(Settings.screenWidth / 20); // Relative to screen width
+				textPaint4.setTextAlign(Align.CENTER);
+				textPaint4.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
+				canvas.drawText("Lives left = "+(lives-1), Settings.screenWidth / 2 , (  (Settings.screenHeight / 2)+(3*Settings.screenWidth / 7)) , textPaint4);
+
+			
+			
 			}
 			
 			lives--;

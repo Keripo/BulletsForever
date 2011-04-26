@@ -13,7 +13,7 @@ public class DrawObjectBullet extends DrawObject {
 	public boolean boss;
 	//private Paint bulletPaint;
 	
-	public DrawObjectBullet(DrawWorld dw, boolean boss,
+	public DrawObjectBullet(DrawWorld dw, boolean boss, 
 			float x, float y, float v, float a, float gx, float gy, float angle, float angle_v) {
 		super(dw, x, y, v, a, gx, gy, angle, angle_v, 5f, 5f);
 		

@@ -24,6 +24,7 @@ public class DrawObjectHUD extends DrawObject {
 	// Info
 	private float infoX1, infoY1;
 	private float infoX2, infoY2;
+	private float infoX3, infoY3;
 	
 	// Box
 	private Paint boxPaint;
@@ -44,6 +45,12 @@ public class DrawObjectHUD extends DrawObject {
 		infoY1 = textPaint.getFontSpacing();
 		infoX2 = 10f;
 		infoY2 = infoY1 + textPaint.getFontSpacing();
+		infoX3 = 10f;
+		infoY3 = infoY2 + textPaint.getFontSpacing();
+		
+		
+		
+		
 		
 		// FPS counter
 		fpsCounter = new ToolsFPSCounter(Settings.getInt(R.string.fpsUpdateFrequency));
@@ -82,6 +89,12 @@ public class DrawObjectHUD extends DrawObject {
 						dw.boss.health
 						),
 				infoX2, infoY2, textPaint);
+		canvas.drawText(
+				String.format(
+						"Lives: %d",
+						dw.lives						
+						),
+				infoX3, infoY3, textPaint);
 		
 		// FPS counter
 	//	canvas.drawText(fpsCounter.getDisplayedFPS(), fpsX, fpsY, textPaint);
