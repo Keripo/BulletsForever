@@ -61,7 +61,7 @@ public class DrawWorld extends View {
 	protected AudioSoundPool sp_boss;
 	protected AudioSoundPool sp_player;
 	protected AudioSoundPool sp_game;
-	protected int sfxBoss, sfxGameOver, sfxCollision, sfxPlayerShoot, sfxBossShoot;
+	protected int sfxBoss, sfxGameOver, sfxCollision, sfxPlayerShot, sfxBossShot;
 	
 	// Initializer
 	public DrawWorld(Context c) {
@@ -94,8 +94,8 @@ public class DrawWorld extends View {
 		sfxBoss = sp_game.load(R.raw.boss_explosion);
 		sfxGameOver = sp_game.load(R.raw.oyasumi);
 		sfxCollision = sp_game.load(R.raw.player_boss_collision);
-		sfxPlayerShoot = sp_player.load(R.raw.player_bullet);
-		sfxBossShoot = sp_boss.load(R.raw.boss_bullet);
+		sfxPlayerShot = sp_player.load(R.raw.player_bullet);
+		sfxBossShot = sp_boss.load(R.raw.boss_bullet);
 	}
 	
 	// Clear all bullets
@@ -118,11 +118,9 @@ public class DrawWorld extends View {
 	public void addBullet(DrawObjectBullet bullet) {
 		if (!bullet.boss){
 			player_bullets.add(bullet);
-			sp_player.play(sfxPlayerShoot);
 		}
 		else{
 			boss_bullets.add(bullet);
-			sp_boss.play(sfxBossShoot);
 		}
 	}
 	
@@ -196,9 +194,6 @@ public class DrawWorld extends View {
 			player.health -= 0.00000000000005;
 		}
 		
-		
-		
-		
 		// Bullets with player
 		for (DrawObjectBullet bullet : boss_bullets) {
 			float bx = bullet.x;
@@ -208,6 +203,7 @@ public class DrawWorld extends View {
 				//bullet.onCollision(player); // Does nothing
 				bullet.remove = true;
 				collisionCountPlayer++;
+				sp_boss.play(sfxBossShot);
 			}
 		}
 		
@@ -244,6 +240,7 @@ public class DrawWorld extends View {
 								boss.onCollision(bullet);
 								bullet.remove = true;
 								collisionCountBoss++;
+								sp_player.play(sfxPlayerShot);
 								if (boss.health == 0) {									
 									switch (boss.next_evolution) {
 									case FRONT: 
@@ -302,6 +299,7 @@ public class DrawWorld extends View {
 				curr.onCollision(bullet);
 				bullet.remove = true;
 				collisionCountBoss++;
+				sp_player.play(sfxPlayerShot);
 				return true;
 			}
 			curr = curr.child;
@@ -362,8 +360,6 @@ public class DrawWorld extends View {
 			// Stop game after this last draw
 			sp_game.play(sfxGameOver);
 			stopUpdating();
-
-			
 		}
 		
 		// Debug hitboxes
