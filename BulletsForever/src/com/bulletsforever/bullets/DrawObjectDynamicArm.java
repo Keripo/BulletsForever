@@ -18,7 +18,7 @@ public class DrawObjectDynamicArm extends DrawObject {
 			core.hitboxHalfWidth / 2, core.hitboxHalfHeight / 2 //half as large as boss core
 			);
 		
-		this.bitmap = dw.bl.getBitmap(R.drawable.jms, this.drawOffsetX, this.drawOffsetY);
+		this.bitmap = dw.bl.getBitmap(R.drawable.bossarm, this.drawOffsetX, this.drawOffsetY);
 		
 		this.core = core;
 		this.displacex = displacex;
