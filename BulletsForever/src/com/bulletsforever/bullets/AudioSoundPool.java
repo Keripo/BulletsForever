@@ -15,9 +15,9 @@ public class AudioSoundPool {
 	private Context c;
 	
 	// Constructor
-	public AudioSoundPool(Context c) {
+	public AudioSoundPool(Context c, int numStreams) {
 		this.c = c;
-		p = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
+		p = new SoundPool(numStreams, AudioManager.STREAM_MUSIC, 0);
 	}
 	
 	// Load a new wav file, returns a sound ID to reference
