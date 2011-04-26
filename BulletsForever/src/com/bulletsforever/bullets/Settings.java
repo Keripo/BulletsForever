@@ -28,7 +28,8 @@ public class Settings {
 		{R.string.playerHealth,			R.string.playerHealthDefault},
 		{R.string.refreshDelay,			R.string.refreshDelayDefault},
 		{R.string.fpsUpdateFrequency,	R.string.fpsUpdateFrequencyDefault},
-		{R.string.debugHitboxes,		R.string.debugHitboxesDefault}
+		{R.string.debugHitboxes,		R.string.debugHitboxesDefault},
+		{R.string.howto,				R.string.howtoDefault}
 	};
 	
 	// Reload all the settings, call this at the beginning of onCreate() in Activities
