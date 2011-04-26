@@ -50,6 +50,7 @@ public class DrawWorld extends View {
 	
 	// DrawObjects
 	protected DrawBitmapLoader bl;
+	protected DrawObjectBackground bg;
 	protected DrawObjectHUD hud;
 	protected DrawObjectPlayer player;
 	/*protected DrawObjectBoss boss;*/
@@ -82,6 +83,7 @@ public class DrawWorld extends View {
 		setOnTouchListener(new DrawTouchHandler(this));
 		
 		// Start game!
+		System.gc(); // Cleanup
 		refreshHandler.start();
 	}
 	
@@ -122,6 +124,7 @@ public class DrawWorld extends View {
 	// Called by initializer
 	private void setupDraw() {
 		bl = new DrawBitmapLoader(this.getContext());
+		bg = new DrawObjectBackground(this);
 		hud = new DrawObjectHUD(this);
 		player = new DrawObjectPlayer(this);
 		/*boss = new DrawObjectBoss(this, 1);*/
@@ -144,6 +147,9 @@ public class DrawWorld extends View {
 	// If we want asynchronous, we will need to keep a timer
 	// and potentially call nextFrame() multiple times per onDraw cycle
 	private void nextFrame() {
+		
+		// Update background
+		bg.nextFrame();
 		
 		// Update bullets
 		for (DrawObjectBullet bullet : player_bullets)	bullet.nextFrame();
@@ -312,6 +318,7 @@ public class DrawWorld extends View {
 		
 		// Clear screen by drawing background
 		canvas.drawColor(Color.BLACK);
+		bg.draw(canvas);
 		
 		// Draw boss
 		boss.draw(canvas);
