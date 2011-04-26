@@ -61,7 +61,7 @@
 	<string name="playerHealthTitle">Player HP</string>
 	<string name="playerHealthDesc">"Player\'s starting health point total"</string>
 	<string name="playerHealth">playerHealth</string>
-	<string name="playerHealthDefault">300</string>
+	<string name="playerHealthDefault">500</string>
 	<string-array name="playerHealthNames">
 		<item>100 HP</item>
 		<item>200 HP</item>
