@@ -79,20 +79,20 @@ public class DrawObjectHUD extends DrawObject {
 		// Info
 		canvas.drawText(
 				String.format(
-						"Boss Level: %d",
-						dw.boss.level						
+						"Boss Level: %d, Boss HP: %d",
+						dw.boss.level, dw.boss.health 						
 						),
 				infoX1, infoY1, textPaint);
 		canvas.drawText(
 				String.format(
-						"Boss HP: %d",
-						dw.boss.health
+						"Lives: %d",
+						dw.lives
 						),
 				infoX2, infoY2, textPaint);
 		canvas.drawText(
 				String.format(
-						"Lives: %d",
-						dw.lives						
+						"%s",
+						fpsCounter.getDisplayedFPS()						
 						),
 				infoX3, infoY3, textPaint);
 		
