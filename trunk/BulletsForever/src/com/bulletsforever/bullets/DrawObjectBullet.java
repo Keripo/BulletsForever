@@ -1,4 +1,4 @@
-fpackage com.bulletsforever.bullets;
+package com.bulletsforever.bullets;
 
 import android.graphics.Canvas;
 
