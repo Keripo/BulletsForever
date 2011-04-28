@@ -375,7 +375,7 @@ public class DrawWorld extends View {
 			stopUpdating();
 		}
 		
-		if(boss.level == 10){
+		if(boss.level == 8){
 			Paint textPaint5 = new Paint();
 			textPaint5.setColor(Color.argb(255, 238, 0, 0));
 			textPaint5.setTextSize(Settings.screenWidth / 7); // Relative to screen width

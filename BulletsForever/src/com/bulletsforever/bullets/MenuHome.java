@@ -111,7 +111,7 @@ public class MenuHome extends Activity {
 				.setMessage(
 					"Move the player and shoot using the touch screen.\n" +
 					"Destroy all the boss parts before killing the core.\n" +
-					"Player starts off with 3 lives. Get to level 10 to win!\n"
+					"Player starts off with 3 lives. Get to level 8 to win!\n"
 					)
 				.setPositiveButton(
 						"OK",
