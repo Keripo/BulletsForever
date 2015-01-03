@@ -1,0 +1,6 @@
+# Compiled/generated files
+bin/
+gen/
+
+# Local configuration files
+local.properties
